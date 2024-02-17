@@ -1,21 +1,48 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 
 type Props = {
   imageUrls: string[] | null;
+  selections?: string[];
+  setSelections?: (selections: string[]) => void;
 };
 
-function Photos({ imageUrls }: Props) {
+function Photos({ imageUrls, setSelections, selections }: Props) {
   if (!imageUrls) {
     return null;
   }
 
-  // console.log(imageUrls);
+  const onClickToToggleSelect = (url: string) => {
+
+    if (!setSelections) {
+      return;
+    }
+
+    if (!selections) {
+      return;
+    }
+
+    if (selections.includes(url)) {
+      setSelections(selections.filter((selection) => selection !== url));
+    } else {
+      setSelections([...selections, url]);
+    }
+  };
+  
 
   return (
     <div className="flex">
       {imageUrls?.map((url, index) => (
-        <Image key={index} src={url} width={128} height={128} alt={`webcam-${index}`} />
+        <button
+          key={index}
+          className={`${
+            selections?.includes(url) ? "border-4 border-black" : ""
+          } rounded-lg`}
+          onClick={() => onClickToToggleSelect(url)}
+        >
+          <Image src={`${url}`} width={128} height={128} alt={`webcam-${index}`} />
+        </button>
       ))}
     </div>
   );

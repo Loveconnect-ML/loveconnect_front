@@ -1,11 +1,17 @@
-import React from 'react'
+import WebcamComponent from "@/components/WebcamComponent";
+import WebcamProvider from "@/components/WebcamProvider";
+import PhotoiskPage from "@/components/pages/PhotoiskPage";
+import React from "react";
 
-type Props = {}
+type Props = {};
 
 function Main({}: Props) {
   return (
-    <div>Main</div>
-  )
+    <WebcamProvider>
+      <WebcamComponent />
+      <PhotoiskPage />
+    </WebcamProvider>
+  );
 }
 
-export default Main
+export default Main;

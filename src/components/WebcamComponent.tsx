@@ -13,7 +13,7 @@ const videoConstraints = {
 
 function WebcamComponent({}: Props) {
   const { imageUrls, setImageUrls } = useWebcamContext();
-  const [limit, setLimit] = useState(0);
+  // const [limit, setLimit] = useState(0);
 
   const webcamRef = useRef<Webcam>(null);
 
@@ -28,14 +28,20 @@ function WebcamComponent({}: Props) {
 
   // 5초마다 웹캠 캡쳐
   useEffect(() => {
+
+    let limit = 0;
+    
     const interval = setInterval(() => {
       if (limit >= 5) {
+        console.log(limit)
         clearInterval(interval);
-        return;
+        return
       }
-
       capture();
-      setLimit((prev) => prev + 1);
+      // console.log("before", limit)
+      // setLimit((prev) => prev + 1);
+      limit += 1;
+      // console.log("after", limit)
     }, 2000);
 
     return () => clearInterval(interval);

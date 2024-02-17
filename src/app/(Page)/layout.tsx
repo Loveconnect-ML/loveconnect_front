@@ -1,11 +1,17 @@
-import React from 'react'
+import React from "react";
 
-type Props = {}
+type Props = {
+  children: React.ReactNode;
+};
 
-function Layout({}: Props) {
+function Layout({ children }: Props) {
   return (
-    <div>Layout</div>
-  )
+    <main className="flex justify-center items-center w-screen h-screen bg-gray-50">
+      <div className="pb-[10%] flex flex-col justify-start items-center w-full sm:w-[500px] h-full bg-white overflow-y-scroll">
+        {children}
+      </div>
+    </main>
+  );
 }
 
-export default Layout
+export default Layout;
