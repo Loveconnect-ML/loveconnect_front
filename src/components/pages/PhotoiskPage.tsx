@@ -13,6 +13,8 @@ function PhotoiskPage({}: Props) {
   // const ref = useRef<HTMLInputElement>(null);
   const [response, setResponse] = useState<ImageResponse[] | null>([]);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  // const [style, setStyle] = useState("anime")
+  const [style, setStyle] = useState("pixel-art");
 
   const onClickToGenerateImage = async () => {
     for (const image of selectedImages) {
@@ -23,11 +25,15 @@ function PhotoiskPage({}: Props) {
         },
         body: JSON.stringify({
           init_image: image,
-          positivePrompt: "A beautiful landscape",
-          negativePrompt: "A landscape with a lot of pollution",
+          positivePrompt:
+            "just the way it is, Enhance lighting, natural, bright, Remove noise, detail sharp, Sharpen details, clear faces, background, Blur background, depth of field, focus subject, Restore old photo, remove scratches, enhance clarity, revive colors, vintage, Increase contrast, colors pop, lighting balance, Correct exposure, brighten underexposed, adjust overexposed, balanced light, Add warmth, golden hour look, warm tones, natural balance, Retouch portrait, smooth skin, remove imperfections, enhance eyes, lips, natural polished",
+          negativePrompt:
+            "out of image context, Do not overexpose, avoid artificial brightness, Prevent oversharpening, details too harsh, No excessive blurring, background clear, Avoid over-saturation, colors unnatural, Do not distort, keep original proportions, Avoid heavy retouching, maintain natural features, No fake warmth, colors true to life, Prevent flattening, preserve depth, texture, Avoid making too dark, maintain visibility, Do not remove essential details, characters, Keep authentic, avoid over-modification",
+          style: style,
         }),
       });
       const data = await res.json();
+      console.log(data);
       setResponse((prev: any) => [...prev, data]);
     }
   };
@@ -50,7 +56,11 @@ function PhotoiskPage({}: Props) {
         imageUrls={imageUrls}
       />
       <Photos
-        imageUrls={response?.map((res) => "data:image/png;base64,"+ res.artifacts[0].base64) || null}
+        imageUrls={
+          response?.map(
+            (res) => "data:image/png;base64," + res.artifacts?.[0].base64
+          ) || null
+        }
       />
       <Button
         onClick={onClickToGenerateImage}
