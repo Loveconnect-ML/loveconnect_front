@@ -51,8 +51,8 @@ function WebcamComponent({}: Props) {
     <Webcam
       mirrored={true}
       audio={false}
-      width={1024}
-      height={1024}
+      width={500}
+      height={500}
       ref={webcamRef}
       screenshotFormat="image/png"
       videoConstraints={videoConstraints}

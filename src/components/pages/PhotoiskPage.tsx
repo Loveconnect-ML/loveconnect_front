@@ -11,7 +11,8 @@ function PhotoiskPage({}: Props) {
 
   // const [imageFile, setImageFile] = useState<any>(null);
   // const ref = useRef<HTMLInputElement>(null);
-  const [response, setResponse] = useState<ImageResponse[] | null>([]);
+  // const [response, setResponse] = useState<ImageResponse[] | null>([]);
+  const [response, setResponse] = useState<any | null>([]);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   // const [style, setStyle] = useState("anime")
   const [style, setStyle] = useState("pixel-art");
@@ -38,6 +39,26 @@ function PhotoiskPage({}: Props) {
     }
   };
 
+  const onClickToRetouchImage = async () => {
+    for (const image of selectedImages) {
+      // console.log(image)
+      const res = await fetch("/api/v2/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          image,
+          scale: 2,
+          version: "v1.4",
+        }),
+      });
+      const data = await res.json();
+      // console.log(data);
+      setResponse((prev: any) => [...prev, data]);
+    }
+  };
+
   // const onUploadImage = (e: any) => {
   //   const reader = new FileReader();
   //   const file = e.target.files?.[0];
@@ -56,14 +77,15 @@ function PhotoiskPage({}: Props) {
         imageUrls={imageUrls}
       />
       <Photos
-        imageUrls={
-          response?.map(
-            (res) => "data:image/png;base64," + res.artifacts?.[0].base64
-          ) || null
-        }
+        // imageUrls={
+        //   response?.map(
+        //     (res) => "data:image/png;base64," + res.artifacts?.[0].base64
+        //   ) || null
+        // }
+        imageUrls={response?.map((res: any) => res) || null}
       />
       <Button
-        onClick={onClickToGenerateImage}
+        onClick={onClickToRetouchImage}
         className="fixed bottom-4 w-[90%] sm:w-[432px]"
       >
         이미지 생성

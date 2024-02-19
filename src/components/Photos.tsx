@@ -41,7 +41,7 @@ function Photos({ imageUrls, setSelections, selections }: Props) {
           } rounded-lg`}
           onClick={() => onClickToToggleSelect(url)}
         >
-          <Image src={`${url}`} width={128} height={128} alt={`webcam-${index}`} />
+          <Image src={`${url}`} width={500} height={500} alt={`webcam-${index}`} />
         </button>
       ))}
     </div>
