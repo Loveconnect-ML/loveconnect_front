@@ -8,7 +8,7 @@ type Props = {};
 
 function PhotoiskPage({}: Props) {
   const { imageUrls, setImageUrls } = useWebcamContext();
-
+  const imgRef = useRef<HTMLInputElement>(null);
   // const [imageFile, setImageFile] = useState<any>(null);
   // const ref = useRef<HTMLInputElement>(null);
   // const [response, setResponse] = useState<ImageResponse[] | null>([]);
@@ -59,6 +59,48 @@ function PhotoiskPage({}: Props) {
     }
   };
 
+  const onClickToMixImage = async () => {
+    const reader = new FileReader();
+    reader.readAsDataURL(imgRef.current?.files?.[0] as Blob);
+
+    reader.onload = async function () {
+      for (const image of selectedImages) {
+        const res = await fetch("/api/v2/mix", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            image1: reader.result,
+            image2: image,
+          }),
+        });
+        const data = await res.json();
+        setResponse((prev: any) => [...prev, data]);
+      }
+    };
+  };
+
+  const onClickToFashionImage = async () => {
+    for (const image of selectedImages) {
+      // console.log(image)
+      const res = await fetch("/api/v2/fashion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          image,
+          prompt: "person wearing suit and red tie",
+          clothing: "topwear",
+        }),
+      });
+      const data = await res.json();
+      // console.log(data);
+      setResponse((prev: any) => [...prev, data]);
+    }
+  };
+
   // const onUploadImage = (e: any) => {
   //   const reader = new FileReader();
   //   const file = e.target.files?.[0];
@@ -71,6 +113,7 @@ function PhotoiskPage({}: Props) {
 
   return (
     <>
+      {/* <input type="file" ref={imgRef} /> */}
       <Photos
         selections={selectedImages}
         setSelections={setSelectedImages}
@@ -85,7 +128,7 @@ function PhotoiskPage({}: Props) {
         imageUrls={response?.map((res: any) => res) || null}
       />
       <Button
-        onClick={onClickToRetouchImage}
+        onClick={onClickToFashionImage}
         className="fixed bottom-4 w-[90%] sm:w-[432px]"
       >
         이미지 생성
