@@ -59,5 +59,6 @@ next-env.d.ts
 # env
 .env
 
-public/*
+public/temp-image.png
+public/test.png
 /key

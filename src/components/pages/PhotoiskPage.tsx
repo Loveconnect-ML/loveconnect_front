@@ -100,7 +100,7 @@ function PhotoiskPage({}: Props) {
       setResponse((prev: any) => [...prev, data]);
     }
   };
-
+// digital photo of a man, highly detailed, found footage, masterpiece, best quality
   // const onUploadImage = (e: any) => {
   //   const reader = new FileReader();
   //   const file = e.target.files?.[0];
@@ -128,7 +128,7 @@ function PhotoiskPage({}: Props) {
         imageUrls={response?.map((res: any) => res) || null}
       />
       <Button
-        onClick={onClickToFashionImage}
+        onClick={onClickToRetouchImage}
         className="fixed bottom-4 w-[90%] sm:w-[432px]"
       >
         이미지 생성
