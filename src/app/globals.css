@@ -37,6 +37,13 @@
   src: url("../../public/IBMPlexSansKR-Medium.otf");
 }
 
+@font-face {
+  font-family: 'TTHakgyoansimUndongjangL';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2402_keris@1.0/TTHakgyoansimUndongjangL.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

@@ -26,6 +26,7 @@ const config = {
         "IBMPlexSansKRBold": ["IBMPlexSansKRBold", "sans-serif"],
         "IBMPlexSansKRMedium": ["IBMPlexSansKRMedium", "sans-serif"],
         "IBMPlexSansKRSemiBold": ["IBMPlexSansKRSemiBold", "sans-serif"],
+        "TTHakgyoansimUndongjangL": ["TTHakgyoansimUndongjangL", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
