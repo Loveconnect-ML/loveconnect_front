@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   description: "AI 인생네컷",
 };
 
+export const viewport: Metadata = {
+  viewport: "width=device-width, initial-scale=1",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
