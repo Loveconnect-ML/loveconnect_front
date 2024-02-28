@@ -58,7 +58,7 @@ export async function POST(req: Request) {
         image: image,
         width: 640,
         height: 640,
-        prompt: `${gptResponse.choices[0].message.content}, Die-cut sticker, white background, illustration minimalism, vector, pastel colors`,
+        prompt: `${gptResponse.choices[0].message.content === "Man" ? "handsome man" : "beautiful woman"}, Die-cut sticker, white background, illustration minimalism, vector, pastel colors`,
         scheduler: "EulerDiscreteScheduler",
         enable_lcm: false,
         // pose_image: "https://replicate.delivery/pbxt/KJmFdQRQVDXGDVdVXftLvFrrvgOPXXRXbzIVEyExPYYOFPyF/80048a6e6586759dbcb529e74a9042ca.jpeg",
@@ -78,6 +78,7 @@ export async function POST(req: Request) {
         enable_depth_controlnet: false,
         lcm_num_inference_steps: 5,
         controlnet_conditioning_scale: 0.8,
+        seed: gptResponse.choices[0].message.content === "Man" ? 26081 : 32150,
       },
     }
   );
