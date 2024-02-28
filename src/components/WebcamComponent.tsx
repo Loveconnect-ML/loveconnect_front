@@ -49,6 +49,7 @@ function WebcamComponent({}: Props) {
 
   return (
     <Webcam
+      className="z-20"
       mirrored={true}
       audio={false}
       width={500}

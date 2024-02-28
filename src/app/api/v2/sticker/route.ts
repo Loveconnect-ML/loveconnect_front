@@ -21,7 +21,7 @@ export async function POST(req: Request) {
             image: image,
             width: 640,
             height: 640,
-            prompt: "bright colors, collage, sticker, white background, illustration minimalism, vector",
+            prompt: "sticker, white background, illustration minimalism, vector",
             scheduler: "EulerDiscreteScheduler",
             enable_lcm: false,
             // pose_image: "https://replicate.delivery/pbxt/KJmFdQRQVDXGDVdVXftLvFrrvgOPXXRXbzIVEyExPYYOFPyF/80048a6e6586759dbcb529e74a9042ca.jpeg",
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
             canny_strength: 0.3,
             depth_strength: 0.5,
             guidance_scale: 5,
-            negative_prompt: "(lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured (lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch,deformed, mutated, cross-eyed, ugly, disfigured, cover the face",
+            negative_prompt: "(lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured (lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured, cover the face",
             ip_adapter_scale: 0.8,
             lcm_guidance_scale: 1.5,
             num_inference_steps: 30,
@@ -39,7 +39,8 @@ export async function POST(req: Request) {
             enable_canny_controlnet: false,
             enable_depth_controlnet: false,
             lcm_num_inference_steps: 5,
-            controlnet_conditioning_scale: 0.8
+            controlnet_conditioning_scale: 0.8,
+            seed: 772912785,
           }
         }
       );

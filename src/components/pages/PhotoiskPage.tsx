@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { useWebcamContext } from "../WebcamProvider";
 import { Button } from "../ui/button";
 import Photos from "../Photos";
+import WaveBackground from "../WaveBackground";
 
 type Props = {};
 
@@ -29,22 +30,23 @@ function PhotoiskPage({}: Props) {
   };
 
   return (
-    <div className="relative h-full">
-      <Photos
-        selections={selectedImages}
-        setSelections={setSelectedImages}
-        imageUrls={imageUrls}
-      />
-      <Photos
-        imageUrls={response?.map((res: any) => res) || null}
-      />
+    <>
+      <WaveBackground />
+      <div className="relative h-full pb-[20%] bg-white">
+        <Photos
+          selections={selectedImages}
+          setSelections={setSelectedImages}
+          imageUrls={imageUrls}
+        />
+        <Photos imageUrls={response?.map((res: any) => res) || null} />
+      </div>
       <Button
-        onClick={onClickToRetouchImage}
-        className="absolute left-1/2 -translate-x-1/2 bottom-4 w-[90%] sm:w-[432px]"
-      >
-        이미지 생성
-      </Button>
-    </div>
+          onClick={onClickToRetouchImage}
+          className="absolute left-1/2 -translate-x-1/2 bottom-4 w-[90%] sm:w-[432px]"
+        >
+          이미지 생성
+        </Button>
+    </>
   );
 }
 
