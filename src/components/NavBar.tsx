@@ -11,7 +11,7 @@ function NavBar({ children }: Props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="flex items-center text-xl sm:text-3xl w-full"
+      className="z-20 flex items-center text-xl sm:text-3xl w-full"
     >
       {children}
     </motion.div>

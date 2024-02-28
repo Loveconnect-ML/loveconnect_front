@@ -32,7 +32,7 @@ function Photos({ imageUrls, setSelections, selections }: Props) {
   
 
   return (
-    <div className="flex">
+    <div className="grid grid-cols-5 w-full ">
       {imageUrls?.map((url, index) => (
         <button
           key={index}

@@ -9,7 +9,6 @@ import WaveBackground from "@/components/WaveBackground";
 import NavBar from "@/components/NavBar";
 import useVh from "@/hooks/useVh";
 import { useRouter } from "next/navigation";
-import Parallax from "@/components/Parallax";
 import MainCard from "@/components/MainCard";
 
 export default function Home() {
@@ -26,7 +25,7 @@ export default function Home() {
   }, 1500);
 
   return (
-    <>
+    <div className="w-full h-full py-6 px-10">
       {loading && isScreenLoaded ? (
         <div className="flex items-center justify-center w-full h-full">
           <Loading />
@@ -52,13 +51,10 @@ export default function Home() {
                 <LinkIcon size={24} />
               </Button>
             </NavBar>
-            <>
-              <Parallax/>
-              <MainCard />
-            </>
+            <MainCard />
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }
