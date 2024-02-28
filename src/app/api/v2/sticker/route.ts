@@ -49,7 +49,9 @@ export async function POST(req: Request) {
     ],
   });
 
-  console.log(gptResponse.choices[0].message.content);
+  // console.log(gptResponse.choices[0].message.content);
+  const prompt = gptResponse.choices[0].message.content as string
+  // prompt = "Woman"
 
   const output = await replicate.run(
     "zsxkib/instant-id:6af8583c541261472e92155d87bba80d5ad98461665802f2ba196ac099aaedc9",
@@ -58,7 +60,7 @@ export async function POST(req: Request) {
         image: image,
         width: 640,
         height: 640,
-        prompt: `${gptResponse.choices[0].message.content === "Man" ? "handsome man" : "beautiful woman"}, Die-cut sticker, white background, illustration minimalism, vector, pastel colors`,
+        prompt: `Die-cut ${prompt === "Man" ? "man" : ""} sticker, white background, illustration minimalism, vector, pastel colors, colorful`,
         scheduler: "EulerDiscreteScheduler",
         enable_lcm: false,
         // pose_image: "https://replicate.delivery/pbxt/KJmFdQRQVDXGDVdVXftLvFrrvgOPXXRXbzIVEyExPYYOFPyF/80048a6e6586759dbcb529e74a9042ca.jpeg",
@@ -68,7 +70,7 @@ export async function POST(req: Request) {
         depth_strength: 0.5,
         guidance_scale: 5,
         negative_prompt:
-          "(lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured (lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured",
+          "(lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured (lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured, dull",
         ip_adapter_scale: 0.8,
         lcm_guidance_scale: 1.5,
         num_inference_steps: 30,
@@ -78,7 +80,8 @@ export async function POST(req: Request) {
         enable_depth_controlnet: false,
         lcm_num_inference_steps: 5,
         controlnet_conditioning_scale: 0.8,
-        seed: gptResponse.choices[0].message.content === "Man" ? 26081 : 32150,
+        seed: 32150,
+        // seed: prompt === "Man" ? 26081 : 32150,
       },
     }
   );
