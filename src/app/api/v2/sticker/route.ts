@@ -59,9 +59,9 @@ export async function POST(req: Request) {
       input: {
         seed: 32150,
         image: image,
-        width: 640,
-        height: 640,
-        prompt: `Die-cut ${prompt === "Man" ? "man" : "woman"} sticker, white background, illustration minimalism, vector, pastel colors, colorful`,
+        width: 512,
+        height: 512,
+        prompt: `Die-cut ${prompt === "Man" ? "male" : "female"} sticker, Cute kawaii male character sticker, white background, illustration minimalism, vector, pastel colors`,
         scheduler: "EulerDiscreteScheduler",
         enable_lcm: false,
         sdxl_weights: "protovision-xl-high-fidel",
