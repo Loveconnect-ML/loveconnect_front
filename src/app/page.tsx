@@ -18,11 +18,21 @@ export default function Home() {
 
   useLayoutEffect(() => {
     router.prefetch("/main");
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
   }, []);
 
-  setTimeout(() => {
-    setLoading(false);
-  }, 1500);
+  if (loading) {
+    return (
+      <div className="w-full h-full py-6 px-10">
+        <div className="flex items-center justify-center w-full h-full">
+          <Loading />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full h-full py-6 px-10">
