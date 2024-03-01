@@ -31,8 +31,7 @@ function PhotoiskPage({}: Props) {
     setClicked(true);
     setLoading(true);
     for (const image of selectedImages) {
-      // console.log(image)
-      const res = await fetch("/api/v2/sticker", {
+      const res = await fetch("/api/sticker", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
