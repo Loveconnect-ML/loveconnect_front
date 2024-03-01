@@ -1,14 +1,15 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
 
 type Props = {
   imageUrls: string[] | null;
   selections?: string[];
   setSelections?: (selections: string[]) => void;
+  download?: boolean;
 };
 
-function Photos({ imageUrls, setSelections, selections }: Props) {
+function Photos({ imageUrls, setSelections, selections, download }: Props) {
   if (!imageUrls) {
     return null;
   }
@@ -29,6 +30,14 @@ function Photos({ imageUrls, setSelections, selections }: Props) {
       setSelections([...selections, url]);
     }
   };
+
+  const downloadImage = (url: string) => {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = url.split("/").pop() || "download";
+    a.target = '_blank';
+    a.click();
+  }
   
 
   return (
@@ -39,7 +48,7 @@ function Photos({ imageUrls, setSelections, selections }: Props) {
           className={`${
             selections?.includes(url) ? "border-4 border-black" : ""
           }`}
-          onClick={() => onClickToToggleSelect(url)}
+          onClick={download ? () => downloadImage(url): () => onClickToToggleSelect(url)}
         >
           <Image src={`${url}`} width={500} height={500} alt={`webcam-${index}`} />
         </button>
