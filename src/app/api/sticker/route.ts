@@ -4,13 +4,13 @@ import Replicate from "replicate";
 import { put } from "@vercel/blob";
 import fetch from "node-fetch";
 
-export const runtime = 'nodejs';
-export const maxDuration = 60 * 5;
-
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
 });
 const openai = new OpenAI();
+
+export const maxDuration = 300;
+export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
 
