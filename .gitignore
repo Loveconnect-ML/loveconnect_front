@@ -62,3 +62,7 @@ next-env.d.ts
 public/temp-image.png
 public/test.png
 /key
+
+# prisma build files 
+prisma/*
+!prisma/schema.prisma
