@@ -33,7 +33,7 @@ export default function Home() {
   const handleAuth = async (authKey: string) => {
     const res = await fetch("/api/auth", {
       method: "POST",
-      body: JSON.stringify({ authKey }),
+      body: JSON.stringify({ password: authKey }),
     });
 
     const data = await res.json();
