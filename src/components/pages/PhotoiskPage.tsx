@@ -99,7 +99,7 @@ function PhotoiskPage({}: Props) {
               </DialogHeader>
               <div className="flex justify-center items-center space-x-2">
                 <Canvas
-                  text={`https://photoisk.com`}
+                  text={`https://photoisk.com/output?image=${response?.[0]}`}
                   options={{
                     errorCorrectionLevel: "M",
                     margin: 3,

@@ -10,12 +10,31 @@ const replicate = new Replicate({
 const openai = new OpenAI();
 
 export const maxDuration = 300;
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
-
   const body = await request.json();
   const { image } = body;
+
+  function b64toBlob(b64Data: string, contentType = "") {
+    const image_data = atob(b64Data.split(",")[1]);
+
+    const arraybuffer = new ArrayBuffer(image_data.length);
+    const view = new Uint8Array(arraybuffer);
+
+    for (let i = 0; i < image_data.length; i++) {
+      view[i] = image_data.charCodeAt(i) & 0xff;
+    }
+
+    return new Blob([arraybuffer], { type: contentType });
+  }
+
+  const contentType = "image/png";
+
+  const blob = b64toBlob(image, contentType);
+  await put(`original_${Date.now()}.png`, blob, {
+    access: "public",
+  });
 
   if (!image) {
     return NextResponse.json({ error: "No image provided" }, { status: 400 });
@@ -63,8 +82,8 @@ export async function POST(request: NextRequest) {
       input: {
         seed: 32150,
         image: image,
-        width: 512,
-        height: 512,
+        width: 600,
+        height: 800,
         prompt: `Die-cut ${
           prompt === "Man" ? "male" : "female"
         } sticker, Cute kawaii ${
