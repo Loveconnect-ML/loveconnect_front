@@ -30,6 +30,8 @@ function Home({}: Props) {
   useEffect(() => {
     // URL로 File 객체 가져오기
 
+    if (!url) return;
+
     fetch("/api/share", {
       method: "POST",
       headers: {
@@ -39,9 +41,13 @@ function Home({}: Props) {
         url: url,
       }),
     })
-      .then((res) => res.json())
+      .then((res) => res.blob())
       .then((data) => {
-        setFile(data.data);
+        const tmp = data as any
+        const shareData = new File([tmp], "image.png", {
+          type: "image/png",
+        });
+        setFile(shareData);
       })
       .catch(() => {
         console.log("Error");

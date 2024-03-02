@@ -2,17 +2,11 @@ import { NextResponse } from "next/server";
 import fetch from "node-fetch";
 
 export async function POST(req: Request) {
-    const { url } = await req.json();
+    const body = await req.json();
+    const { url } = body;
     
-    const shareData = await fetch(url, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
+    const shareData = await fetch(url).then(res => res.blob());
 
-    NextResponse.json({
-        data: shareData
-    })
+    return new Response(shareData)
 
 }
