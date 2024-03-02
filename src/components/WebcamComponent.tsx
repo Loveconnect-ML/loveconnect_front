@@ -6,8 +6,8 @@ import { useWebcamContext } from "./WebcamProvider";
 type Props = {};
 
 const videoConstraints = {
-  width: 512,
-  height: 512,
+  width: 600,
+  height: 800,
   facingMode: "user",
 };
 
@@ -52,8 +52,8 @@ function WebcamComponent({}: Props) {
       className="z-20"
       mirrored={true}
       audio={false}
-      width={500}
-      height={500}
+      width={600}
+      height={800}
       ref={webcamRef}
       screenshotFormat="image/png"
       videoConstraints={videoConstraints}
