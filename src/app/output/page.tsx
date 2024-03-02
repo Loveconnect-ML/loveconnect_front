@@ -9,7 +9,7 @@ import { Instagram, LinkIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 
 type Props = {};
 
@@ -18,7 +18,7 @@ function Home({}: Props) {
 
   const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState("");
-//   const [file, setFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(null);
 
   useLayoutEffect(() => {
     setTimeout(() => {
@@ -27,9 +27,27 @@ function Home({}: Props) {
     }, 1500);
   }, []);
 
-//   useEffect(() => {
+  useEffect(() => {
     // URL로 File 객체 가져오기
-//   }, [url])
+
+    fetch("/api/share", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        url: url,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setFile(data.data);
+      })
+      .catch(() => {
+        console.log("Error");
+        setUrl("");
+      });
+  }, [url]);
 
   if (loading) {
     return (
@@ -81,11 +99,13 @@ function Home({}: Props) {
                   </h1>
                 )}
                 <Button
-                  onClick={() => navigator.share({
-                    url: url,
-                    title: "숭실대 SSCC & PHOTOisk",
-                    text: "PHOTOisk에서 나만의 AI사진을 만들어보세요!"
-                  })}
+                  onClick={() =>
+                    navigator.share({
+                      files: [file as any],
+                      title: "숭실대 SSCC & PHOTOisk",
+                      text: "PHOTOisk에서 나만의 AI사진을 만들어보세요!",
+                    })
+                  }
                   className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md"
                 >
                   인스타로 공유하기
