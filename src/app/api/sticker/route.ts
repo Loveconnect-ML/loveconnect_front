@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   const contentType = "image/png";
 
   const blob = b64toBlob(image, contentType);
-  await put(`original_${Date.now()}.png`, blob, {
+  const { url: originalUrl } = await put(`original_${Date.now()}.png`, blob, {
     access: "public",
   });
 
@@ -117,6 +117,20 @@ export async function POST(request: NextRequest) {
 
   const { url } = await put(`img_${Date.now()}.png`, imageFile, {
     access: "public",
+  });
+
+  prisma?.original.create({
+    data: {
+      url: originalUrl,
+      gender: prompt,
+    },
+  });
+
+  prisma?.generated.create({
+    data: {
+      url: url,
+      gender: prompt,
+    },
   });
 
   return NextResponse.json(url);

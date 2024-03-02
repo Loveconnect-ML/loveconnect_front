@@ -16,6 +16,7 @@ datasource db {
 
 model Original {
   id        Int      @id @default(autoincrement())
+  gender    String
   url       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -23,6 +24,7 @@ model Original {
 
 model Generated {
   id        Int      @id @default(autoincrement())
+  gender    String
   url       String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
