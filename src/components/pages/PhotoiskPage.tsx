@@ -6,7 +6,6 @@ import Photos from "../Photos";
 import WaveBackground from "../WaveBackground";
 import { Loading } from "../Loading";
 import { useQRCode } from "next-qrcode";
-import { motion } from "framer-motion";
 import {
   Dialog,
   DialogClose,

@@ -1,5 +1,5 @@
-"use client"
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -19,8 +19,9 @@ const terms =
   "본 프로그램 이용중 발생하는 이미지 파일이\n 추후 프로그램 성능개선에 활용될 수 있다는 사실을 인지하였으며\n 이에 동의합니다.";
 
 function MainCard({}: Props) {
-    
   const router = useRouter();
+
+  const [alert, setAlert] = useState(false);
 
   const onClickToMain = () => {
     router.push("/main");
@@ -29,7 +30,7 @@ function MainCard({}: Props) {
   return (
     <div className="my-auto h-full flex justify-center items-center space-x-8">
       <div
-      // bg-white 
+        // bg-white
         className={`flex flex-col justify-center w-full sm:w-3/4 h-3/4 gap-4 text-center rounded-lg drop-shadow-2xl bg-no-repeat`}
       >
         <h1 className="text-3xl sm:text-6xl mt-auto font-TTHakgyoansimUndongjangL bg-gradient-to-r from-red-600 to-indigo-400 inline-block text-transparent bg-clip-text">
@@ -49,26 +50,47 @@ function MainCard({}: Props) {
             </Button>
           </DialogTrigger>
           <DialogContent className="font-PretendardRegular sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle>약관 및 동의</DialogTitle>
-              <DialogDescription>
-                본 프로그램의 약관을 꼼꼼이 읽어주세요
-              </DialogDescription>
-            </DialogHeader>
-            <div className="text-start font-PretendardBold text-md break-keep leading-7">
-              {terms.split("\n").map((term, index) => (
-                <span key={index}>{term}</span>
-              ))}
-            </div>
-            <DialogFooter>
-              <DialogClose className="mr-auto">닫기</DialogClose>
-              <DialogClose
-                onClick={onClickToMain}
-                className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md"
-              >
-                동의 후 다음으로
-              </DialogClose>
-            </DialogFooter>
+            {alert ? (
+              <>
+                <DialogHeader>
+                  <DialogTitle>시작할까요?</DialogTitle>
+                </DialogHeader>
+                <div className="text-start font-PretendardMedium text-md break-keep leading-7">
+                  시작버튼을 누르면 바로 사진 찍기가 진행됩니다. 준비되셨나요?
+                </div>
+                <DialogFooter>
+                  <DialogClose
+                    onClick={onClickToMain}
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md"
+                  >
+                    시작!
+                  </DialogClose>
+                </DialogFooter>
+              </>
+            ) : (
+              <>
+                <DialogHeader>
+                  <DialogTitle>약관 및 동의</DialogTitle>
+                  <DialogDescription>
+                    본 프로그램의 약관을 꼼꼼이 읽어주세요
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="text-start font-PretendardBold text-md break-keep leading-7">
+                  {terms.split("\n").map((term, index) => (
+                    <span key={index}>{term}</span>
+                  ))}
+                </div>
+                <DialogFooter>
+                  <DialogClose className="mr-auto">닫기</DialogClose>
+                  <Button
+                    onClick={() => setAlert(true)}
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md"
+                  >
+                    동의 후 다음으로
+                  </Button>
+                </DialogFooter>
+              </>
+            )}
           </DialogContent>
         </Dialog>
       </div>
