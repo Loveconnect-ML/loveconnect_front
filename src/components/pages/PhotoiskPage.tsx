@@ -53,10 +53,18 @@ function PhotoiskPage({}: Props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          image,
+          image: image,
+          password: localStorage.getItem("auth"),
         }),
       });
       const data = await res.json();
+
+      if (data?.error) {
+        alert(data.error);
+        router.replace("/");
+        return
+      }
+
       setResponse((prev: any) => [...prev, data]);
     }
     setLoading(false);

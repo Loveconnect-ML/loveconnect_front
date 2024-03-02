@@ -14,7 +14,11 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { image } = body;
+  const { image, password } = body;
+
+  if (password !== process.env.PASSWORD) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   function b64toBlob(b64Data: string, contentType = "") {
     const image_data = atob(b64Data.split(",")[1]);
