@@ -27,7 +27,7 @@ function Photos({ imageUrls, setSelections, selections, download }: Props) {
     if (selections.includes(url)) {
       setSelections(selections.filter((selection) => selection !== url));
     } else {
-      setSelections([...selections, url]);
+      setSelections([url]);
     }
   };
 

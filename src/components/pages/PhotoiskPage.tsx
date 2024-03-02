@@ -6,7 +6,6 @@ import Photos from "../Photos";
 import WaveBackground from "../WaveBackground";
 import { Loading } from "../Loading";
 import { useQRCode } from "next-qrcode";
-import { motion } from "framer-motion";
 import {
   Dialog,
   DialogClose,
@@ -54,10 +53,18 @@ function PhotoiskPage({}: Props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          image,
+          image: image,
+          password: localStorage.getItem("auth"),
         }),
       });
       const data = await res.json();
+
+      if (data?.error) {
+        alert(data.error);
+        router.replace("/");
+        return
+      }
+
       setResponse((prev: any) => [...prev, data]);
     }
     setLoading(false);
@@ -100,7 +107,7 @@ function PhotoiskPage({}: Props) {
               </DialogHeader>
               <div className="flex justify-center items-center space-x-2">
                 <Canvas
-                  text={`https://photoisk.com`}
+                  text={`https://photoisk.com/output?image=${response?.[0]}`}
                   options={{
                     errorCorrectionLevel: "M",
                     margin: 3,
