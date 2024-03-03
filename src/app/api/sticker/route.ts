@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
         image: image,
         width: 600,
         height: 800,
-        prompt: `Die-cut ${
+        prompt: `(masterpiece), (detailed), Die-cut ${
           prompt === "Man" ? "male" : "female"
         } sticker, Cute kawaii ${
           prompt === "Man" ? "male" : "female"
@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
         depth_strength: 0.5,
         guidance_scale: 5,
         negative_prompt:
-          "(lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured (lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured, dull, bad hands, distorted fingers, ugly hands, creepy hands, unnatural hands",
+          "(lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured (lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured, dull, [hands:1.2], [fingers:2.5], [fingernails:2.5]",
         ip_adapter_scale: 0.8,
         lcm_guidance_scale: 1.5,
         num_inference_steps: 30,
