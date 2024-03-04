@@ -21,11 +21,11 @@ function KakaoAdFit() {
     if (winodwSize < 1024) {
       ins.setAttribute('data-ad-width', '320');
       ins.setAttribute('data-ad-height', '100');
-      ins.setAttribute('data-ad-unit', process.env.ADFIT as string);
+      ins.setAttribute('data-ad-unit', 'DAN-DjcBAYkCEdu0w9py');
     } else {
       ins.setAttribute('data-ad-width', '728');
       ins.setAttribute('data-ad-height', '90');
-      ins.setAttribute('data-ad-unit', process.env.ADFIT as string);
+      ins.setAttribute('data-ad-unit', 'DAN-DjcBAYkCEdu0w9py');
     }
 
     script.async = true;
