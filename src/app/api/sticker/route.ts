@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
         depth_strength: 0.5,
         guidance_scale: 5,
         negative_prompt:
-          "(lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured (lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured, dull, [hands:1.2], [fingers:2.5], [fingernails:2.5]",
+          "(lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured (lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured, dull, [the: (hands:1.9): 0.5], [the: (fingers:1.9): 0.5], [the: (fingernails:1.9): 0.5]",
         ip_adapter_scale: 0.8,
         lcm_guidance_scale: 1.5,
         num_inference_steps: 30,
