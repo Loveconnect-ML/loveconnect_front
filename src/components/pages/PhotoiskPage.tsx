@@ -54,7 +54,7 @@ function PhotoiskPage({}: Props) {
         },
         body: JSON.stringify({
           image: image,
-          password: localStorage.getItem("auth"),
+          // password: localStorage.getItem("auth"),
         }),
       });
       const data = await res.json();
