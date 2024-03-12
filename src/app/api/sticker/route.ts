@@ -3,6 +3,7 @@ import OpenAI from "openai";
 import Replicate from "replicate";
 import { put } from "@vercel/blob";
 import fetch from "node-fetch";
+import prisma from "@/utils/prisma";
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
@@ -14,11 +15,11 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { image, password } = body;
+  const { image } = body;
 
-  if (password !== process.env.PASSWORD) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  // if (password !== process.env.PASSWORD) {
+  //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // }
 
   function b64toBlob(b64Data: string, contentType = "") {
     const image_data = atob(b64Data.split(",")[1]);
@@ -88,7 +89,7 @@ export async function POST(request: NextRequest) {
         image: image,
         width: 600,
         height: 800,
-        prompt: `Die-cut ${
+        prompt: `(masterpiece), (detailed), Die-cut ${
           prompt === "Man" ? "male" : "female"
         } sticker, Cute kawaii ${
           prompt === "Man" ? "male" : "female"
@@ -101,7 +102,7 @@ export async function POST(request: NextRequest) {
         depth_strength: 0.5,
         guidance_scale: 5,
         negative_prompt:
-          "(lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured (lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured, dull, bad hands, no distorted fingers, no ugly hands, no creepy hands, no unnatural hands",
+          "(lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured (lowres, low quality, worst quality:1.2), (text:1.2), watermark, painting, drawing, illustration, glitch, deformed, mutated, cross-eyed, ugly, disfigured, dull, [the: (hands:1.9): 0.5], [the: (fingers:1.9): 0.5], [the: (fingernails:1.9): 0.5]",
         ip_adapter_scale: 0.8,
         lcm_guidance_scale: 1.5,
         num_inference_steps: 30,
@@ -123,14 +124,14 @@ export async function POST(request: NextRequest) {
     access: "public",
   });
 
-  prisma?.original.create({
+  await prisma?.original.create({
     data: {
       url: originalUrl,
       gender: prompt,
     },
   });
 
-  prisma?.generated.create({
+  await prisma?.generated.create({
     data: {
       url: url,
       gender: prompt,
