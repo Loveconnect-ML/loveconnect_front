@@ -15,34 +15,34 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const isScreenLoaded = useVh();
   const router = useRouter();
-  const [auth, setAuth] = useState(false);
-  const [password, setPassword] = useState<string>("");
+  // const [auth, setAuth] = useState(false);
+  // const [password, setPassword] = useState<string>("");
 
   useLayoutEffect(() => {
     router.prefetch("/main");
 
-    if (localStorage.getItem("auth")) {
-      handleAuth(localStorage.getItem("auth") as string);
-    }
+    // if (localStorage.getItem("auth")) {
+    //   handleAuth(localStorage.getItem("auth") as string);
+    // }
 
     setTimeout(() => {
       setLoading(false);
     }, 1500);
   }, []);
 
-  const handleAuth = async (authKey: string) => {
-    const res = await fetch("/api/auth", {
-      method: "POST",
-      body: JSON.stringify({ password: authKey }),
-    });
+  // const handleAuth = async (authKey: string) => {
+  //   const res = await fetch("/api/auth", {
+  //     method: "POST",
+  //     body: JSON.stringify({ password: authKey }),
+  //   });
 
-    const data = await res.json();
+  //   const data = await res.json();
 
-    if (data.success) {
-      localStorage.setItem("auth", authKey);
-      setAuth(true);
-    }
-  };
+  //   if (data.success) {
+  //     localStorage.setItem("auth", authKey);
+  //     setAuth(true);
+    // }
+  // };
 
   if (loading) {
     return (
@@ -62,8 +62,8 @@ export default function Home() {
         </div>
       ) : (
         <>
-          {auth ? (
-            <>
+          {/* {auth ? ( */}
+            {/* <> */}
               <WaveBackground />
               <div className="flex flex-col justify-evenly w-full h-full z-10">
                 <NavBar>
@@ -86,17 +86,17 @@ export default function Home() {
                 <MainCard />
               </div>
             </>
-          ) : (
-            <div className="flex flex-col justify-center items-center w-full h-full bg-black bg-opacity-50 z-50">
-              <input
-                onChange={(e) => setPassword(e.target.value)}
-                type="text"
-                className="bg-white"
-              />
-              <button onClick={() => handleAuth(password)}>handleAuth</button>
-            </div>
-          )}
-        </>
+        //   ) : (
+        //     <div className="flex flex-col justify-center items-center w-full h-full bg-black bg-opacity-50 z-50">
+        //       <input
+        //         onChange={(e) => setPassword(e.target.value)}
+        //         type="text"
+        //         className="bg-white"
+        //       />
+        //       <button onClick={() => handleAuth(password)}>handleAuth</button>
+        //     </div>
+        //   )}
+        // </>
       )}
     </div>
   );
