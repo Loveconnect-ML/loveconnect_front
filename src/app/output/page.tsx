@@ -1,5 +1,5 @@
 "use client";
-import KakaoAdFit from "@/components/KakaoAdFit";
+// import KakaoAdFit from "@/components/KakaoAdFit";
 import { Loading } from "@/components/Loading";
 import Logo from "@/components/Logo";
 import MainCard from "@/components/MainCard";
@@ -98,7 +98,7 @@ function Home({ }: Props) {
                 // bg-white
                 className={`flex flex-col justify-center items-center w-full sm:w-3/4 h-3/4 gap-4 text-center rounded-lg drop-shadow-2xl bg-no-repeat`}
               >
-                <KakaoAdFit />
+                {/* <KakaoAdFit /> */}
                 {url ? (
                   <Image src={url} alt="Image" width={300} height={600} />
                 ) : (
