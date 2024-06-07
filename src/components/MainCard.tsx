@@ -13,12 +13,13 @@ import {
 import { Button } from "./ui/button";
 import { Camera } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Props = {};
 const terms =
   "본 프로그램 이용중 발생하는 이미지 파일이\n 추후 프로그램 성능개선에 활용될 수 있다는 사실을 인지하였으며\n 이에 동의합니다.";
 
-function MainCard({}: Props) {
+function MainCard({ }: Props) {
   const router = useRouter();
 
   const [alert, setAlert] = useState(false);
@@ -75,11 +76,14 @@ function MainCard({}: Props) {
                     본 프로그램의 약관을 꼼꼼이 읽어주세요
                   </DialogDescription>
                 </DialogHeader>
-                <div className="text-start font-PretendardBold text-md break-keep leading-7">
+                {/* <div className="text-start font-PretendardBold text-md break-keep leading-7">
                   {terms.split("\n").map((term, index) => (
                     <span key={index}>{term}</span>
                   ))}
-                </div>
+                </div> */}
+                <a target="_blank" href={"/terms"} className="text-start w-fit font-PretendardBold text-md break-keep leading-7 border-b-2 border-gray-400 text-gray-400">
+                  전문 보기
+                </a>
                 <DialogFooter>
                   <DialogClose className="mr-auto">닫기</DialogClose>
                   <Button
