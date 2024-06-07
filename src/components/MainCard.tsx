@@ -97,6 +97,11 @@ function MainCard({ }: Props) {
             )}
           </DialogContent>
         </Dialog>
+        <button className="w-full">
+          <Link href="/terms" className="border-b-2 border-black text-black">
+            약관보기: Terms of Service, Privacy Notice, Refund Policy
+          </Link>
+        </button>
       </div>
     </div>
   );
