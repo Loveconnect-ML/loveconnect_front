@@ -154,6 +154,7 @@ function PhotoiskPage({ }: Props) {
               </div>
               <DialogFooter>
                 <DialogClose
+                  onClick={() => setPopup(false)}
                   className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-full rounded-md"
                 >
                   <Link href={"/pay"} target="_blank">

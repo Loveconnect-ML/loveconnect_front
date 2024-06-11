@@ -1,10 +1,13 @@
 import React from 'react'
 
-type Props = {}
+type Props = {
+  children: React.ReactNode
+  className?: string
+}
 
-function RowContainer({}: Props) {
-  return (
-    <div>RowContainer</div>
+function RowContainer({ children, className }: Props) {
+  return  (
+    <div className={className}>{children}</div>
   )
 }
 
