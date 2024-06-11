@@ -9,7 +9,7 @@ const replicate = new Replicate({
 });
 const openai = new OpenAI();
 
-export const maxDuration = 300;
+export const maxDuration = 500;
 export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
