@@ -7,9 +7,10 @@ type Props = {
   selections?: string[];
   setSelections?: (selections: string[]) => void;
   download?: boolean;
+  setResponseIdx?: (responseIdx: number) => void;
 };
 
-function Photos({ imageUrls, setSelections, selections, download }: Props) {
+function Photos({ setResponseIdx, imageUrls, setSelections, selections, download }: Props) {
   if (!imageUrls) {
     return null;
   }
@@ -38,17 +39,25 @@ function Photos({ imageUrls, setSelections, selections, download }: Props) {
     a.target = '_blank';
     a.click();
   }
-  
+
+  const toggleResponseIdx = (idx: number) => {
+    if (!setResponseIdx) {
+      return;
+    }
+    setResponseIdx(idx);
+  }
 
   return (
     <div className="grid grid-cols-5 w-full">
       {imageUrls?.map((url, index) => (
         <button
           key={index}
-          className={`${
-            selections?.includes(url) ? "border-4 border-black" : ""
-          }`}
-          onClick={download ? () => downloadImage(url): () => onClickToToggleSelect(url)}
+          className={`${selections?.includes(url) ? "border-4 border-black" : ""
+            }`}
+          onClick={download ? () => {
+            toggleResponseIdx(index)
+            // downloadImage(url)
+          } : () => onClickToToggleSelect(url)}
         >
           <Image src={`${url}`} width={500} height={500} alt={`webcam-${index}`} />
         </button>
