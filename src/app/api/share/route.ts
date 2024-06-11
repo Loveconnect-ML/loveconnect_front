@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import fetch from "node-fetch";
 
 export async function POST(req: Request) {
     const body = await req.json();

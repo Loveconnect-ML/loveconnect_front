@@ -14,6 +14,13 @@ import { Button } from "./ui/button";
 import { Camera } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
+
 
 type Props = {};
 const terms =
@@ -40,6 +47,12 @@ function MainCard({ }: Props) {
         <p className="text:md sm:text-2xl bg-gradient-to-r from-red-600 to-indigo-400 inline-block text-transparent bg-clip-text">
           AI로 남기는 여러분의 소중한 인생샷
         </p>
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
         <Dialog>
           <DialogTrigger asChild>
             <Button

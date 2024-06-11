@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import OpenAI from "openai";
 import Replicate from "replicate";
 import { put } from "@vercel/blob";
-import fetch from "node-fetch";
 import prisma from "@/utils/prisma";
 
 const replicate = new Replicate({

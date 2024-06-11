@@ -5,10 +5,6 @@ import { Suspense } from "react";
 // import Script from "next/script";
 import {
   ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
 } from '@clerk/nextjs'
 
 const inter = Inter({ subsets: ["latin"] });
@@ -35,12 +31,12 @@ export default function RootLayout({
         <body className={inter.className}>
           {/* <main className="flex justify-center items-center w-full bg-gray-50 overflow-clip"> */}
           {/* <div className="flex flex-col justify-start items-center w-full sm:w-[500px] overflow-y-scroll scrollbar-hide bg-white font-PretendardBold"> */}
-          <SignedOut>
+          {/* <SignedOut>
             <SignInButton />
           </SignedOut>
           <SignedIn>
             <UserButton />
-          </SignedIn>
+          </SignedIn> */}
           <Suspense>
             <div className="flex flex-col justify-start items-center w-screen h-screen bg-white font-IBMPlexSansKRSemiBold select-none">
               {children}
