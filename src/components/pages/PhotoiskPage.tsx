@@ -18,6 +18,8 @@ import {
 } from "../ui/dialog";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { LinkIcon } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 type Props = {};
 // 밝은 조명에서 하면 더 잘 나옴, 정면 얼굴이 가장 잘 나옴
@@ -37,13 +39,19 @@ function PhotoiskPage({ }: Props) {
   const [clickedCount, setClickedCount] = useState(0);
   const [popup, setPopup] = useState(false);
 
+  const onClickToRegenerateImage = async (e: any) => {
+    e.preventDefault();
+
+    setPopup(true);
+  }
+
   const onClickToRetouchImage = async (e: any) => {
     e.preventDefault();
 
-    if (clickedCount >= 1) {
-      setPopup(true);
-      return;
-    }
+    // if (clickedCount >= 1) {
+    //   setPopup(true);
+    //   return;
+    // }
 
     if (selectedImages.length === 0) {
       alert("이미지를 선택해주세요");
@@ -82,11 +90,17 @@ function PhotoiskPage({ }: Props) {
     setClicked(false);
   };
 
+  
+  const copyUrl = () => {
+    navigator.clipboard.writeText(`https://photoisk.com/output?image=${response?.[responseIdx]}`)
+    toast.success("공유링크가 복사되었습니다")
+  }
+
   return (
     <>
       <WaveBackground />
-      <div className="relative">
-        <div className="relative h-full pb-[20%] bg-white">
+      <div className="relative w-full sm:w-[500px] bg-white">
+        <div className="h-full pb-[20%]">
           <Photos
             selections={selectedImages}
             setSelections={setSelectedImages}
@@ -109,14 +123,14 @@ function PhotoiskPage({ }: Props) {
             <Dialog>
               <DialogTrigger asChild>
                 <Button
-                  className="bg-primary hover:text-white text-primary-foreground hover:bg-primary/90 absolute right-10 bottom-4 w-[90%] sm:w-[200px]"
+                  className="bg-primary hover:text-white text-primary-foreground hover:bg-primary/90 absolute right-8 bottom-4 w-[40%] sm:w-[200px]"
                   variant="outline"
                   disabled={loading || clicked || response.length === 0}
                 >
                   공유
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
+              <DialogContent className="font-PretendardBold sm:max-w-md">
                 <DialogHeader>
                   <DialogTitle>인스타로 공유하기</DialogTitle>
                 </DialogHeader>
@@ -131,20 +145,23 @@ function PhotoiskPage({ }: Props) {
                     }}
                   />
                 </div>
-                <DialogFooter className="sm:justify-center">
+                <DialogFooter className="flex gap-3 items-center justify-center">
                   <DialogClose
                     onClick={() => router.replace("/")}
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-[90%] rounded-md"
+                    className="font-PretendardMedium bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-[90%] mx-auto rounded-md"
                   >
                     끝내기
                   </DialogClose>
+                  <Button variant="ghost" onClick={copyUrl}>
+                    <LinkIcon size={24} />
+                  </Button>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
           )}
         </div>
         {popup && (
-          <Dialog defaultOpen open>
+          <Dialog open={popup} onOpenChange={setPopup}>
             <DialogContent className="sm:max-w-md">
               <DialogHeader>
                 <DialogTitle>유료 서비스</DialogTitle>
@@ -167,8 +184,8 @@ function PhotoiskPage({ }: Props) {
         )}
         {response && response.length > 0 ? <Button
           disabled={clicked}
-          onClick={onClickToRetouchImage}
-          className="absolute left-10 bottom-4 w-[90%] sm:w-[200px] bg-white text-black hover:bg-primary hover:text-white border-2 border-primary"
+          onClick={onClickToRegenerateImage}
+          className="absolute left-8 bottom-4 w-[40%] sm:w-[200px] bg-white text-black hover:bg-primary hover:text-white border-2 border-primary"
         >
           이미지 재생성
         </Button> : (
