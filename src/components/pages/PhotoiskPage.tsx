@@ -48,18 +48,13 @@ function PhotoiskPage({ }: Props) {
   const onClickToRetouchImage = async (e: any) => {
     e.preventDefault();
 
-    // if (clickedCount >= 1) {
-    //   setPopup(true);
-    //   return;
-    // }
-
     if (selectedImages.length === 0) {
-      alert("이미지를 선택해주세요");
+      toast.error("이미지를 선택해주세요");
       return;
     }
 
     if (clicked) {
-      alert("이미지 생성 중입니다...");
+      toast.error("이미지 생성 중입니다...");
       return;
     }
 
@@ -98,14 +93,16 @@ function PhotoiskPage({ }: Props) {
   return (
     <>
       <WaveBackground />
-      <div className="relative w-full sm:w-[500px] bg-white">
-        <div className="h-full pb-[20%]">
+      <div className="relative w-full h-full sm:w-[500px] bg-white">
+        <div className="text-center text-xl font-PretendardBold pt-8 pb-4">
+          AI로 변환할 이미지를 선택해주세요!
+        </div>
+        <div className="relative w-full">
           <Photos
             selections={selectedImages}
             setSelections={setSelectedImages}
             imageUrls={imageUrls}
           />
-
           {loading ? (
             <div className="w-full gap-16 flex flex-col items-center justify-center">
               <Loading />
@@ -118,6 +115,8 @@ function PhotoiskPage({ }: Props) {
               setResponseIdx={setResponseIdx}
             />
           )}
+        </div>
+        <div className="relative bg-white mt-[20%]">
           {response && response.length > 0 && (
             <Dialog>
               <DialogTrigger asChild>
@@ -158,44 +157,44 @@ function PhotoiskPage({ }: Props) {
               </DialogContent>
             </Dialog>
           )}
-        </div>
-        {popup && (
-          <Dialog open={popup} onOpenChange={setPopup}>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle>유료 서비스</DialogTitle>
-              </DialogHeader>
-              <div className="text-start font-PretendardMedium text-md break-keep leading-7">
-                더 많은 이미지를 생성하시려면 결제가 필요합니다.
-              </div>
-              <DialogFooter>
-                <DialogClose
-                  onClick={() => setPopup(false)}
-                  className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-full rounded-md"
-                >
-                  <Link href={"/pay"} target="_blank">
-                    결제하기
-                  </Link>
-                </DialogClose>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        )}
-        {response && response.length > 0 ? <Button
-          disabled={clicked}
-          onClick={onClickToRegenerateImage}
-          className="absolute left-8 bottom-4 w-[40%] sm:w-[200px] bg-white text-black hover:bg-primary hover:text-white border-2 border-primary"
-        >
-          이미지 재생성
-        </Button> : (
-          <Button
+          {popup && (
+            <Dialog open={popup} onOpenChange={setPopup}>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>유료 서비스</DialogTitle>
+                </DialogHeader>
+                <div className="text-start font-PretendardMedium text-md break-keep leading-7">
+                  더 많은 이미지를 생성하시려면 결제가 필요합니다.
+                </div>
+                <DialogFooter>
+                  <DialogClose
+                    onClick={() => setPopup(false)}
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-full rounded-md"
+                  >
+                    <Link href={"/pay"} target="_blank">
+                      결제하기
+                    </Link>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
+          )}
+          {response && response.length > 0 ? <Button
             disabled={clicked}
-            onClick={onClickToRetouchImage}
-            className="absolute left-1/2 -translate-x-1/2 bottom-4 w-[90%] sm:w-[432px]"
+            onClick={onClickToRegenerateImage}
+            className="absolute left-8 bottom-4 w-[40%] sm:w-[200px] bg-white text-black hover:bg-primary hover:text-white border-2 border-primary"
           >
-            이미지 생성
-          </Button>
-        )}
+            이미지 재생성
+          </Button> : (
+            <Button
+              disabled={clicked}
+              onClick={onClickToRetouchImage}
+              className="absolute left-1/2 -translate-x-1/2 bottom-4 w-[90%] sm:w-[432px]"
+            >
+              이미지 생성
+            </Button>
+          )}
+        </div>
       </div>
     </>
   );
