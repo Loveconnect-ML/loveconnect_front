@@ -9,7 +9,7 @@ export default function usePaddle() {
     initializePaddle({
       environment: process.env.PADDLE_ENV! ? "production" : "sandbox",
       token: process.env.PADDLE_CLIENT_TOKEN!,
-      seller: Number(process.env.PADDLE_SELLER_ID),
+      seller: process.env.PADDLE_SELLER_ID as unknown as number,
     } as unknown as InitializePaddleOptions).then((paddleInstance: Paddle | undefined) => {
       if (paddleInstance) {
         setPaddle(paddleInstance);
