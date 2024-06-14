@@ -92,7 +92,7 @@ function MainCard({ }: Props) {
                   전문 보기
                 </a>
                 <DialogFooter>
-                  <DialogClose className="mr-auto">닫기</DialogClose>
+                  {/* <DialogClose className="mr-auto">닫기</DialogClose> */}
                   <Button
                     onClick={() => setAlert(true)}
                     className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 rounded-md"

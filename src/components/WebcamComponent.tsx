@@ -68,7 +68,7 @@ function WebcamComponent({}: Props) {
   }, []);
 
   return (
-    <div className="relative z-20">
+    <div className="relative z-20 h-full">
       <Webcam
         className="aboslute z-20"
         mirrored={true}
