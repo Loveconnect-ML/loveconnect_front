@@ -58,11 +58,7 @@ function Home({ }: Props) {
       });
   }, [url]);
 
-  const copyUrl = () => {
-    navigator.clipboard.writeText(window.location.href)
-    toast.success("URL이 복사되었습니다")
-  }
-
+  
   if (loading) {
     return (
       <div className="w-full h-full py-6 px-10">
