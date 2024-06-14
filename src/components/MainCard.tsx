@@ -44,7 +44,10 @@ function MainCard({ }: Props) {
         <h1 className="text-3xl sm:text-6xl mt-auto font-TTHakgyoansimUndongjangL bg-gradient-to-r from-red-600 to-indigo-400 inline-block text-transparent bg-clip-text">
           PHOTOisk
         </h1>
-        <p className="text:md sm:text-2xl bg-gradient-to-r from-red-600 to-indigo-400 inline-block text-transparent bg-clip-text">
+        {/* <p className="text:md sm:text-2xl bg-gradient-to-r from-red-600 to-indigo-400 inline-block text-transparent bg-clip-text">
+          AI로 남기는 여러분의 소중한 인생샷
+        </p> */}
+        <p className="text:md sm:text-2xl text-black">
           AI로 남기는 여러분의 소중한 인생샷
         </p>
         <Dialog>
