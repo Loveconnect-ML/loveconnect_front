@@ -9,6 +9,7 @@ type Props = {};
 
 function WebcamComponent({}: Props) {
   const { imageUrls, setImageUrls } = useWebcamContext();
+  const [mirrored, setMirrored] = useState(true); 
   const [videoConstraints, setVideoConstraints] = useState({
     width: 600,
     height: 800,
@@ -19,6 +20,7 @@ function WebcamComponent({}: Props) {
   const flipCamera = useCallback(() => {
     const facingMode = videoConstraints.facingMode === "user" ? "environment" : "user";
     setVideoConstraints((prev) => ({ ...prev, facingMode }));
+    setMirrored((prev) => !prev);
   }, [videoConstraints, setVideoConstraints]);
 
   // 웹캠 사진 캡쳐
@@ -40,7 +42,7 @@ function WebcamComponent({}: Props) {
     <div className="relative z-20 h-full">
       <Webcam
         className="aboslute z-20"
-        mirrored={true}
+        mirrored={mirrored}
         audio={false}
         width={600}
         height={800}
