@@ -37,8 +37,8 @@ function TopNavbar({ }: Props) {
             </Button>
             <SignedOut>
                 <SignInButton>
-                    <Button className='flex items-center mx-3 text-[1.25rem]'>
-                        Sign in
+                    <Button className='flex items-center text-[1rem]'>
+                        로그인
                     </Button>
                 </SignInButton>
             </SignedOut>

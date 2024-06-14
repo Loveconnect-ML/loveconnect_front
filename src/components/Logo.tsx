@@ -6,7 +6,7 @@ type Props = {};
 
 function Logo({}: Props) {
   return (
-    <div className="w-16 h-16">
+    <div className="w-16 h-16 invisible sm:visible">
       <Image src={LogoImage} alt="SSCC" className="w-full h-full" />
     </div>
   );

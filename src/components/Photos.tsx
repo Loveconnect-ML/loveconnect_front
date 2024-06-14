@@ -48,7 +48,7 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
   }
 
   return (
-    <div className="grid grid-cols-5 w-full">
+    <div className="grid grid-cols-5 w-full h-32">
       {imageUrls?.map((url, index) => (
         <button
           key={index}
