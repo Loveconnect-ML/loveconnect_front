@@ -1,9 +1,10 @@
 "use client";
 import { CameraIcon, SwitchCameraIcon } from "lucide-react";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import Webcam from "react-webcam";
 import { useWebcamContext } from "./WebcamProvider";
+import { motion, useAnimate } from "framer-motion";
 
 type Props = {};
 
@@ -15,6 +16,8 @@ function WebcamComponent({}: Props) {
     height: 800,
     facingMode: "user",
   });
+  const [scope, animate] = useAnimate();
+
   const webcamRef = useRef<Webcam>(null);
 
   const flipCamera = useCallback(() => {
@@ -30,16 +33,24 @@ function WebcamComponent({}: Props) {
       toast.error("이미지는 최대 5장까지 촬영 가능합니다");
       return;
     }
-
+    
     const imageSrc = webcamRef.current?.getScreenshot();
+    animate(scope.current, { backgroundColor: ["rgba(0, 0, 0, 1)", "rgba(0, 0, 0, 0)"], transition: { duration: 0.1 } });
     if (!imageSrc) return;
     if (!imageUrls) return;
+    
 
     setImageUrls((prev: any) => [...prev, imageSrc]);
   }, [imageUrls, setImageUrls]);
 
+
   return (
     <div className="relative z-20 h-full">
+      <div
+        ref={scope}
+        className="absolute w-full h-full z-10"
+      >
+      </div>
       <Webcam
         className="aboslute z-20"
         mirrored={mirrored}

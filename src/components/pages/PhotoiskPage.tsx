@@ -6,6 +6,7 @@ import Photos from "../Photos";
 import WaveBackground from "../WaveBackground";
 import { Loading } from "../Loading";
 import { useQRCode } from "next-qrcode";
+import { motion } from "framer-motion";
 import {
   Dialog,
   DialogClose,
@@ -18,7 +19,7 @@ import {
 } from "../ui/dialog";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { LinkIcon } from "lucide-react";
+import { ArrowBigDown, LinkIcon } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 type Props = {};
@@ -94,8 +95,8 @@ function PhotoiskPage({ }: Props) {
     <>
       <WaveBackground />
       <div className="relative w-full h-full sm:w-[500px] bg-white">
-        <div className="text-center text-xl font-PretendardBold pt-8 pb-4">
-          AI로 변환할 이미지를 선택해주세요!
+        <div className="text-center text-md sm:text-xl font-PretendardBold pt-8 pb-4">
+          사진 촬영 후 AI로 변환할 이미지를 선택해주세요!
         </div>
         <div className="relative w-full">
           <Photos
@@ -103,6 +104,14 @@ function PhotoiskPage({ }: Props) {
             setSelections={setSelectedImages}
             imageUrls={imageUrls}
           />
+          {selectedImages?.length > 0 && (
+            <div className="text-center text-md sm:text-xl font-PretendardBold pt-8 pb-4 flex flex-col items-center">
+              <div>페이지 끝에 있는 이미지 생성 버튼을 눌러주세요!</div>
+              <motion.div animate={{ y: [0, 5, 0, -5, 0] }} transition={{ duration: 1, repeat: Infinity }} className="text-center text-md sm:text-xl font-PretendardBold pt-8 pb-4">
+                <ArrowBigDown size={32} />
+              </motion.div>
+            </div>
+          )}
           {loading ? (
             <div className="w-full gap-16 flex flex-col items-center justify-center">
               <Loading />
