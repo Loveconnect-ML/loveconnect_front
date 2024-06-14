@@ -75,22 +75,21 @@ function PhotoiskPage({ }: Props) {
           image: image,
         }),
       });
-      const data = await res.json();
 
-      if (data?.error) {
-        alert(data.error);
-        router.replace("/");
-        return
+      try {
+        const data = await res.json();
+        setResponse((prev: any) => [...prev, data]);
+      } catch (e) {
+        toast.error("이미지 생성에 실패했습니다. 새로고침 후 다시 시도해주세요.");
+        window.location.reload();
       }
-
-      setResponse((prev: any) => [...prev, data]);
     }
     setClickedCount((prev) => prev + 1);
     setLoading(false);
     setClicked(false);
   };
 
-  
+
   const copyUrl = () => {
     navigator.clipboard.writeText(`https://photoisk.com/output?image=${response?.[responseIdx]}`)
     toast.success("공유링크가 복사되었습니다")
