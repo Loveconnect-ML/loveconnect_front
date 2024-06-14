@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowBigDown, LinkIcon } from "lucide-react";
 import { toast } from "react-hot-toast";
+import KakaoAdFit from "../KakaoAdFit";
 
 type Props = {};
 // 밝은 조명에서 하면 더 잘 나옴, 정면 얼굴이 가장 잘 나옴
@@ -95,6 +96,9 @@ function PhotoiskPage({ }: Props) {
     <>
       <WaveBackground />
       <div className="relative w-full h-full sm:w-[500px] bg-white">
+        <div className="w-full flex justify-center my-4">
+          <KakaoAdFit />
+        </div>
         <div className="text-center text-md sm:text-xl font-PretendardBold pt-8 pb-4">
           사진 촬영 후 AI로 변환할 이미지를 선택해주세요!
         </div>
