@@ -159,7 +159,9 @@ function PhotoiskPage({ }: Props) {
           <div className="bg-white h-full">
             <Photos
               download={true}
-              imageUrls={response?.map((res: any) => res) || null}
+              imageUrls={response?.map((res: any) => {
+                return `https://${process.env.NEXT_PUBLIC_STORAGE_DOMAIN}/${res}`;
+              }) || null}
               setResponseIdx={setResponseIdx}
             />
             {loading && (

@@ -159,5 +159,7 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  return NextResponse.json(filename);
+  const onlyFilename = url.split("/").pop();
+
+  return NextResponse.json(onlyFilename);
 }
