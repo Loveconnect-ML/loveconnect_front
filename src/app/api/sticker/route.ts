@@ -159,5 +159,5 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  return NextResponse.json(url);
+  return NextResponse.json(filename);
 }

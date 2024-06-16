@@ -23,10 +23,10 @@ function Home({ }: Props) {
   const [loading, setLoading] = useState(true);
   const [url, setUrl] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  const [showingImg, setShowingImg] = useState<any>(null);
 
   useLayoutEffect(() => {
     setTimeout(() => {
-      setLoading(false);
       setUrl(search.get("image") || "");
     }, 1500);
   }, []);
@@ -52,10 +52,13 @@ function Home({ }: Props) {
           type: "image/png",
         });
         setFile(shareData);
+        setShowingImg(`https://${process.env.NEXT_PUBLIC_STORAGE_DOMAIN}/${url}`);
+        setLoading(false);
       })
       .catch(() => {
         console.log("Error");
         setUrl("");
+        setLoading(false);
       });
   }, [url]);
 
@@ -81,10 +84,10 @@ function Home({ }: Props) {
             // bg-white
             className={`absolute flex-wrap w-full sm:w-[500px] left-1/2 -translate-x-1/2 h-full flex flex-col justify-center items-center gap-4 text-center bg-no-repeat`}
           >
-            {url ? (
+            {showingImg ? (
               <>
                 <KakaoAdFit />
-                <Image src={url} alt="Image" width={128} height={256} />
+                <Image src={showingImg} alt="Image" width={128} height={256} />
               </>
             ) : (
               <h1 className="text-3xl sm:text-6xl mt-auto font-TTHakgyoansimUndongjangL bg-gradient-to-r from-red-600 to-indigo-400 inline-block text-transparent bg-clip-text">
