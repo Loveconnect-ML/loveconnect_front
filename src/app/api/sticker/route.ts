@@ -32,7 +32,9 @@ export async function POST(request: NextRequest) {
   const contentType = "image/png";
 
   const blob = b64toBlob(image, contentType);
-  const { url: originalUrl } = await put(`original_${Date.now()}.png`, blob, {
+
+  const originalFileName = `original_${Date.now()}.png`
+  const { url: originalUrl } = await put(originalFileName, blob, {
     access: "public",
   });
 
@@ -135,7 +137,9 @@ export async function POST(request: NextRequest) {
 
   const imageFile = await fetch(imageUrl).then((res) => res.blob());
 
-  const { url } = await put(`img_${Date.now()}.png`, imageFile, {
+  const filename = `img_${Date.now()}.png`
+
+  const { url } = await put(filename, imageFile, {
     access: "public",
   });
 
@@ -143,6 +147,7 @@ export async function POST(request: NextRequest) {
     data: {
       url: originalUrl,
       gender: gender,
+      filename: originalFileName,
     },
   });
 
@@ -150,6 +155,7 @@ export async function POST(request: NextRequest) {
     data: {
       url: url,
       gender: gender,
+      filename: filename,
     },
   });
 

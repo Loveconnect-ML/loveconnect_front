@@ -8,17 +8,42 @@ import {
 } from '@clerk/nextjs'
 import { Toaster } from 'react-hot-toast';
 import { clsx } from "clsx";
+import { koKR } from "@clerk/localizations";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "포토이스크",
-  description: "AI 인생네컷",
+  title: "Photoisk: AI로 남기는 여러분의 소중한 인생샷",
+  description: "AI로 다양한 사진을 찍고 공유해보세요!",
+  keywords: ["Photoisk", "사진", "인생샷", "AI", "인공지능", "사진공유", "사진찍기"],
+  robots: 'index, follow',
+  openGraph: {
+    siteName: "Photoisk",
+    locale: 'ko_KR',
+    title: 'Photoisk, AI로 남기는 여러분의 소중한 인생샷',
+    description: 'AI로 다양한 사진을 찍고 공유해보세요!',
+    type: 'website',
+    url: 'https://photoisk.com',
+    images: [
+      {
+        url: '/Logo.png',
+        alt: 'Photoisk',
+        type: 'image/png',
+        width: '500',
+        height: '500',
+      }
+    ]
+  },
+  icons: {
+    icon: "/Logo.png",
+  },
+  metadataBase: new URL("https://photoisk.com"),
 };
 
 export const viewport: Metadata = {
   viewport: "width=device-width, initial-scale=1",
 };
+
 
 const pretendardBold = localFont({
   src: '../../public/Pretendard-Bold.otf',
@@ -56,7 +81,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={koKR}>
       <html lang="en">
         {/*<Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9708481151156136"
         crossOrigin="anonymous"></Script>*/}

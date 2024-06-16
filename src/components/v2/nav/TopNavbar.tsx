@@ -1,7 +1,7 @@
 import Logo from '@/components/Logo'
 import { Button } from '@/components/ui/button'
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs'
-import { Instagram, LinkIcon } from 'lucide-react'
+import { Instagram, LinkIcon, UserCircle2, UserCircle2Icon } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { toast } from 'react-hot-toast'
@@ -37,8 +37,11 @@ function TopNavbar({ }: Props) {
             </Button>
             <SignedOut>
                 <SignInButton>
-                    <Button className='flex items-center text-[1rem]'>
+                    {/* <Button className='flex items-center text-[1rem]'>
                         로그인
+                    </Button> */}
+                    <Button variant="default">
+                        <UserCircle2Icon size={24} />
                     </Button>
                 </SignInButton>
             </SignedOut>
