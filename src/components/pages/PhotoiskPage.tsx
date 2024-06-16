@@ -22,6 +22,7 @@ import Link from "next/link";
 import { ArrowBigDown, LinkIcon } from "lucide-react";
 import { toast } from "react-hot-toast";
 import KakaoAdFit from "../KakaoAdFit";
+import CircleLoading from "../v2/loadings/CircleLoading";
 
 type Props = {};
 // 밝은 조명에서 하면 더 잘 나옴, 정면 얼굴이 가장 잘 나옴
@@ -43,12 +44,42 @@ function PhotoiskPage({ }: Props) {
 
   const onClickToRegenerateImage = async (e: any) => {
     e.preventDefault();
+    
+    const res = await fetch("/api/v2/payLimit", {
+      method: "GET",
+    });
 
-    setPopup(true);
+    const data = await res.json();
+
+    if (!data.available) {
+      setPopup(true);
+      toast.error("이미지 생성 횟수를 초과하였습니다. 결제 후 이용해주세요.");
+      return;
+    }
+
+    setClicked(true);
+    setLoading(true);
+    await generateImage();
+    setClickedCount((prev) => prev + 1);
+    setLoading(false);
+    setClicked(false);
+
   }
 
   const onClickToRetouchImage = async (e: any) => {
     e.preventDefault();
+
+    const res = await fetch("/api/v2/payLimit", {
+      method: "GET",
+    });
+
+    const data = await res.json();
+
+    if (!data.available) {
+      setPopup(true);
+      toast.error("이미지 생성 횟수를 초과하였습니다. 결제 후 이용해주세요.");
+      return;
+    }
 
     if (selectedImages.length === 0) {
       toast.error("이미지를 선택해주세요");
@@ -59,9 +90,16 @@ function PhotoiskPage({ }: Props) {
       toast.error("이미지 생성 중입니다...");
       return;
     }
-
     setClicked(true);
     setLoading(true);
+    await generateImage();
+    setClickedCount((prev) => prev + 1);
+    setLoading(false);
+    setClicked(false);
+  };
+
+  const generateImage = async () => {
+
     for (const image of selectedImages) {
       const res = await fetch("/api/sticker", {
         method: "POST",
@@ -81,10 +119,7 @@ function PhotoiskPage({ }: Props) {
         window.location.reload();
       }
     }
-    setClickedCount((prev) => prev + 1);
-    setLoading(false);
-    setClicked(false);
-  };
+  }
 
 
   const copyUrl = () => {
@@ -116,20 +151,22 @@ function PhotoiskPage({ }: Props) {
               </motion.div>
             </div>
           )}
-          {loading ? (
-            <div className="w-full gap-16 flex flex-col items-center justify-center">
-              <Loading />
-              <p>최대 3분이 걸릴 수 있습니다...</p>
-            </div>
-          ) : (
+
+          <div className="bg-white h-full">
             <Photos
               download={true}
               imageUrls={response?.map((res: any) => res) || null}
               setResponseIdx={setResponseIdx}
             />
-          )}
+            {loading && (
+              <div className="w-full gap-8 flex flex-col items-center justify-center">
+                <CircleLoading />
+                <p>최대 3분이 걸릴 수 있습니다...</p>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="relative bg-white mt-[20%]">
+        <div className="relative bg-white pb-[20%]">
           {response && response.length > 0 && (
             <Dialog>
               <DialogTrigger asChild>

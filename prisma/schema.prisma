@@ -18,21 +18,38 @@ model Original {
   id        Int      @id @default(autoincrement())
   gender    String
   url       String
+  filename  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  userId    Int?
 }
 
 model Generated {
   id        Int      @id @default(autoincrement())
   gender    String
   url       String
+  filename  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  userId    Int?
 }
 
 model User {
   id        Int      @id @default(autoincrement())
   password  String
+  email     String   @unique  
+  name      String  
+  paymentsCount Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Payments {
+  id          Int      @id @default(autoincrement())
+  payName     String
+  email       String  @unique  
+  amount      Int
+  userId      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
