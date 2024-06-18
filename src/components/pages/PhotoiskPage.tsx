@@ -19,10 +19,31 @@ import {
 } from "../ui/dialog";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowBigDown, LinkIcon } from "lucide-react";
+import { ArrowBigDown, EyeIcon, LinkIcon, ScanFaceIcon, User2Icon } from "lucide-react";
 import { toast } from "react-hot-toast";
 import KakaoAdFit from "../KakaoAdFit";
 import CircleLoading from "../v2/loadings/CircleLoading";
+import BottomNavbar from "../v2/nav/BottomNavbar";
+import IconButton from "../v2/buttons/IconButton";
+import { paths } from "@/utils/data";
+
+const data = [
+  {
+    icon: <ScanFaceIcon size={32} />,
+    label: "얼굴 스티커",
+    pathname: "/main",
+  },
+  {
+    icon: <EyeIcon size={32} />,
+    label: "사진 피드백",
+    pathname: "/feedback",
+  },
+  {
+    icon: <User2Icon size={32} />,
+    label: "마이페이지",
+    pathname: "/mypage",
+  }
+]
 
 type Props = {};
 // 밝은 조명에서 하면 더 잘 나옴, 정면 얼굴이 가장 잘 나옴
@@ -44,7 +65,7 @@ function PhotoiskPage({ }: Props) {
 
   const onClickToRegenerateImage = async (e: any) => {
     e.preventDefault();
-    
+
     const res = await fetch("/api/v2/payLimit", {
       method: "GET",
     });
@@ -134,45 +155,44 @@ function PhotoiskPage({ }: Props) {
   return (
     <>
       <WaveBackground />
-      <div className="relative w-full h-full sm:w-[500px] bg-white">
+      <div className="relative w-full h-full sm:w-[500px] bg-white pb-16">
         <div className="w-full flex justify-center my-4">
           <KakaoAdFit />
         </div>
+        <div className="pb-16 bg-white">
+
         <div className="text-center text-md sm:text-xl font-PretendardBold pt-8 pb-4">
           사진 촬영 후 AI로 변환할 이미지를 선택해주세요!
         </div>
-        <div className="relative w-full">
-          <Photos
-            selections={selectedImages}
-            setSelections={setSelectedImages}
-            imageUrls={imageUrls}
-          />
-          {selectedImages?.length > 0 && (
-            <div className="text-center text-md sm:text-xl font-PretendardBold pt-8 pb-4 flex flex-col items-center">
-              <div>페이지 끝에 있는 이미지 생성 버튼을 눌러주세요!</div>
-              <motion.div animate={{ y: [0, 5, 0, -5, 0] }} transition={{ duration: 1, repeat: Infinity }} className="text-center text-md sm:text-xl font-PretendardBold pt-8 pb-4">
-                <ArrowBigDown size={32} />
-              </motion.div>
-            </div>
-          )}
+        <Photos
+          selections={selectedImages}
+          setSelections={setSelectedImages}
+          imageUrls={imageUrls}
+        />
 
-          <div className="bg-white h-full">
-            <Photos
-              download={true}
-              imageUrls={response?.map((res: any) => {
-                return `https://${process.env.NEXT_PUBLIC_STORAGE_DOMAIN}/${res}`;
-              }) || null}
-              setResponseIdx={setResponseIdx}
-            />
-            {loading && (
-              <div className="w-full gap-8 flex flex-col items-center justify-center">
-                <CircleLoading />
-                <p>최대 3분이 걸릴 수 있습니다...</p>
-              </div>
-            )}
+        {selectedImages?.length > 0 && (
+          <div className="text-center text-md sm:text-xl font-PretendardBold pt-8 flex flex-col items-center">
+            <div>페이지 끝에 있는 이미지 생성 버튼을 눌러주세요!</div>
+            <motion.div animate={{ y: [0, 5, 0, -5, 0] }} transition={{ duration: 1, repeat: Infinity }} className="text-center text-md sm:text-xl font-PretendardBold py-4">
+              <ArrowBigDown size={32} />
+            </motion.div>
           </div>
-        </div>
-        <div className="relative bg-white pb-[20%]">
+        )}
+
+        <Photos
+          download={true}
+          imageUrls={response?.map((res: any) => {
+            return `https://${process.env.NEXT_PUBLIC_STORAGE_DOMAIN}/${res}`;
+          }) || null}
+          setResponseIdx={setResponseIdx}
+          />
+        {loading && (
+          <div className="w-full gap-8 flex flex-col items-center justify-center">
+            <CircleLoading />
+            <p>최대 3분이 걸릴 수 있습니다...</p>
+          </div>
+        )}
+        <div className="relative bg-white pt-20">
           {response && response.length > 0 && (
             <Dialog>
               <DialogTrigger asChild>
@@ -252,6 +272,21 @@ function PhotoiskPage({ }: Props) {
           )}
         </div>
       </div>
+          </div>
+        
+
+      <BottomNavbar>
+        {paths.map((path, index) => (
+          <Link href={path.pathname} key={index}>
+            <IconButton
+              size="md"
+              direction="column"
+              icon={data[index].icon}
+              label={data[index].label}
+            />
+          </Link>
+        ))}
+      </BottomNavbar>
     </>
   );
 }
