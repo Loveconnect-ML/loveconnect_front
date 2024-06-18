@@ -1,10 +1,15 @@
+"use client"
+import { usePathname } from 'next/navigation'
 import React from 'react'
 
 type Props = {}
 
 function MyPage({}: Props) {
+
   return (
-    <div>준비중입니다...</div>
+    <>
+      <div>준비중입니다...</div>
+    </>
   )
 }
 
