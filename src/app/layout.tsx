@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
@@ -13,7 +13,12 @@ import { koKR } from "@clerk/localizations";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  applicationName: "Photoisk",
   title: "Photoisk: AI로 남기는 여러분의 소중한 인생샷",
+  formatDetection: {
+    telephone: false,
+  },
+  manifest: "/manifest.json",
   description: "AI로 다양한 사진을 찍고 공유해보세요!",
   keywords: ["Photoisk", "사진", "인생샷", "AI", "인공지능", "사진공유", "사진찍기"],
   robots: 'index, follow',
@@ -38,12 +43,13 @@ export const metadata: Metadata = {
     icon: "/Logo.png",
   },
   metadataBase: new URL("https://photoisk.com"),
-};
-
-export const viewport: Metadata = {
   viewport: "width=device-width, initial-scale=1",
 };
 
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF",
+  
+};
 
 const pretendardBold = localFont({
   src: '../../public/Pretendard-Bold.otf',

@@ -66,3 +66,5 @@ public/test.png
 # prisma build files 
 prisma/*
 !prisma/schema.prisma
+
+public/sw.js

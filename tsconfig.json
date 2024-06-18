@@ -3,7 +3,8 @@
     "lib": [
       "dom",
       "dom.iterable",
-      "esnext"
+      "esnext",
+      "webworker"
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -29,15 +30,20 @@
         "./prisma/index"
       ]
     },
+    "types": [
+      "@serwist/next/typings"
+    ],
     "forceConsistentCasingInFileNames": true
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/sw.js",
   ],
   "exclude": [
+    "public/sw.js",
     "node_modules"
   ]
 }
