@@ -8,6 +8,7 @@ type Props = {
   disabled?: boolean
   direction: "row" | "column"
   icon: React.ReactNode
+  className?: string
 }
 
 const buttonStyle = {
@@ -21,10 +22,10 @@ const iconStyle = {
   'column': "button_icon-col",
 }
 
-function IconButton({ label, size, onClick, disabled, direction, icon }: Props) {
+function IconButton({ label, size, onClick, disabled, direction, icon, className }: Props) {
 
   return (
-    <button disabled={disabled} className={`${buttonStyle[size]} ${iconStyle[direction]}`} onClick={onClick}>
+    <button disabled={disabled} className={`${buttonStyle[size]} ${iconStyle[direction]} ${className}`} onClick={onClick}>
       <>{icon}</>
       <div>{label}</div>
     </button>

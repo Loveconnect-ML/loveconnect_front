@@ -45,13 +45,19 @@ function MainCard({ }: Props) {
   useEffect(() => {
     async function fetchCreateUser() {
       if (isSignedIn) {
-        const res = await fetch("/api/user", {
-          method: "GET",
-        });
-        if (res.status !== 200) {
+        try {
+          const res = await fetch("/api/user", {
+            method: "GET",
+          });
+        } catch (error) {
+          console.error(error);
           toast.error("로그인에 문제가 발생했습니다. 다시 시도해주세요.");
           signOut();
         }
+        // if (res.status !== 200) {
+        //   toast.error("로그인에 문제가 발생했습니다. 다시 시도해주세요.");
+        //   signOut();
+        // }
       }
     }
     fetchCreateUser();
