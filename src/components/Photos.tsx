@@ -48,11 +48,11 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
   }
 
   return (
-    <div className="grid grid-cols-5 w-full h-32">
+    <div className="grid grid-cols-5 w-full h-fit">
       {imageUrls?.map((url, index) => (
         <button
           key={index}
-          className={`${selections?.includes(url) ? "border-4 border-black" : ""
+          className={`${selections?.includes(url) ? "border-4 border-indigo-500" : ""
             }`}
           onClick={download ? () => {
             toggleResponseIdx(index)
