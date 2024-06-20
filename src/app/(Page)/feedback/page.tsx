@@ -1,7 +1,9 @@
 "use client"
+import KakaoAdFit from '@/components/KakaoAdFit'
 import { Loading } from '@/components/Loading'
 import Photos from '@/components/Photos'
-import Button from '@/components/v2/buttons/Button'
+import { Button } from '@/components/ui/button'
+import CircleLoading from '@/components/v2/loadings/CircleLoading'
 import WaveBackground from '@/components/WaveBackground'
 import WebcamComponent from '@/components/WebcamComponent'
 import WebcamProvider, { useWebcamContext } from '@/components/WebcamProvider'
@@ -13,8 +15,6 @@ import { toast } from 'react-hot-toast'
 type Props = {}
 
 function Feedback({ }: Props) {
-
-  const router = useRouter();
 
   const { imageUrls, setPoseUrl } = useWebcamContext();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
@@ -62,30 +62,43 @@ function Feedback({ }: Props) {
     <>
       <WebcamComponent mode='pose' />
       <WaveBackground />
-      <div className="relative flex flex-col gap-8 justify-center items-center w-full h-full sm:w-[500px] bg-white py-16">
-        <h1 className="text-xl font-PretendardBold text-center">이미지를 생성하여 포즈를 취해보세요!</h1>
-        <textarea
-          value={poseDescription}
-          onChange={(e) => setPoseDescription(e.target.value)}
-          placeholder="포즈를 묘사해주세요"
-          className="w-[90%] h-32 p-4 border-2 font-PretendardRegular border-gray-300 rounded-md resize-none"
-        ></textarea>
-        <Photos
-          selections={selectedImages}
-          setSelections={setSelectedImages}
-          imageUrls={imageUrls}
-        />
-        {loading ? (
-          <Loading />
-        ) : null}
-        <div className='flex justify-center items-center bg-white h-full pb-16'>
-          <Button
-            className="font-PretendardSemiBold bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md"
-            size='lg'
-            disabled={loading}
-            onClick={onClickToGeneratePose}
-            label='포즈 생성하기'
-          />
+      <div className="relative w-full h-full sm:w-[500px] bg-indigo-200 pb-16">
+        <div className="w-full flex justify-center my-4">
+          <KakaoAdFit />
+        </div>
+        <div className='flex flex-col gap-8 justify-center items-center'>
+          <div className="pb-20 rounded-t-3xl shadow-[0px_-0.5px_gray] flex flex-col justify-center w-full h-full bg-white">
+            <div className="text-start ml-[5%] text-md sm:text-xl font-PretendardBold pt-8 text-indigo-600">
+              AI 포즈 생성
+            </div>
+            <div className="text-start ml-[5%] text-sm sm:text-md font-PretendardRegular pt-1 pb-4">
+              원하는 포즈를 생성하여 사진을 찍어주세요!
+            </div>
+            <textarea
+              value={poseDescription}
+              onChange={(e) => setPoseDescription(e.target.value)}
+              placeholder="포즈를 묘사해주세요"
+              className="mx-auto w-[90%] h-32 p-4 border-2 font-PretendardRegular border-gray-300 rounded-md resize-none"
+            ></textarea>
+            <Photos
+              selections={selectedImages}
+              setSelections={setSelectedImages}
+              imageUrls={imageUrls}
+              download={true}
+            />
+            {loading ? (
+              <CircleLoading />
+            ) : null}
+            <div className='relative flex justify-center items-center bg-white w-full pb-16'>
+              <Button
+                className="absolute left-1/2 -translate-x-1/2 bottom-4 w-[90%] sm:w-[432px]"
+                disabled={loading}
+                onClick={onClickToGeneratePose}
+              >
+                포즈 생성하기
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </>

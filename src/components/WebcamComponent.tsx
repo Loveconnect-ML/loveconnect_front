@@ -75,7 +75,7 @@ function WebcamComponent({ mode }: Props) {
                 alt="pose"
                 className="w-full h-full object-cover"
               />
-            </div> : <div className="z-50 absolute text-white flex items-center justify-center left-4 top-4 w-36 h-36 bg-black bg-opacity-30">
+            </div> : <div className="z-50 absolute text-white flex items-center justify-center text-center left-4 top-4 w-24 h-24 break-keep bg-black bg-opacity-30 text-xs">
               이곳에 생성된 포즈가 나타납니다
             </div>
           }
