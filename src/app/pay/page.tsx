@@ -23,15 +23,16 @@ function PayPage({ }: Props) {
                 },
             ],
             customer: {
-                email: "customer@email.com" // email of your current logged in user
+                email: "" // email of your current logged in user
             },
             customData: {
                 // other custom metadata you want to pass
             },
             settings: {
-                // settings like successUrl and theme
-            }
+                
+            },
         });
+        paddle?.Spinner.show();
     };
 
     return (
