@@ -48,19 +48,28 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
   }
 
   return (
-    <div className="grid grid-cols-5 w-full h-fit">
+    <div className="grid grid-cols-5 gap-2 w-full h-fit p-5">
       {imageUrls?.map((url, index) => (
         <button
           key={index}
-          className={`${selections?.includes(url) ? "border-4 border-indigo-500" : ""
+          className={`${selections?.includes(url) ? "border-4 border-indigo-300 rounded-xl" : "rounded-xl"
             }`}
           onClick={download ? () => {
             toggleResponseIdx(index)
             downloadImage(url)
           } : () => onClickToToggleSelect(url)}
         >
-          <Image src={`${url}`} width={500} height={500} alt={`webcam-${index}`} />
+          <Image
+            className={`rounded-xl shadow-md`}
+            src={`${url}`}
+            width={500}
+            height={500}
+            alt={`webcam-${index}`}
+          />
         </button>
+      ))}
+      {imageUrls && [...Array(5 - imageUrls.length)].map((_, index) => (
+        <div key={index} className="w-[88px] h-30 bg-gray-200 rounded-xl shadow-md"></div>
       ))}
     </div>
   );

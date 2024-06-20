@@ -43,12 +43,19 @@ export const metadata: Metadata = {
     icon: "/Logo.png",
   },
   metadataBase: new URL("https://photoisk.com"),
-  viewport: "width=device-width, initial-scale=1",
 };
 
 export const viewport: Viewport = {
   themeColor: "#FFFFFF",
-  
+  initialScale: 1,
+  minimumScale: 1,
+  maximumScale: 1,
+  width: "device-width",
+  height: "device-height",
+  viewportFit: "cover",
+  interactiveWidget: "resizes-content",
+  userScalable: false,
+  colorScheme: "normal"
 };
 
 const pretendardBold = localFont({

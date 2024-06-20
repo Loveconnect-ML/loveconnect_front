@@ -42,7 +42,7 @@ function Layout({ children }: Props) {
           {paths.map((path, index) => (
             <Link href={path.pathname} key={index}>
               <IconButton
-                className={path.pathname === pathname ? "bg-gray-400 text-white px-2 rounded-lg py-1" : "px-2 rounded-lg py-1"}
+                className={path.pathname === pathname ? "text-indigo-500 px-2 rounded-lg py-1" : "px-2 rounded-lg py-1"}
                 size="md"
                 direction="column"
                 icon={data[index].icon}

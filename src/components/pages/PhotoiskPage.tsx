@@ -134,13 +134,15 @@ function PhotoiskPage({ }: Props) {
   return (
     <>
       <WaveBackground />
-      <div className="relative w-full h-full sm:w-[500px] bg-white pb-16">
+      <div className="relative w-full h-full sm:w-[500px] bg-indigo-200 pb-16">
         <div className="w-full flex justify-center my-4">
           <KakaoAdFit />
         </div>
-        <div className="pb-16 bg-white">
-
-          <div className="text-center text-md sm:text-xl font-PretendardBold pt-8 pb-4">
+        <div className="pb-16 rounded-t-3xl bg-white shadow-[0px_-0.5px_gray]">
+          <div className="text-start ml-[5%] text-md sm:text-xl font-PretendardBold pt-8 text-indigo-600">  
+            AI 사진 변환
+          </div>
+          <div className="text-start ml-[5%] text-sm sm:text-md font-PretendardRegular pt-1 pb-4">
             사진 촬영 후 AI로 변환할 이미지를 선택해주세요!
           </div>
           <Photos
@@ -149,10 +151,10 @@ function PhotoiskPage({ }: Props) {
             imageUrls={imageUrls}
           />
 
-          {selectedImages?.length > 0 && (
-            <div className="text-center text-md sm:text-xl font-PretendardBold pt-8 flex flex-col items-center">
+          {selectedImages?.length > 0 && response?.length == 0 && (
+            <div className="text-center text-md sm:text-xl font-PretendardMedium pt-8 flex flex-col items-center justify-center">
               <div>페이지 끝에 있는 이미지 생성 버튼을 눌러주세요!</div>
-              <motion.div animate={{ y: [0, 5, 0, -5, 0] }} transition={{ duration: 1, repeat: Infinity }} className="text-center text-md sm:text-xl font-PretendardBold py-4">
+              <motion.div animate={{ y: [0, 2.5, 0, -2.5, 0] }} transition={{ duration: 1, repeat: Infinity }} className="text-center text-md sm:text-xl font-PretendardBold py-4"> 
                 <ArrowBigDown size={32} />
               </motion.div>
             </div>
@@ -171,7 +173,7 @@ function PhotoiskPage({ }: Props) {
               <p>최대 3분이 걸릴 수 있습니다...</p>
             </div>
           )}
-          <div className="relative bg-white pt-20">
+          <div className="relative bg-transparent pt-20">
             {response && response.length > 0 && (
               <Dialog>
                 <DialogTrigger asChild>

@@ -8,7 +8,7 @@ function MyPage({}: Props) {
 
   return (
     <>
-      <div>준비중입니다...</div>
+      <div className='my-auto text-center'>서비스 준비중입니다...</div>
     </>
   )
 }
