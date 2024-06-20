@@ -6,6 +6,7 @@ type Props = {
   size: "sm" | "md" | "lg"
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
   disabled?: boolean
+  className?: string
 }
 
 const buttonStyle = {
@@ -14,10 +15,10 @@ const buttonStyle = {
   'lg': "button-lg",
 }
 
-function Button({ label, size, onClick, disabled }: Props) {
+function Button({ label, size, onClick, disabled, className }: Props) {
   
   return (
-    <button disabled={disabled} className={buttonStyle[size]} onClick={onClick}>
+    <button disabled={disabled} className={`${className} ${buttonStyle[size]}`} onClick={onClick}>
       {label}
     </button>
   )

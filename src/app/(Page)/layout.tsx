@@ -19,7 +19,7 @@ const data = [
   },
   {
     icon: <EyeIcon size={32} />,
-    label: "사진 피드백",
+    label: "포즈 가이드",
     pathname: "/feedback",
   },
   {

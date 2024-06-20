@@ -10,7 +10,7 @@ const withSerwist = withSerwistInit({
 
 const nextConfig = {
   images: {
-    domains: ['b22wobhlmya1ixv3.public.blob.vercel-storage.com'],
+    domains: ['b22wobhlmya1ixv3.public.blob.vercel-storage.com', "oaidalleapiprodscus.blob.core.windows.net"],
   },
 };
 

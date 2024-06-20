@@ -8,11 +8,15 @@ type Props = {
 interface ContextType {
   imageUrls: string[];
   setImageUrls: any;
+  poseUrl: string;
+  setPoseUrl: any;
 }
 
 const WebcamContext = createContext<ContextType>({
   imageUrls: [],
   setImageUrls: () => {},
+  poseUrl: "",
+  setPoseUrl: () => {},
 });
 
 export function useWebcamContext() {
@@ -22,9 +26,10 @@ export function useWebcamContext() {
 
 function WebcamProvider({ children }: Props) {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
-
+  const [poseUrl, setPoseUrl] = useState<string>("");
+  
   return (
-    <WebcamContext.Provider value={{ imageUrls, setImageUrls }}>
+    <WebcamContext.Provider value={{ imageUrls, setImageUrls, poseUrl, setPoseUrl }}>
       {children}
     </WebcamContext.Provider>
   );
