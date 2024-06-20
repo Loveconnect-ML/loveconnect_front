@@ -69,7 +69,7 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
         </button>
       ))}
       {imageUrls && [...Array(5 - imageUrls.length)].map((_, index) => (
-        <div key={index} className="w-[88px] h-30 bg-gray-200 rounded-xl shadow-md"></div>
+        <div key={index} className="w-full sm:w-[88px] h-30 bg-gray-200 rounded-xl shadow-md"></div>
       ))}
     </div>
   );
