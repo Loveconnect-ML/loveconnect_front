@@ -23,7 +23,7 @@ function PayPage({ }: Props) {
                 },
             ],
             customer: {
-                email: "" // email of your current logged in user
+                email: "user@photoisk.com" // email of your current logged in user
             },
             customData: {
                 // other custom metadata you want to pass
