@@ -7,9 +7,11 @@ import { useWebcamContext } from "./WebcamProvider";
 import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 
-type Props = {};
+type Props = {
+  mode?: "general" | "pose";
+};
 
-function WebcamComponent({ }: Props) {
+function WebcamComponent({ mode }: Props) {
   const { imageUrls, setImageUrls, poseUrl, setPoseUrl } = useWebcamContext();
   const [mirrored, setMirrored] = useState(true);
   const [videoConstraints, setVideoConstraints] = useState({
@@ -62,19 +64,23 @@ function WebcamComponent({ }: Props) {
         screenshotFormat="image/png"
         videoConstraints={videoConstraints}
       />
-      {poseUrl !== "" ?
-        <div className="z-50 absolute left-4 top-4 w-36 h-36">
-          <Image
-            width={600}
-            height={600}
-            src={poseUrl}
-            alt="pose"
-            className="w-full h-full object-cover"
-          />
-        </div> : <div className="z-50 absolute text-white flex items-center justify-center left-4 top-4 w-36 h-36 bg-black bg-opacity-30">
-          이곳에 생성된 포즈가 나타납니다
-        </div>
-      }
+      {mode === "pose" && (
+        <>
+          {poseUrl !== "" ?
+            <div className="z-50 absolute left-4 top-4 w-24 h-24">
+              <Image
+                width={600}
+                height={600}
+                src={poseUrl}
+                alt="pose"
+                className="w-full h-full object-cover"
+              />
+            </div> : <div className="z-50 absolute text-white flex items-center justify-center left-4 top-4 w-36 h-36 bg-black bg-opacity-30">
+              이곳에 생성된 포즈가 나타납니다
+            </div>
+          }
+        </>
+      )}
       <button className="absolute w-fit border-white border-4 z-30 top-8 right-8 p-2 bg-gray-800 text-white rounded-full" onClick={flipCamera}>
         <SwitchCameraIcon size={24} />
       </button>

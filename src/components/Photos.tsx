@@ -56,7 +56,7 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
             }`}
           onClick={download ? () => {
             toggleResponseIdx(index)
-            // downloadImage(url)
+            downloadImage(url)
           } : () => onClickToToggleSelect(url)}
         >
           <Image src={`${url}`} width={500} height={500} alt={`webcam-${index}`} />

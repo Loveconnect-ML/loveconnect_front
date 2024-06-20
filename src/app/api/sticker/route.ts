@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
   const gender = gptResponse.choices[0].message.content as string;
 
   const gptReponseForDetailed = await openai.chat.completions.create({
-    model: "gpt-4o-2024-05-13",
+    model: "gpt-4o",
     messages: [
       {
         role: "system",

@@ -1,5 +1,6 @@
 "use client"
 import { Loading } from '@/components/Loading'
+import Photos from '@/components/Photos'
 import Button from '@/components/v2/buttons/Button'
 import WaveBackground from '@/components/WaveBackground'
 import WebcamComponent from '@/components/WebcamComponent'
@@ -15,7 +16,9 @@ function Feedback({ }: Props) {
 
   const router = useRouter();
 
-  const { setPoseUrl } = useWebcamContext();
+  const { imageUrls, setPoseUrl } = useWebcamContext();
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+
 
   const [, setImageUrl] = useState<string>("");
   const [poseDescription, setPoseDescription] = useState<string>("");
@@ -57,7 +60,7 @@ function Feedback({ }: Props) {
 
   return (
     <>
-      <WebcamComponent />
+      <WebcamComponent mode='pose' />
       <WaveBackground />
       <div className="relative flex flex-col gap-8 justify-center items-center w-full h-full sm:w-[500px] bg-white py-16">
         <h1 className="text-xl font-PretendardBold text-center">이미지를 생성하여 포즈를 취해보세요!</h1>
@@ -67,6 +70,11 @@ function Feedback({ }: Props) {
           placeholder="포즈를 묘사해주세요"
           className="w-[90%] h-32 p-4 border-2 font-PretendardRegular border-gray-300 rounded-md resize-none"
         ></textarea>
+        <Photos
+          selections={selectedImages}
+          setSelections={setSelectedImages}
+          imageUrls={imageUrls}
+        />
         {loading ? (
           <Loading />
         ) : null}
