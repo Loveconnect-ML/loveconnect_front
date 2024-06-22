@@ -2,7 +2,6 @@
 import { CameraIcon, SwitchCameraIcon } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
-import Webcam from "react-webcam";
 import { useWebcamContext } from "../../WebcamProvider";
 import { Camera } from "react-camera-pro";
 import { motion, useAnimate } from "framer-motion";
@@ -22,7 +21,6 @@ const defaultErrorMessages = {
 
 function WebcamComponent({ mode }: Props) {
   const { imageUrls, setImageUrls, poseUrl, setPoseUrl } = useWebcamContext();
-  const [mirrored, setMirrored] = useState(true);
   const [facingMode, setFacingMode] = useState<"user" | "environment">("user");
   const [scope, animate] = useAnimate();
 
@@ -30,7 +28,7 @@ function WebcamComponent({ mode }: Props) {
 
   const flipCamera = useCallback(() => {
     const flip = facingMode === "user" ? "environment" : "user";
-    setFacingMode(flip);
+    setFacingMode((prev) => flip);
   }, [facingMode, setFacingMode]);
 
   // 웹캠 사진 캡쳐
@@ -58,7 +56,9 @@ function WebcamComponent({ mode }: Props) {
         className="absolute w-full h-full z-10"
       >
       </div>
-      <Camera errorMessages={defaultErrorMessages} facingMode={facingMode} ref={webcamRef} aspectRatio={16 / 9} />;
+      <div className="z-1 w-full h-[calc(100vh-64px)] aspect-portrait">
+        <Camera errorMessages={defaultErrorMessages} facingMode={facingMode} ref={webcamRef} aspectRatio={9 / 16} />
+      </div>
       {mode === "pose" && (
         <>
           {poseUrl !== "" ?
@@ -80,7 +80,7 @@ function WebcamComponent({ mode }: Props) {
         <SwitchCameraIcon size={32} />
       </button>
       <button
-        className="absolute w-fit border-white border-4 z-30 bottom-24 left-0 right-0 mx-auto p-2 bg-gray-800 text-white rounded-full"
+        className="absolute w-fit border-white border-4 z-30 bottom-8 left-0 right-0 mx-auto p-2 bg-gray-800 text-white rounded-full"
         onClick={capture}
       >
         <CameraIcon size={32} />
