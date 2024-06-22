@@ -28,6 +28,9 @@ const config = {
         "IBMPlexSansKRSemiBold": ["IBMPlexSansKRSemiBold", "sans-serif"],
         "TTHakgyoansimUndongjangL": ["TTHakgyoansimUndongjangL", "sans-serif"],
       },
+      aspectRatio: {
+        "portrait": "9 / 16",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
