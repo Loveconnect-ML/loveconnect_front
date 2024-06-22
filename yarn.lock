@@ -1503,6 +1503,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/webrtc@npm:0.0.25":
+  version: 0.0.25
+  resolution: "@types/webrtc@npm:0.0.25"
+  checksum: 10c0/7d7653bf0a2318e62e6b0953d4a532adf6591bc00c533f02e0200cf94ee74d0c22a683203b98de4d1655be5f427a8f1b9935104ea44f820e96807735159db475
+  languageName: node
+  linkType: hard
+
 "@types/yargs-parser@npm:*":
   version: 21.0.3
   resolution: "@types/yargs-parser@npm:21.0.3"
@@ -2681,6 +2688,13 @@ __metadata:
   version: 1.1.0
   resolution: "detect-node-es@npm:1.1.0"
   checksum: 10c0/e562f00de23f10c27d7119e1af0e7388407eb4b06596a25f6d79a360094a109ff285de317f02b090faae093d314cf6e73ac3214f8a5bb3a0def5bece94557fbe
+  languageName: node
+  linkType: hard
+
+"detectrtc@npm:^1.3.9":
+  version: 1.4.1
+  resolution: "detectrtc@npm:1.4.1"
+  checksum: 10c0/d679dba7d9eaceacd0b4c09ec8e97f2987d6435f650c6d1b23484cf8f4fcf96a12864bf4b8e9826aef660fcaea3af0860d11f1efe55d1bd1249fa02401f57c33
   languageName: node
   linkType: hard
 
@@ -5560,6 +5574,7 @@ __metadata:
     postcss: "npm:^8"
     prisma: "npm:5.10.2"
     react: "npm:^18"
+    react-camera-pro: "npm:^1.4.0"
     react-dom: "npm:^18"
     react-hot-toast: "npm:^2.4.1"
     react-use-measure: "npm:^2.1.1"
@@ -5816,6 +5831,20 @@ __metadata:
   version: 5.1.1
   resolution: "quick-lru@npm:5.1.1"
   checksum: 10c0/a24cba5da8cec30d70d2484be37622580f64765fb6390a928b17f60cd69e8dbd32a954b3ff9176fa1b86d86ff2ba05252fae55dc4d40d0291c60412b0ad096da
+  languageName: node
+  linkType: hard
+
+"react-camera-pro@npm:^1.4.0":
+  version: 1.4.0
+  resolution: "react-camera-pro@npm:1.4.0"
+  dependencies:
+    "@types/webrtc": "npm:0.0.25"
+    detectrtc: "npm:^1.3.9"
+  peerDependencies:
+    react: ^18.3.1
+    react-dom: ^18.3.1
+    styled-components: ^5.1.34
+  checksum: 10c0/68da26c620b67420dc9e07838bb9f72c7e80cfee375e3cabed3693a49a22413277979f00c60b35889ffa000de4e4005ba03a678a31cf4bfdc0eee16b31cfefc5
   languageName: node
   linkType: hard
 
