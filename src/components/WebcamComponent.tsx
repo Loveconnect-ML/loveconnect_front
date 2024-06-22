@@ -15,8 +15,8 @@ function WebcamComponent({ mode }: Props) {
   const { imageUrls, setImageUrls, poseUrl, setPoseUrl } = useWebcamContext();
   const [mirrored, setMirrored] = useState(true);
   const [videoConstraints, setVideoConstraints] = useState({
-    width: 600,
-    height: 800,
+    width: 500,
+    height: 700,
     facingMode: "user",
   });
   const [scope, animate] = useAnimate();
@@ -48,18 +48,18 @@ function WebcamComponent({ mode }: Props) {
 
 
   return (
-    <div className="relative z-20 h-full">
+    <div className="relative z-50 h-full bg-indigo-200">
       <div
         ref={scope}
         className="absolute w-full h-full z-10"
       >
       </div>
       <Webcam
-        className="aboslute z-20 object-cover h-full aspect-portrait"
+        className="aboslute z-20 object-cover h-full pb-16 aspect-portrait"
         mirrored={mirrored}
         audio={false}
-        width={600}
-        height={800}
+        width={500}
+        height={700}
         ref={webcamRef}
         screenshotFormat="image/png"
         videoConstraints={videoConstraints}
@@ -82,13 +82,13 @@ function WebcamComponent({ mode }: Props) {
         </>
       )}
       <button className="absolute w-fit border-white border-4 z-30 top-8 right-8 p-2 bg-gray-800 text-white rounded-full" onClick={flipCamera}>
-        <SwitchCameraIcon size={24} />
+        <SwitchCameraIcon size={32} />
       </button>
       <button
-        className="absolute w-fit border-white border-4 z-30 bottom-8 left-0 right-0 mx-auto p-2 bg-gray-800 text-white rounded-full"
+        className="absolute w-fit border-white border-4 z-30 bottom-24 left-0 right-0 mx-auto p-2 bg-gray-800 text-white rounded-full"
         onClick={capture}
       >
-        <CameraIcon size={24} />
+        <CameraIcon size={32} />
       </button>
     </div>
   );
