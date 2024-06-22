@@ -55,7 +55,7 @@ function WebcamComponent({ mode }: Props) {
       >
       </div>
       <Webcam
-        className="aboslute z-20"
+        className="aboslute z-20 object-cover h-full aspect-portrait"
         mirrored={mirrored}
         audio={false}
         width={600}
