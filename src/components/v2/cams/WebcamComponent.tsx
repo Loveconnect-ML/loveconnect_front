@@ -56,11 +56,19 @@ function WebcamComponent({ mode }: Props) {
       >
       </div>
       <div className="z-1 w-full h-[calc(100vh-64px)] aspect-portrait">
-        <Camera
-          errorMessages={defaultErrorMessages}
-          facingMode={isUserMode ? "user" : "environment"}
-          ref={webcamRef}
-        />
+        {isUserMode ? (
+          <Camera
+            errorMessages={defaultErrorMessages}
+            facingMode={"user"}
+            ref={webcamRef}
+          />
+        ): (
+          <Camera
+            errorMessages={defaultErrorMessages}
+            facingMode={"environment"}
+            ref={webcamRef}
+          />
+        )}
       </div>
       {mode === "pose" && (
         <>
