@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+import ImageComponent from "next/image";
 import React from "react";
 
 type Props = {
@@ -32,13 +32,27 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
     }
   };
 
-  const downloadImage = (url: string) => {
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = url.split("/").pop() || "download";
-    a.target = '_blank';
-    a.click();
-  }
+  const flipAndDownload = (image: any) => {
+    if (!image) return;
+
+    const canvas = document.createElement('canvas');
+    const img = new Image();
+    img.src = image;
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx?.translate(img.width, 0);
+      ctx?.scale(-1, 1);
+      ctx?.drawImage(img, 0, 0);
+      const flippedDataUrl = canvas.toDataURL('image/png');
+      const a = document.createElement('a');
+      a.href = flippedDataUrl;
+      a.download = flippedDataUrl.split("/").pop() || "download";
+      a.target = '_blank';
+      a.click();
+    };
+  };
 
   const toggleResponseIdx = (idx: number) => {
     if (!setResponseIdx) {
@@ -56,11 +70,11 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
             }`}
           onClick={download ? () => {
             toggleResponseIdx(index)
-            downloadImage(url)
+            flipAndDownload(url)
           } : () => onClickToToggleSelect(url)}
         >
-          <Image
-            className={`rounded-xl shadow-md`}
+          <ImageComponent
+            className={`rounded-xl shadow-md scale-x-[-1]`}
             src={`${url}`}
             width={500}
             height={500}

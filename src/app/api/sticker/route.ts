@@ -3,6 +3,7 @@ import OpenAI from "openai";
 import Replicate from "replicate";
 import { put } from "@vercel/blob";
 import prisma from "@/utils/prisma";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
@@ -15,6 +16,18 @@ export const dynamic = "force-dynamic";
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const { image } = body;
+
+  const { userId } = auth();
+
+  if (!userId) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const user = await currentUser();
+
+  const foundUser = await prisma?.user.findFirst({
+      where: { email: user?.emailAddresses[0]?.emailAddress! },
+  });
 
   function b64toBlob(b64Data: string, contentType = "") {
     const image_data = atob(b64Data.split(",")[1]);
@@ -148,6 +161,7 @@ export async function POST(request: NextRequest) {
       url: originalUrl,
       gender: gender,
       filename: originalFileName,
+      userId: foundUser?.id,
     },
   });
 
@@ -156,6 +170,7 @@ export async function POST(request: NextRequest) {
       url: url,
       gender: gender,
       filename: filename,
+      userId: foundUser?.id,
     },
   });
 
