@@ -21,13 +21,13 @@ const defaultErrorMessages = {
 
 function WebcamComponent({ mode }: Props) {
   const { imageUrls, setImageUrls, poseUrl, setPoseUrl } = useWebcamContext();
-  const [facingMode, setFacingMode] = useState<"user" | "environment">("user");
+  const [isUserMode, setIsUserMode] = useState(true);
   const [scope, animate] = useAnimate();
 
   const webcamRef = useRef<any>(null);
 
   const flipCamera = () => {
-    setFacingMode((prev) => (prev === "user" ? "environment" : "user"));
+    setIsUserMode((prev) => !prev);
   }
 
   // 웹캠 사진 캡쳐
@@ -56,7 +56,11 @@ function WebcamComponent({ mode }: Props) {
       >
       </div>
       <div className="z-1 w-full h-[calc(100vh-64px)] aspect-portrait">
-        <Camera errorMessages={defaultErrorMessages} facingMode={facingMode} ref={webcamRef} aspectRatio={9 / 16} />
+        <Camera
+          errorMessages={defaultErrorMessages}
+          facingMode={isUserMode ? "user" : "environment"}
+          ref={webcamRef}
+        />
       </div>
       {mode === "pose" && (
         <>
