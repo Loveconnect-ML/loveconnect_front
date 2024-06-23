@@ -20,13 +20,14 @@ const defaultErrorMessages = {
 }
 
 function WebcamComponent({ mode }: Props) {
-  const { imageUrls, setImageUrls, poseUrl, setPoseUrl } = useWebcamContext();
+  const { imageUrls, setImageUrls, poseUrl, setIsUserMode } = useWebcamContext();
   const [scope, animate] = useAnimate();
 
   const webcamRef = useRef<any>(null);
 
   const flipCamera = () => {
     webcamRef.current.switchCamera()
+    setIsUserMode((prev: boolean) => !prev);
   }
 
   // 웹캠 사진 캡쳐
