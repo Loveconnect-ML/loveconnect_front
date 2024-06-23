@@ -16,7 +16,7 @@ type Props = {}
 
 function Feedback({ }: Props) {
 
-  const { imageUrls, setPoseUrl } = useWebcamContext();
+  const { imageUrls, setPoseUrl, isUserMode } = useWebcamContext();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
 
@@ -81,6 +81,7 @@ function Feedback({ }: Props) {
               className="mx-auto w-[90%] h-32 p-4 border-2 font-PretendardRegular border-gray-300 rounded-md resize-none"
             ></textarea>
             <Photos
+              isUserMode={isUserMode}
               selections={selectedImages}
               setSelections={setSelectedImages}
               imageUrls={imageUrls}

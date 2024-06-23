@@ -8,9 +8,10 @@ type Props = {
   setSelections?: (selections: string[]) => void;
   download?: boolean;
   setResponseIdx?: (responseIdx: number) => void;
+  isUserMode?: boolean;
 };
 
-function Photos({ setResponseIdx, imageUrls, setSelections, selections, download }: Props) {
+function Photos({ setResponseIdx, imageUrls, setSelections, selections, download, isUserMode }: Props) {
   if (!imageUrls) {
     return null;
   }
@@ -42,8 +43,12 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
       canvas.width = img.width;
       canvas.height = img.height;
       const ctx = canvas.getContext('2d');
-      ctx?.translate(img.width, 0);
-      ctx?.scale(-1, 1);
+
+      if (isUserMode) {
+        ctx?.translate(img.width, 0);
+        ctx?.scale(-1, 1);
+      }
+      
       ctx?.drawImage(img, 0, 0);
       const flippedDataUrl = canvas.toDataURL('image/png');
       const a = document.createElement('a');
