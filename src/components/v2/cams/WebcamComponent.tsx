@@ -26,10 +26,9 @@ function WebcamComponent({ mode }: Props) {
 
   const webcamRef = useRef<any>(null);
 
-  const flipCamera = useCallback(() => {
-    const flip = facingMode === "user" ? "environment" : "user";
-    setFacingMode((prev) => flip);
-  }, [facingMode, setFacingMode]);
+  const flipCamera = () => {
+    setFacingMode((prev) => (prev === "user" ? "environment" : "user"));
+  }
 
   // 웹캠 사진 캡쳐
   const capture = useCallback(() => {
