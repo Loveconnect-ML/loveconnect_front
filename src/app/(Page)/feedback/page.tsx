@@ -86,9 +86,12 @@ function Feedback({ }: Props) {
               imageUrls={imageUrls}
               download={true}
             />
-            {loading ? (
-              <CircleLoading />
-            ) : null}
+            {loading && (
+              <div className="w-full gap-8 flex flex-col items-center justify-center">
+                <CircleLoading />
+                <p>최대 3분이 걸릴 수 있습니다...</p>
+              </div>
+            )}
             <div className='relative flex justify-center items-center bg-white w-full pb-16'>
               <Button
                 className="absolute left-1/2 -translate-x-1/2 bottom-4 w-[90%] sm:w-[432px]"
