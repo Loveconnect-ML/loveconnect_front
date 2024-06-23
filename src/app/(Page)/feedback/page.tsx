@@ -11,6 +11,8 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import { toast } from 'react-hot-toast'
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import Link from 'next/link'
 
 type Props = {}
 
@@ -18,6 +20,7 @@ function Feedback({ }: Props) {
 
   const { imageUrls, setPoseUrl, isUserMode } = useWebcamContext();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [popup, setPopup] = useState<boolean>(false);
 
 
   const [, setImageUrl] = useState<string>("");
@@ -32,7 +35,24 @@ function Feedback({ }: Props) {
       return;
     }
 
+
     try {
+
+      const res = await fetch("/api/v2/payLimit", {
+        method: "GET",
+      });
+
+      const limit = await res.json();
+
+      if (!limit.available) {
+        setPopup(true);
+        toast("이미지 생성 횟수를 초과하였습니다. 결제 후 이용해주세요.", {
+          icon: "🔒",
+        });
+        return;
+      }
+
+
       setLoading(true);
       const image = await fetch("/api/v2/ai/img", {
         method: "POST",
@@ -104,6 +124,29 @@ function Feedback({ }: Props) {
             </div>
           </div>
         </div>
+
+        {popup && (
+          <Dialog open={popup} onOpenChange={setPopup}>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>유료 서비스</DialogTitle>
+              </DialogHeader>
+              <div className="text-start font-PretendardMedium text-md break-keep leading-7">
+                더 많은 이미지를 생성하시려면 결제가 필요합니다.
+              </div>
+              <DialogFooter>
+                <DialogClose
+                  onClick={() => setPopup(false)}
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 h-10 w-full rounded-md"
+                >
+                  <Link href={"/pay"} target="_blank">
+                    결제하기
+                  </Link>
+                </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
     </>
   )

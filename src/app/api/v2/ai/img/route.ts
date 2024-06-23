@@ -1,9 +1,36 @@
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
 
 const openai = new OpenAI();
 
 export async function POST(req: Request) {
+
+    const { userId } = auth();
+
+    if (!userId) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const user = await currentUser();
+
+    if (!user) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const limit = await prisma?.user.findFirst({
+        where: { email: user?.emailAddresses[0]?.emailAddress! },
+        select: { paymentsCount: true }
+    });
+
+
+    if (!limit) {
+        return NextResponse.json({ error: "Something went wrong" }, { status: 500 });
+    }
+
+    if (limit.paymentsCount <= 0) {
+        return NextResponse.json({ error: "Payment limit exceeded" }, { status: 402 });
+    }
 
     const { prompt } = await req.json();
 
@@ -22,6 +49,12 @@ export async function POST(req: Request) {
     });
 
     const imgUrl = imgResponse.data[0].url;
+
+
+    await prisma?.user.update({
+        where: { email: user?.emailAddresses[0]?.emailAddress! },
+        data: { paymentsCount: limit.paymentsCount - 1 }
+    });
 
     return NextResponse.json({
         url: imgUrl
