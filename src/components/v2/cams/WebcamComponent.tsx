@@ -57,8 +57,10 @@ function WebcamComponent({ mode }: Props) {
       <div className="z-1 w-full h-[calc(100vh-64px)] aspect-portrait">
         <Camera
           ref={webcamRef}
+          width={1080}
+          height={1920}
           screenshotQuality={1}
-          imageSmoothing={true}
+          imageSmoothing={false}
           audio={false}
           videoConstraints={{
             facingMode: isUserMode ? "user" : "environment",
