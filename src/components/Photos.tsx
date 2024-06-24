@@ -48,7 +48,7 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
         ctx?.translate(img.width, 0);
         ctx?.scale(-1, 1);
       }
-
+      
       ctx?.drawImage(img, 0, 0);
       const flippedDataUrl = canvas.toDataURL('image/png');
       const a = document.createElement('a');
@@ -79,7 +79,7 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
           } : () => onClickToToggleSelect(url)}
         >
           <ImageComponent
-            className={`rounded-xl shadow-md `} //${isUserMode ? "scale-x-[-1]" : ""}
+            className={`rounded-xl shadow-md ${isUserMode ? "scale-x-[-1]" : ""}`}
             src={`${url}`}
             width={500}
             height={500}

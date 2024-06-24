@@ -3,7 +3,7 @@ import { CameraIcon, SwitchCameraIcon } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useWebcamContext } from "../../WebcamProvider";
-import Camera from "react-webcam";
+import { Camera } from "react-camera-pro-with-torch";
 import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 
@@ -20,12 +20,13 @@ const defaultErrorMessages = {
 }
 
 function WebcamComponent({ mode }: Props) {
-  const { imageUrls, setImageUrls, poseUrl, setIsUserMode, isUserMode } = useWebcamContext();
+  const { imageUrls, setImageUrls, poseUrl, setIsUserMode } = useWebcamContext();
   const [scope, animate] = useAnimate();
 
   const webcamRef = useRef<any>(null);
 
   const flipCamera = () => {
+    webcamRef.current.switchCamera()
     setIsUserMode((prev: boolean) => !prev);
   }
 
@@ -37,7 +38,7 @@ function WebcamComponent({ mode }: Props) {
       return;
     }
 
-    const imageSrc = webcamRef.current.getScreenshot();
+    const imageSrc = webcamRef.current.takePhoto();
     animate(scope.current, { backgroundColor: ["rgba(0, 0, 0, 1)", "rgba(0, 0, 0, 0)"], transition: { duration: 0.1 } });
     if (!imageSrc) return;
     if (!imageUrls) return;
@@ -56,17 +57,9 @@ function WebcamComponent({ mode }: Props) {
       </div>
       <div className="z-1 w-full h-[calc(100vh-64px)] aspect-portrait">
         <Camera
+          errorMessages={defaultErrorMessages}
           ref={webcamRef}
-          width={1080}
-          height={1920}
-          screenshotQuality={1}
-          imageSmoothing={false}
-          audio={false}
-          videoConstraints={{
-            facingMode: isUserMode ? "user" : "environment",
-          }}
-          mirrored={isUserMode}
-          screenshotFormat="image/png"
+          pictureQuality={1}
         />
       </div>
       {mode === "pose" && (
