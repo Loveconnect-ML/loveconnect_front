@@ -60,7 +60,7 @@ function WebcamComponent({ mode }: Props) {
           errorMessages={defaultErrorMessages}
           ref={webcamRef}
           pictureQuality={1}
-        // facingMode={isUserMode ? "front" : ""}
+          facingMode={"front"}
         />
       </div>
       {mode === "pose" && (
