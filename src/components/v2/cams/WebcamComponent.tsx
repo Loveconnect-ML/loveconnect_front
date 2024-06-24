@@ -26,7 +26,7 @@ function WebcamComponent({ mode }: Props) {
   const webcamRef = useRef<any>(null);
 
   const flipCamera = () => {
-    // webcamRef.current.switchCamera()
+    webcamRef.current.switchCamera()
     setIsUserMode((prev: boolean) => !prev);
   }
 
@@ -60,8 +60,7 @@ function WebcamComponent({ mode }: Props) {
           errorMessages={defaultErrorMessages}
           ref={webcamRef}
           pictureQuality={1}
-          facingMode={isUserMode ? "front" : "back"}
-          aspectRatio={9 / 16}
+        // facingMode={isUserMode ? "front" : ""}
         />
       </div>
       {mode === "pose" && (
