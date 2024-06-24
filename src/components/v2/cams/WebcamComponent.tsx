@@ -3,7 +3,7 @@ import { CameraIcon, SwitchCameraIcon } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useWebcamContext } from "../../WebcamProvider";
-import { Camera } from "react-camera-pro-with-torch";
+import Camera from "react-webcam";
 import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 
@@ -57,10 +57,15 @@ function WebcamComponent({ mode }: Props) {
       </div>
       <div className="z-1 w-full h-[calc(100vh-64px)] aspect-portrait">
         <Camera
-          errorMessages={defaultErrorMessages}
           ref={webcamRef}
-          pictureQuality={1}
-          facingMode={"front"}
+          screenshotQuality={1}
+          imageSmoothing={true}
+          audio={false}
+          videoConstraints={{
+            facingMode: isUserMode ? "user" : "environment",
+          }}
+          mirrored={isUserMode}
+          screenshotFormat="image/png"
         />
       </div>
       {mode === "pose" && (
