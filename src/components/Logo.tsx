@@ -1,14 +1,21 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
-import LogoImage from "/public/Logo.png";
+// import LogoImage from "/public/Logo.png";
+import LogoImage from "/public/NEW_LOGO.svg";
 
 type Props = {};
 
-function Logo({}: Props) {
+function Logo({ }: Props) {
   return (
-    <div className="w-16 h-16 invisible sm:visible">
-      <Image src={LogoImage} alt="SSCC" className="w-full h-full" />
-    </div>
+    <Link href={"/"}>
+      <button className="flex gap-2 w-8 h-8">
+        <Image src={LogoImage} alt="SSCC" className="w-full h-full" />
+        <div className="font-TTHakgyoansimUndongjangL bg-gradient-to-r from-red-600 to-indigo-400 inline-block text-transparent bg-clip-text invisible sm:visible">
+          PHOTOisk
+        </div>
+      </button>
+    </Link>
   );
 }
 
