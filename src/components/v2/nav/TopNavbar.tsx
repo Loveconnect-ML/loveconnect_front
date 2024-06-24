@@ -21,9 +21,6 @@ function TopNavbar({ }: Props) {
             className="z-20 flex items-center text-xl sm:text-3xl w-full"
         >
             <Logo />
-            <div className="font-TTHakgyoansimUndongjangL bg-gradient-to-r from-red-600 to-indigo-400 inline-block text-transparent bg-clip-text">
-                PHOTOisk
-            </div>
             <Button className="ml-auto" variant="ghost">
                 <Link
                     href={"https://www.instagram.com/sscc_ssu"}
