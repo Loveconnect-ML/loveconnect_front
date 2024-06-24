@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     url: 'https://photoisk.com',
     images: [
       {
-        url: '/Logo.png',
+        url: '/Logo192.png',
         alt: 'Photoisk',
         type: 'image/png',
         width: '500',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     ]
   },
   icons: {
-    icon: "/Logo.png",
+    icon: "/Logo192.png",
   },
   metadataBase: new URL("https://photoisk.com"),
 };
