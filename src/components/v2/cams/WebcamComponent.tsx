@@ -26,7 +26,6 @@ function WebcamComponent({ mode }: Props) {
   const webcamRef = useRef<any>(null);
 
   const flipCamera = () => {
-    webcamRef.current.switchCamera()
     setIsUserMode((prev: boolean) => !prev);
   }
 
@@ -38,7 +37,7 @@ function WebcamComponent({ mode }: Props) {
       return;
     }
 
-    const imageSrc = webcamRef.current.takePhoto();
+    const imageSrc = webcamRef.current.getScreenshot();
     animate(scope.current, { backgroundColor: ["rgba(0, 0, 0, 1)", "rgba(0, 0, 0, 0)"], transition: { duration: 0.1 } });
     if (!imageSrc) return;
     if (!imageUrls) return;
