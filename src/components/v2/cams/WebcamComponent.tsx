@@ -3,7 +3,7 @@ import { CameraIcon, SwitchCameraIcon } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { useWebcamContext } from "../../WebcamProvider";
-import { Camera } from "react-camera-pro";
+import { Camera } from "react-camera-pro-with-torch";
 import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 
@@ -59,6 +59,7 @@ function WebcamComponent({ mode }: Props) {
         <Camera
           errorMessages={defaultErrorMessages}
           ref={webcamRef}
+          pictureQuality={1}
         />
       </div>
       {mode === "pose" && (
