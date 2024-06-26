@@ -11,8 +11,8 @@
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -24,14 +24,15 @@
     ],
     "paths": {
       "@/*": [
-        "./src/*"
+        "./src/*",
       ],
       "@prisma": [
         "./prisma/index"
       ]
     },
     "types": [
-      "@serwist/next/typings"
+      "@serwist/next/typings",
+      "kakao.maps.d.ts"
     ],
     "forceConsistentCasingInFileNames": true
   },
@@ -40,7 +41,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/sw.js",
   ],
   "exclude": [
     "public/sw.js",
