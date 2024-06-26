@@ -65,6 +65,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/runtime@npm:^7.22.15":
+  version: 7.24.7
+  resolution: "@babel/runtime@npm:7.24.7"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 10c0/b6fa3ec61a53402f3c1d75f4d808f48b35e0dfae0ec8e2bb5c6fc79fb95935da75766e0ca534d0f1c84871f6ae0d2ebdd950727cfadb745a2cdbef13faef5513
+  languageName: node
+  linkType: hard
+
 "@clerk/backend@npm:1.2.2":
   version: 1.2.2
   resolution: "@clerk/backend@npm:1.2.2"
@@ -4743,6 +4752,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"kakao.maps.d.ts@npm:^0.1.39, kakao.maps.d.ts@npm:^0.1.40":
+  version: 0.1.40
+  resolution: "kakao.maps.d.ts@npm:0.1.40"
+  checksum: 10c0/16eef0d9846311921ae3c5c020a8769ab8d1f894b2a6f1aef869a83648462982c2891bc8ea174665345290483bf73feb6ae264273cee38a40a1adbb17aa6862f
+  languageName: node
+  linkType: hard
+
 "keyv@npm:^4.0.0, keyv@npm:^4.5.3":
   version: 4.5.4
   resolution: "keyv@npm:4.5.4"
@@ -5621,6 +5637,7 @@ __metadata:
     eslint-config-next: "npm:14.1.0"
     form-data: "npm:^4.0.0"
     framer-motion: "npm:^11.0.6"
+    kakao.maps.d.ts: "npm:^0.1.40"
     lucide-react: "npm:^0.331.0"
     next: "npm:14.1.0"
     next-qrcode: "npm:^2.5.1"
@@ -5632,6 +5649,7 @@ __metadata:
     react-camera-pro: "npm:^1.4.0"
     react-dom: "npm:^18"
     react-hot-toast: "npm:^2.4.1"
+    react-kakao-maps-sdk: "npm:^1.1.27"
     react-use-measure: "npm:^2.1.1"
     react-webcam: "npm:^7.2.0"
     recoil: "npm:^0.7.7"
@@ -5950,6 +5968,19 @@ __metadata:
   version: 18.2.0
   resolution: "react-is@npm:18.2.0"
   checksum: 10c0/6eb5e4b28028c23e2bfcf73371e72cd4162e4ac7ab445ddae2afe24e347a37d6dc22fae6e1748632cd43c6d4f9b8f86dcf26bf9275e1874f436d129952528ae0
+  languageName: node
+  linkType: hard
+
+"react-kakao-maps-sdk@npm:^1.1.27":
+  version: 1.1.27
+  resolution: "react-kakao-maps-sdk@npm:1.1.27"
+  dependencies:
+    "@babel/runtime": "npm:^7.22.15"
+    kakao.maps.d.ts: "npm:^0.1.39"
+  peerDependencies:
+    react: ^16.8 || ^17 || ^18
+    react-dom: ^16.8 || ^17 || ^18
+  checksum: 10c0/1cc0dd855f1b8c0ba3d089ada352ecab8569d5a6cd9344baebc3161cf64d0670ff633a422636289e549b42da6b38997ddb7a4d3ddf6b616f93f9b2e96e04eae1
   languageName: node
   linkType: hard
 
