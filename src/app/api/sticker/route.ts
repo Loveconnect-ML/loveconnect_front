@@ -15,7 +15,7 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { image, prompt = "" } = body;
+  const { image, prompt } = body;
 
   const { userId } = auth();
 
@@ -126,32 +126,35 @@ export async function POST(request: NextRequest) {
   });
 
   // 턱수염이 조금 있고 뒷 배경의 색감이 알록달록 하면 좋겠어.
+  let detailedPrompt = null;
 
-  const detailedPrompt = await openai.chat.completions.create({
-    model: "gpt-4o",
-    messages: [
-      {
-        role: "system",
-        content: `
-
-        <context>
-          output format is string only with just one words separated by comma.
-          IMPORTANT: OUTPUT SHOULD BE WRITTEN IN ENGLISH.
-          example
-          - a person, white blouse, long hair, glasses, smiling
-        </context>
-
-        <instruction>
-          Rewrite the input texts in detail.
-        </instruction>
-        `,
-      },
-      {
-        role: "user",
-        content: prompt,
-      },
-    ],
-  });
+  if (prompt) {
+    detailedPrompt = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        {
+          role: "system",
+          content: `
+  
+          <context>
+            output format is string only with just one words separated by comma.
+            IMPORTANT: OUTPUT SHOULD BE WRITTEN IN ENGLISH.
+            example
+            - a person, white blouse, long hair, glasses, smiling
+          </context>
+  
+          <instruction>
+            Rewrite the input texts in detail.
+          </instruction>
+          `,
+        },
+        {
+          role: "user",
+          content: prompt,
+        },
+      ],
+    });
+  }
 
   const description = gptReponseForDetailed.choices[0].message
     .content as string;
