@@ -15,18 +15,18 @@ export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { image } = body;
+  const { image, prompt = "" } = body;
 
   const { userId } = auth();
 
   if (!userId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const user = await currentUser();
 
   const foundUser = await prisma?.user.findFirst({
-      where: { email: user?.emailAddresses[0]?.emailAddress! },
+    where: { email: user?.emailAddresses[0]?.emailAddress! },
   });
 
   function b64toBlob(b64Data: string, contentType = "") {
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
 
   const blob = b64toBlob(image, contentType);
 
-  const originalFileName = `original_${Date.now()}.png`
+  const originalFileName = `original_${Date.now()}.png`;
   const { url: originalUrl } = await put(originalFileName, blob, {
     access: "public",
   });
@@ -125,6 +125,34 @@ export async function POST(request: NextRequest) {
     ],
   });
 
+  // 턱수염이 조금 있고 뒷 배경의 색감이 알록달록 하면 좋겠어.
+
+  const detailedPrompt = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages: [
+      {
+        role: "system",
+        content: `
+
+        <context>
+          output format is string only with just one words separated by comma.
+          IMPORTANT: OUTPUT SHOULD BE WRITTEN IN ENGLISH.
+          example
+          - a person, white blouse, long hair, glasses, smiling
+        </context>
+
+        <instruction>
+          Rewrite the input texts in detail.
+        </instruction>
+        `,
+      },
+      {
+        role: "user",
+        content: prompt,
+      },
+    ],
+  });
+
   const description = gptReponseForDetailed.choices[0].message
     .content as string;
 
@@ -134,7 +162,9 @@ export async function POST(request: NextRequest) {
       image: image,
       width: 600,
       height: 800,
-      prompt: `(masterpiece), (detailed), frontal face, ID photo, ${gender}, ${description}`,
+      prompt: `(masterpiece), (detailed), frontal face, ID photo, ${gender}, ${description}, ${
+        prompt == "" ? "" : detailedPrompt
+      }`,
       seed: 1491407637,
       upscale_steps: 10,
       negative_prompt:
@@ -150,7 +180,7 @@ export async function POST(request: NextRequest) {
 
   const imageFile = await fetch(imageUrl).then((res) => res.blob());
 
-  const filename = `img_${Date.now()}.png`
+  const filename = `img_${Date.now()}.png`;
 
   const { url } = await put(filename, imageFile, {
     access: "public",

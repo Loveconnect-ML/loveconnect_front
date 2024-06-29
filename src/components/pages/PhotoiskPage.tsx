@@ -4,29 +4,27 @@ import { useWebcamContext } from "../WebcamProvider";
 import { Button } from "../ui/button";
 import Photos from "../Photos";
 import WaveBackground from "../WaveBackground";
-import { Loading } from "../Loading";
 import { useQRCode } from "next-qrcode";
 import { motion } from "framer-motion";
 import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowBigDown, EyeIcon, LinkIcon, ScanFaceIcon, User2Icon } from "lucide-react";
+import { ArrowBigDown, LinkIcon } from "lucide-react";
 import { toast } from "react-hot-toast";
 import KakaoAdFit from "../KakaoAdFit";
 import CircleLoading from "../v2/loadings/CircleLoading";
 
 type Props = {};
 // 밝은 조명에서 하면 더 잘 나옴, 정면 얼굴이 가장 잘 나옴
-function PhotoiskPage({ }: Props) {
+function PhotoiskPage({}: Props) {
   const { Canvas } = useQRCode();
 
   const router = useRouter();
@@ -36,6 +34,7 @@ function PhotoiskPage({ }: Props) {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [additionalDecoPrompt, setAdditionalDecoPrompt] = useState<string>("");
 
   const [responseIdx, setResponseIdx] = useState(0);
 
@@ -65,8 +64,7 @@ function PhotoiskPage({ }: Props) {
     setClickedCount((prev) => prev + 1);
     setLoading(false);
     setClicked(false);
-
-  }
+  };
 
   const onClickToRetouchImage = async (e: any) => {
     e.preventDefault();
@@ -103,33 +101,45 @@ function PhotoiskPage({ }: Props) {
   };
 
   const generateImage = async () => {
-
     for (const image of selectedImages) {
       const res = await fetch("/api/sticker", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          image: image,
-        }),
+        body:
+          additionalDecoPrompt === ""
+            ? JSON.stringify({
+                image: image,
+              })
+            : JSON.stringify({
+                image: image,
+                prompt: additionalDecoPrompt,
+              }),
       });
 
       try {
         const data = await res.json();
         setResponse((prev: any) => [...prev, data]);
       } catch (e) {
-        toast.error("이미지 생성에 실패했습니다. 새로고침 후 다시 시도해주세요.");
+        toast.error(
+          "이미지 생성에 실패했습니다. 새로고침 후 다시 시도해주세요."
+        );
         window.location.reload();
       }
     }
-  }
+  };
 
+  const handleAdditionalDecoPrompt = (e: any) => {
+    setAdditionalDecoPrompt(e.target.value);
+  };
 
   const copyUrl = () => {
-    navigator.clipboard.writeText(`https://photoisk.com/output?image=${response?.[responseIdx]}`)
-    toast.success("공유링크가 복사되었습니다")
-  }
+    navigator.clipboard.writeText(
+      `https://photoisk.com/output?image=${response?.[responseIdx]}`
+    );
+    toast.success("공유링크가 복사되었습니다");
+  };
 
   return (
     <>
@@ -138,13 +148,19 @@ function PhotoiskPage({ }: Props) {
         <div className="w-full flex justify-center my-4">
           <KakaoAdFit />
         </div>
-        <div className="pb-16 rounded-t-3xl bg-white shadow-[0px_-0.5px_gray]">
-          <div className="text-start ml-[5%] text-md sm:text-xl font-PretendardBold pt-8 text-indigo-600">  
+        <div className="flex flex-col pb-16 rounded-t-3xl bg-white shadow-[0px_-0.5px_gray]">
+          <div className="text-start ml-[5%] text-md sm:text-xl font-PretendardBold pt-8 text-indigo-600">
             AI 사진 변환
           </div>
           <div className="text-start ml-[5%] text-sm sm:text-md font-PretendardRegular pt-1 pb-4">
             사진 촬영 후 AI로 변환할 이미지를 선택해주세요!
           </div>
+          <textarea
+            value={additionalDecoPrompt}
+            onChange={handleAdditionalDecoPrompt}
+            placeholder="꾸미고 싶은 요소를 추가해보세요"
+            className="mx-auto w-[90%] h-32 p-4 border-2 font-PretendardRegular border-gray-300 rounded-md resize-none"
+          ></textarea>
           <Photos
             selections={selectedImages}
             setSelections={setSelectedImages}
@@ -154,7 +170,11 @@ function PhotoiskPage({ }: Props) {
           {selectedImages?.length > 0 && response?.length == 0 && (
             <div className="text-center text-md sm:text-xl font-PretendardMedium pt-8 flex flex-col items-center justify-center">
               <div>페이지 끝에 있는 이미지 생성 버튼을 눌러주세요!</div>
-              <motion.div animate={{ y: [0, 2.5, 0, -2.5, 0] }} transition={{ duration: 1, repeat: Infinity }} className="text-center text-md sm:text-xl font-PretendardBold py-4"> 
+              <motion.div
+                animate={{ y: [0, 2.5, 0, -2.5, 0] }}
+                transition={{ duration: 1, repeat: Infinity }}
+                className="text-center text-md sm:text-xl font-PretendardBold py-4"
+              >
                 <ArrowBigDown size={32} />
               </motion.div>
             </div>
@@ -162,9 +182,11 @@ function PhotoiskPage({ }: Props) {
 
           <Photos
             download={true}
-            imageUrls={response?.map((res: any) => {
-              return `https://${process.env.NEXT_PUBLIC_STORAGE_DOMAIN}/${res}`;
-            }) || null}
+            imageUrls={
+              response?.map((res: any) => {
+                return `https://${process.env.NEXT_PUBLIC_STORAGE_DOMAIN}/${res}`;
+              }) || null
+            }
             setResponseIdx={setResponseIdx}
           />
           {loading && (
@@ -236,13 +258,15 @@ function PhotoiskPage({ }: Props) {
                 </DialogContent>
               </Dialog>
             )}
-            {response && response.length > 0 ? <Button
-              disabled={clicked}
-              onClick={onClickToRegenerateImage}
-              className="absolute left-8 bottom-4 w-[40%] sm:w-[200px] bg-white text-black hover:bg-primary hover:text-white border-2 border-primary"
-            >
-              이미지 재생성
-            </Button> : (
+            {response && response.length > 0 ? (
+              <Button
+                disabled={clicked}
+                onClick={onClickToRegenerateImage}
+                className="absolute left-8 bottom-4 w-[40%] sm:w-[200px] bg-white text-black hover:bg-primary hover:text-white border-2 border-primary"
+              >
+                이미지 재생성
+              </Button>
+            ) : (
               <Button
                 disabled={clicked}
                 onClick={onClickToRetouchImage}

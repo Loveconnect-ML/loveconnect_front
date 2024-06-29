@@ -2,7 +2,7 @@
 import Logo from "@/components/Logo";
 import CircleLoading from "@/components/v2/loadings/CircleLoading";
 import { Smile, User, X } from "lucide-react";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 // import useKakaoLoader from "../../../hooks/useKakaoLoader";
 import { Map } from "react-kakao-maps-sdk";
@@ -10,9 +10,38 @@ import { Map } from "react-kakao-maps-sdk";
 type Props = {};
 
 function MainPage({}: Props) {
-  //   useKakaoLoader();
+  //   useKakaoLoader()
 
+  const [places, setPlaces] = useState<any>(null); // TourResponse[]
   const [drawer, setDrawer] = useState(true);
+
+  useLayoutEffect(() => {
+    async function init() {
+      const response = await fetch("/api/v2/tour", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          TYPE: "event",
+          numOfRows: 10,
+          pageNo: 1,
+          listYN: "Y",
+          arrange: "A",
+          eventStartDate: "20240627",
+        }),
+      });
+
+      const { message } = (await response.json()) as {
+        message: TourEventResponse;
+      };
+
+      setPlaces(message.response.body.items.item[0] as any);
+      console.log(message.response.body.items.item[0].title);
+    }
+
+    init();
+  }, []);
 
   const toggleDrawer = () => {
     if (!drawer) {
@@ -39,18 +68,26 @@ function MainPage({}: Props) {
       <div className="z-20 absolute top-3 left-3">
         <Logo />
       </div>
-      <Map
-        className="z-10"
-        center={{
-          lat: 37.5665,
-          lng: 126.978,
-        }}
-        style={{
-          width: "500px",
-          height: "100vh",
-        }}
-        level={3}
-      />
+      {places ? (
+        <Map
+          className="z-10"
+          center={{
+            lng: places?.mapx,
+            lat: places?.mapy,
+          }}
+          style={{
+            width: "500px",
+            height: "100vh",
+          }}
+          level={3}
+        />
+      ) : (
+        <div className="w-full h-full bg-gray-200">
+          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <CircleLoading />
+          </div>
+        </div>
+      )}
       {/* MOCK DATA */}
       {drawer ? (
         <div className="absolute bottom-0 z-20 border-t border-x border-gray-700 w-full h-72 rounded-t-3xl bg-white">

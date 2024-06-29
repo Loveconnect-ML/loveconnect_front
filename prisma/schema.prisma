@@ -6,12 +6,12 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "./"
+  output   = "./"
 }
 
 datasource db {
   provider = "postgresql"
-  url = env("POSTGRES_PRISMA_URL") 
+  url      = env("POSTGRES_PRISMA_URL")
 }
 
 model Original {
@@ -35,21 +35,32 @@ model Generated {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  password  String
-  email     String   @unique  
-  name      String  
+  id            Int      @id @default(autoincrement())
+  password      String
+  email         String   @unique
+  name          String
   paymentsCount Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Payments {
+  id        Int      @id @default(autoincrement())
+  payName   String
+  email     String   @unique
+  amount    Int
+  userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Payments {
-  id          Int      @id @default(autoincrement())
-  payName     String
-  email       String  @unique  
-  amount      Int
-  userId      Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+model PlaceForRec {
+  id              Int      @id @default(autoincrement())
+  isHotplace      Boolean?
+  isAdvertisement Boolean?
+  title           String
+  description     String
+  contentTypeId   Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 }
