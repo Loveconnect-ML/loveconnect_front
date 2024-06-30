@@ -5,7 +5,7 @@ import CircleLoading from "@/components/v2/loadings/CircleLoading";
 import { useGeo } from "@/hooks/useGeo";
 import { FilePlus, MapIcon, PlusCircle, User, X } from "lucide-react";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 // import useKakaoLoader from "../../../hooks/useKakaoLoader";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
@@ -67,7 +67,7 @@ function MainPage({}: Props) {
           description: "",
           isAdvertisement: false,
           isHotplace: true,
-          overview: "오류가 발생하였습니다.",
+          overview: "오류가 발생하였습니다. 새로고침 후 다시 시도해주세요.",
           title: "오류",
           url: "",
           x: location?.longitude as number,
@@ -91,6 +91,23 @@ function MainPage({}: Props) {
 
     setDrawer(!drawer);
   };
+
+  useLayoutEffect(() => {
+    addEventListener("fetch", (event: any) => {
+      event.respondWith(
+        (async function () {
+          // Respond from the cache if we can
+          const cachedResponse = await caches.match(event.request);
+          if (cachedResponse) return cachedResponse;
+          // Else, use the preloaded response, if it's there
+          const response = await event.preloadResponse;
+          if (response) return response;
+          // Else try the network.
+          return fetch(event.request);
+        })()
+      );
+    });
+  }, []);
 
   const toggleDiary = async () => {
     toast("일기 작성 기능은 준비중입니다", {
@@ -225,18 +242,13 @@ function MainPage({}: Props) {
             <div className="text-start absolute top-[54px] left-6 text-sm sm:text-md font-PretendardRegular">
               {places
                 ? "주변 사람들과 함께 추천 장소에서 놀아보세요!"
-                : "버튼을 클릭하면 현재 위치 기반으로 추천 장소를 찾아드릴게요"}
+                : "현재 위치 기반으로 추천 장소를 찾아드릴게요"}
             </div>
             {places ? (
               <div className="absolute flex gap-6 top-24 h-full left-6 text-sm sm:text-md font-PretendardRegular">
                 <div>
                   {places?.url && (
-                    <Image
-                      src={places?.url}
-                      alt="place"
-                      width={128}
-                      height={128}
-                    />
+                    <Image src={places?.url} alt="" width={128} height={128} />
                   )}
                 </div>
                 <div className="flex flex-col gap-3 w-72 h-32">

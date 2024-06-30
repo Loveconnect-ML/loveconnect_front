@@ -247,7 +247,7 @@ export async function POST(req: Request) {
     const result = responseGPT.choices[0].message.content as string;
     const idx = parseInt(result);
 
-    const ret = promptForGPT[idx] || sortedList[0];
+    const ret = promptForGPT[idx] || promptForGPT[0];
 
     const responseForImg = await fetch(
       `http://apis.data.go.kr/B551011/KorService1/detailImage1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=ETC&MobileApp=Photoisk&_type=json&numOfRows=10&pageNo=1&contentId=${ret.contentId}&imageYN=Y&subImageYN=Y`,
