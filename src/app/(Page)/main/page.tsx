@@ -2,12 +2,13 @@
 import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import CircleLoading from "@/components/v2/loadings/CircleLoading";
+import { useGeo } from "@/hooks/useGeo";
 import { FilePlus, MapIcon, PlusCircle, User, X } from "lucide-react";
 import Image from "next/image";
 import React, { useLayoutEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 // import useKakaoLoader from "../../../hooks/useKakaoLoader";
-import { Map } from "react-kakao-maps-sdk";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 type Props = {};
 
@@ -29,8 +30,19 @@ function MainPage({}: Props) {
   const [drawer, setDrawer] = useState(true);
   const [diaryPage, setDiaryPage] = useState(false);
 
+  const [initial, setInitial] = useState(true);
+
+  const [posX, setPosX] = useState(126.9783882);
+  const [posY, setPosY] = useState(37.5666103);
+
+  const { error, location } = useGeo();
+
   useLayoutEffect(() => {
     async function init() {
+      if (!initial) {
+        return;
+      }
+
       const response = await fetch("/api/v2/tour ", {
         method: "POST",
         headers: {
@@ -40,16 +52,17 @@ function MainPage({}: Props) {
           TYPE: "recommend",
           contentTypeId: 14,
           raidus: 200,
-          mapX: 126.9783882,
-          mapY: 37.5666103,
+          mapX: location?.longitude,
+          mapY: location?.latitude,
         }),
       });
 
       const { message } = await response.json();
 
-      console.log(message);
+      // console.log(message);
 
       setPlaces(message);
+      setInitial((prev) => !prev);
     }
 
     init();
@@ -163,7 +176,20 @@ function MainPage({}: Props) {
             height: "100vh",
           }}
           level={3}
-        />
+          onCenterChanged={(e) => {
+            const latlng = e.getCenter();
+
+            setPosX(latlng.getLng());
+            setPosY(latlng.getLat());
+          }}
+        >
+          <MapMarker
+            position={{
+              lng: places?.x,
+              lat: places?.y,
+            }}
+          />
+        </Map>
       ) : (
         <div className="w-full h-full bg-gray-200">
           <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2">
@@ -181,35 +207,39 @@ function MainPage({}: Props) {
             <div className="text-start absolute top-[52px] left-6 text-sm sm:text-md font-PretendardRegular">
               리스트를 확인하고 주변 친구와 놀러가볼까요?
             </div>
-            {/* <div className="absolute left-1/2 -translate-x-1/2 top-28">
-              <CircleLoading />
-            </div> */}
-            <div className="absolute flex gap-6 top-24 h-full left-6 text-sm sm:text-md font-PretendardRegular">
-              <div>
-                {places?.url && (
-                  <Image
-                    src={places?.url}
-                    alt="place"
-                    width={128}
-                    height={128}
-                  />
-                )}
-              </div>
-              <div className="flex flex-col gap-3 w-72 h-32">
-                <div className="">
-                  <div className="font-PretendardBold text-md sm:text-lg">
-                    {places?.title}
+            {places ? (
+              <div className="absolute flex gap-6 top-24 h-full left-6 text-sm sm:text-md font-PretendardRegular">
+                <div>
+                  {places?.url && (
+                    <Image
+                      src={places?.url}
+                      alt="place"
+                      width={128}
+                      height={128}
+                    />
+                  )}
+                </div>
+                <div className="flex flex-col gap-3 w-72 h-32">
+                  <div className="">
+                    <div className="font-PretendardBold text-md sm:text-lg">
+                      {places?.title}
+                    </div>
+                    <div className="font-PretendardMedium text-sm sm:text-md">
+                      {places?.description}
+                    </div>
                   </div>
-                  <div className="font-PretendardMedium text-sm sm:text-md">
-                    {places?.description}
+                  <div className="font-PretendardRegular text-xs sm:text-sm w-full h-36 overflow-y-scroll">
+                    {places?.overview}
                   </div>
                 </div>
-                <div className="font-PretendardRegular text-xs sm:text-sm w-full h-36 overflow-y-scroll">
-                  {places?.overview}
-                </div>
               </div>
-            </div>
+            ) : (
+              <div className="absolute left-1/2 -translate-x-1/2 top-28">
+                <CircleLoading />
+              </div>
+            )}
           </div>
+
           <div className="relative flex flex-col justify-center items-center">
             <button
               onClick={toggleDrawer}

@@ -96,8 +96,8 @@ export async function POST(req: Request) {
 
     let tour = null;
 
-    if (data.response.body.items?.item) {
-      tour = data.response.body.items?.item?.map((item) => {
+    if (data.response?.body.items?.item) {
+      tour = data.response?.body.items?.item?.map((item) => {
         return {
           isHotplace: false as boolean | null,
           isAdvertisement: false as boolean | null,
@@ -261,8 +261,8 @@ export async function POST(req: Request) {
     const dataForImg = await responseForImg.json();
 
     const url =
-      dataForImg.response.body.items.item[0].originimgurl ||
-      dataForImg.response.body.items.item[0].smallimageurl;
+      dataForImg.response?.body.items.item[0].originimgurl ||
+      dataForImg.response?.body.items.item[0].smallimageurl;
 
     return NextResponse.json({
       message: {
