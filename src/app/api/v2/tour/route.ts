@@ -173,7 +173,7 @@ export async function POST(req: Request) {
 
     if (sortedList.length === 0) {
       return NextResponse.json({
-        message: "No Data",
+        message: [],
       });
     }
 

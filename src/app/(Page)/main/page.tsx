@@ -5,7 +5,7 @@ import CircleLoading from "@/components/v2/loadings/CircleLoading";
 import { useGeo } from "@/hooks/useGeo";
 import { FilePlus, MapIcon, PlusCircle, User, X } from "lucide-react";
 import Image from "next/image";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 // import useKakaoLoader from "../../../hooks/useKakaoLoader";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
@@ -30,16 +30,15 @@ function MainPage({}: Props) {
   const [drawer, setDrawer] = useState(true);
   const [diaryPage, setDiaryPage] = useState(false);
 
-  const [initial, setInitial] = useState(true);
-
-  const [posX, setPosX] = useState(126.9783882);
-  const [posY, setPosY] = useState(37.5666103);
+  const [fetching, setFetching] = useState(false);
 
   const { error, location } = useGeo();
 
-  useLayoutEffect(() => {
+  const fetchPlaces = async () => {
+    setFetching(true);
+
     async function init() {
-      if (!initial) {
+      if (fetching) {
         return;
       }
 
@@ -59,14 +58,29 @@ function MainPage({}: Props) {
 
       const { message } = await response.json();
 
-      // console.log(message);
+      console.log(message);
 
-      setPlaces(message);
-      setInitial((prev) => !prev);
+      if (message.length === 0) {
+        setPlaces({
+          contentId: 0,
+          contentTypeId: 0,
+          description: "",
+          isAdvertisement: false,
+          isHotplace: true,
+          overview: "오류가 발생하였습니다.",
+          title: "오류",
+          url: "",
+          x: location?.longitude as number,
+          y: location?.latitude as number,
+        });
+      } else {
+        setPlaces(message);
+      }
+      setFetching(false);
     }
 
     init();
-  }, []);
+  };
 
   const toggleDrawer = () => {
     if (!drawer) {
@@ -178,9 +192,6 @@ function MainPage({}: Props) {
           level={3}
           onCenterChanged={(e) => {
             const latlng = e.getCenter();
-
-            setPosX(latlng.getLng());
-            setPosY(latlng.getLat());
           }}
         >
           <MapMarker
@@ -191,11 +202,18 @@ function MainPage({}: Props) {
           />
         </Map>
       ) : (
-        <div className="w-full h-full bg-gray-200">
-          <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2">
-            <CircleLoading />
-          </div>
-        </div>
+        <Map
+          className="z-10"
+          center={{
+            lng: location?.longitude as number,
+            lat: location?.latitude as number,
+          }}
+          style={{
+            width: "500px",
+            height: "100vh",
+          }}
+          level={3}
+        ></Map>
       )}
       {/* MOCK DATA */}
       {drawer ? (
@@ -204,8 +222,10 @@ function MainPage({}: Props) {
             <div className="text-start absolute top-6 left-6 text-md sm:text-xl font-PretendardBold text-indigo-600">
               오늘의 추천 장소에요
             </div>
-            <div className="text-start absolute top-[52px] left-6 text-sm sm:text-md font-PretendardRegular">
-              리스트를 확인하고 주변 친구와 놀러가볼까요?
+            <div className="text-start absolute top-[54px] left-6 text-sm sm:text-md font-PretendardRegular">
+              {places
+                ? "주변 사람들과 함께 추천 장소에서 놀아보세요!"
+                : "버튼을 클릭하면 현재 위치 기반으로 추천 장소를 찾아드릴게요"}
             </div>
             {places ? (
               <div className="absolute flex gap-6 top-24 h-full left-6 text-sm sm:text-md font-PretendardRegular">
@@ -228,15 +248,22 @@ function MainPage({}: Props) {
                       {places?.description}
                     </div>
                   </div>
-                  <div className="font-PretendardRegular text-xs sm:text-sm w-full h-36 overflow-y-scroll">
+                  <div className="font-PretendardRegular text-xs sm:text-sm w-full h-36 overflow-y-scroll scrollbar-hide">
                     {places?.overview}
                   </div>
                 </div>
               </div>
-            ) : (
+            ) : fetching ? (
               <div className="absolute left-1/2 -translate-x-1/2 top-28">
                 <CircleLoading />
               </div>
+            ) : (
+              <Button
+                onClick={fetchPlaces}
+                className="absolute top-40 self-center flex items-center justify-center w-4/5 h-10"
+              >
+                장소 추천 받기
+              </Button>
             )}
           </div>
 
