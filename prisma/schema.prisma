@@ -61,6 +61,9 @@ model PlaceForRec {
   title           String
   description     String
   contentTypeId   Int
+  contentId       Int
+  x               Float
+  y               Float
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
 }

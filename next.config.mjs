@@ -9,8 +9,9 @@ const withSerwist = withSerwistInit({
 });
 
 const nextConfig = {
+  reactStrictMode: false,
   images: {
-    domains: ['b22wobhlmya1ixv3.public.blob.vercel-storage.com', "oaidalleapiprodscus.blob.core.windows.net"],
+    domains: ['b22wobhlmya1ixv3.public.blob.vercel-storage.com', "oaidalleapiprodscus.blob.core.windows.net", "tong.visitkorea.or.kr"],
   },
 };
 

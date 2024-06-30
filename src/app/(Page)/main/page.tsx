@@ -3,6 +3,7 @@ import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import CircleLoading from "@/components/v2/loadings/CircleLoading";
 import { FilePlus, MapIcon, PlusCircle, User, X } from "lucide-react";
+import Image from "next/image";
 import React, { useLayoutEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 // import useKakaoLoader from "../../../hooks/useKakaoLoader";
@@ -13,33 +14,42 @@ type Props = {};
 function MainPage({}: Props) {
   //   useKakaoLoader()
 
-  const [places, setPlaces] = useState<any>(null); // TourResponse[]
+  const [places, setPlaces] = useState<{
+    isHotplace: boolean | null;
+    isAdvertisement: boolean | null;
+    title: string;
+    description: string;
+    contentTypeId: number;
+    contentId: number;
+    x: number;
+    y: number;
+    url: string;
+    overview: string;
+  } | null>(null); // TourResponse[]
   const [drawer, setDrawer] = useState(true);
   const [diaryPage, setDiaryPage] = useState(false);
 
   useLayoutEffect(() => {
     async function init() {
-      const response = await fetch("/api/v2/tour", {
+      const response = await fetch("/api/v2/tour ", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          TYPE: "event",
-          numOfRows: 10,
-          pageNo: 1,
-          listYN: "Y",
-          arrange: "A",
-          eventStartDate: "20240627",
+          TYPE: "recommend",
+          contentTypeId: 14,
+          raidus: 200,
+          mapX: 126.9783882,
+          mapY: 37.5666103,
         }),
       });
 
-      const { message } = (await response.json()) as {
-        message: TourEventResponse;
-      };
+      const { message } = await response.json();
 
-      setPlaces(message.response.body.items.item[0] as any);
-      console.log(message.response.body.items.item[0].title);
+      console.log(message);
+
+      setPlaces(message);
     }
 
     init();
@@ -62,7 +72,7 @@ function MainPage({}: Props) {
     setDiaryPage((prev) => !prev);
   };
 
-  const onClickToUploadImage = async (e: any) => {
+  const onClickToGenerateDiary = async (e: any) => {
     const file = e.target.files[0];
   };
 
@@ -145,8 +155,8 @@ function MainPage({}: Props) {
         <Map
           className="z-10"
           center={{
-            lng: places?.mapx,
-            lat: places?.mapy,
+            lng: places?.x,
+            lat: places?.y,
           }}
           style={{
             width: "500px",
@@ -163,19 +173,44 @@ function MainPage({}: Props) {
       )}
       {/* MOCK DATA */}
       {drawer ? (
-        <div className="absolute bottom-0 z-20 border-t-2 border-x-2 border-gray-700 w-full h-72 rounded-t-3xl bg-white">
+        <div className="absolute bottom-0 z-20 border-t-2 border-x-2 border-gray-700 w-full h-80 rounded-t-3xl bg-white">
           <div className="relative flex flex-col justify-center w-full bg-white">
             <div className="text-start absolute top-6 left-6 text-md sm:text-xl font-PretendardBold text-indigo-600">
               오늘의 추천 장소에요
             </div>
-            <div className="text-start absolute top-14 left-6 text-sm sm:text-md font-PretendardRegular">
+            <div className="text-start absolute top-[52px] left-6 text-sm sm:text-md font-PretendardRegular">
               리스트를 확인하고 주변 친구와 놀러가볼까요?
             </div>
-            <div className="absolute left-1/2 -translate-x-1/2 top-28">
+            {/* <div className="absolute left-1/2 -translate-x-1/2 top-28">
               <CircleLoading />
+            </div> */}
+            <div className="absolute flex gap-6 top-24 h-full left-6 text-sm sm:text-md font-PretendardRegular">
+              <div>
+                {places?.url && (
+                  <Image
+                    src={places?.url}
+                    alt="place"
+                    width={128}
+                    height={128}
+                  />
+                )}
+              </div>
+              <div className="flex flex-col gap-3 w-72 h-32">
+                <div className="">
+                  <div className="font-PretendardBold text-md sm:text-lg">
+                    {places?.title}
+                  </div>
+                  <div className="font-PretendardMedium text-sm sm:text-md">
+                    {places?.description}
+                  </div>
+                </div>
+                <div className="font-PretendardRegular text-xs sm:text-sm w-full h-36 overflow-y-scroll">
+                  {places?.overview}
+                </div>
+              </div>
             </div>
           </div>
-          <div className="relative w-full h-full flex flex-col justify-center items-center">
+          <div className="relative flex flex-col justify-center items-center">
             <button
               onClick={toggleDrawer}
               className="absolute top-3 right-3 flex items-center justify-center rounded-full bg-white w-10 h-10"
