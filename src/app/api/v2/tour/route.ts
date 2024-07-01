@@ -111,7 +111,11 @@ export async function POST(req: Request) {
       });
     }
 
+    console.log("tour", tour);
+
     const listForSort = tour?.concat(recommends || []) || recommends || [];
+
+    console.log("listForSort", listForSort);
 
     // 우선순위 결정 알고리즘
 
@@ -136,6 +140,8 @@ export async function POST(req: Request) {
       tertiaryList,
       quaternaryList
     );
+
+    console.log("sortedList", sortedList);
 
     const handler = async (item: any) => {
       const responseForOverview = await fetch(
@@ -169,9 +175,9 @@ export async function POST(req: Request) {
       promptForGPT.push(data);
     }
 
-    console.log(promptForGPT);
+    console.log("promptForGPT", promptForGPT);
 
-    if (sortedList.length === 0) {
+    if (promptForGPT.length === 0) {
       return NextResponse.json({
         message: [],
       });
