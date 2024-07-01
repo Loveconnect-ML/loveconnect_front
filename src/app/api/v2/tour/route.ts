@@ -20,12 +20,12 @@ export async function POST(req: Request) {
     arrange,
     eventStartDate,
     listYN,
-    numOfRows,
-    pageNo,
+    numOfRows = 10,
+    pageNo = 1,
     contentTypeId,
     mapX,
     mapY,
-    radius = 1000,
+    radius = 5000,
   } = body as TourEventRequest &
     TourPlaceBasedRequest & {
       TYPE: string;
@@ -259,9 +259,14 @@ export async function POST(req: Request) {
     });
 
     const result = responseGPT.choices[0].message.content as string;
+
+    console.log("result", result);
+
     const idx = parseInt(result);
 
     const ret = promptForGPT[idx] || promptForGPT[0];
+
+    console.log("ret", ret);
 
     const responseForImg = await fetch(
       `http://apis.data.go.kr/B551011/KorService1/detailImage1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=AND&MobileApp=Photoisk&_type=json&numOfRows=10&pageNo=1&contentId=${ret.contentId}&imageYN=Y&subImageYN=Y`,
@@ -274,9 +279,13 @@ export async function POST(req: Request) {
     );
     const dataForImg = await responseForImg.json();
 
+    console.log("dataForImg", dataForImg);
+
     const url =
       dataForImg.response?.body.items.item[0].originimgurl ||
       dataForImg.response?.body.items.item[0].smallimageurl;
+
+    console.log("url", url);
 
     return NextResponse.json({
       message: {
