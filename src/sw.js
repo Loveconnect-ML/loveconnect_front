@@ -20,7 +20,8 @@ import { CacheableResponsePlugin, NetworkFirst, Serwist } from "serwist";
 
 const serwist = new Serwist({
   precacheEntries: self.__SW_MANIFEST,
-  skipWaiting: false,
+  skipWaiting: true,
+  clientsClaim: true,
   navigationPreload: true,
   runtimeCaching: defaultCache,
 });
@@ -128,17 +129,17 @@ const serwist = new Serwist({
 //   }
 // });
 
-serwist.registerRoute(
-  ({ request }) => request.mode === 'navigate',
-  new NetworkFirst({
-    cacheName: 'pages',
-    plugins: [
-      new CacheableResponsePlugin({
-        statuses: [200],
-      }),
-    ],
-  })
-);
+// serwist.registerRoute(
+//   ({ request }) => request.mode === 'navigate',
+//   new NetworkFirst({
+//     cacheName: 'pages',
+//     plugins: [
+//       new CacheableResponsePlugin({
+//         statuses: [200],
+//       }),
+//     ],
+//   })
+// );
 // Enable navigation preload
 
 
