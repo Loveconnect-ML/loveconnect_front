@@ -81,18 +81,26 @@ export async function POST(req: Request) {
     });
 
     // const pageNo = Math.floor(Math.random() * 10) + 1;
+    let data = null;
 
-    const response = await fetch(
-      `http://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=AND&MobileApp=Photoisk&_type=json&listYN=Y&arrange=S&numOfRows=10&pageNo=${pageNo}&contentTypeId=${contentTypeId}&mapX=${mapX}&mapY=${mapY}&radius=${radius}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const data = (await response.json()) as TourPlaceBasedResponse;
+    try {
+      const response = await fetch(
+        `http://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=AND&MobileApp=Photoisk&_type=json&listYN=Y&arrange=S&numOfRows=10&pageNo=${pageNo}&contentTypeId=${contentTypeId}&mapX=${mapX}&mapY=${mapY}&radius=${radius}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      data = (await response.json()) as TourPlaceBasedResponse;
+    } catch (error) {
+      console.error(error);
+      return NextResponse.json({
+        message: [],
+      });
+    }
+    console.log("data", data);
 
     let tour = null;
 

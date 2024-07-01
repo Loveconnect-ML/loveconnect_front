@@ -74,7 +74,7 @@ function MainPage({}: Props) {
 
       console.log(message);
 
-      if (!message) {
+      if (message?.length === 0) {
         setPlaces({
           contentId: 0,
           contentTypeId: 0,
