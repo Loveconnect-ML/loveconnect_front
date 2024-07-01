@@ -6,7 +6,10 @@ interface ILocation {
 }
 
 export const useGeo = (options = {}) => {
-  const [location, setLocation] = useState<ILocation>();
+  const [location, setLocation] = useState<ILocation>({
+    latitude: 0,
+    longitude: 0,
+  });
   const [error, setError] = useState("");
 
   const handleSuccess = (pos: GeolocationPosition) => {

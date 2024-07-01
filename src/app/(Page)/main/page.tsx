@@ -38,7 +38,17 @@ function MainPage({}: Props) {
     setFetching(true);
 
     async function init() {
-      if (fetching || !location || error) {
+      if (fetching) {
+        toast("이미 요청 중입니다", {
+          icon: "🔒",
+        });
+        return;
+      }
+
+      if (!location || error) {
+        toast("위치 정보를 가져올 수 없습니다", {
+          icon: "🔒",
+        });
         return;
       }
 
@@ -60,7 +70,7 @@ function MainPage({}: Props) {
 
       console.log(message);
 
-      if (message.length === 0) {
+      if (!message) {
         setPlaces({
           contentId: 0,
           contentTypeId: 0,
@@ -217,8 +227,10 @@ function MainPage({}: Props) {
             {places ? (
               <div className="absolute flex gap-6 top-24 h-full left-6 text-sm sm:text-md font-PretendardRegular">
                 <div>
-                  {places?.url && (
+                  {places?.url ? (
                     <Image src={places?.url} alt="" width={128} height={128} />
+                  ) : (
+                    <div className="w-32 h-32 bg-gray-300 rounded-lg"></div>
                   )}
                 </div>
                 <div className="flex flex-col gap-3 w-72 h-32">
