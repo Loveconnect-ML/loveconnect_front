@@ -33,7 +33,7 @@ export async function POST(req: Request) {
 
   if (TYPE === "event") {
     const event = await fetch(
-      `http://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=ETC&MobileApp=Photoisk&_type=json&listYN=${listYN}&arrange=${arrange}&eventStartDate=${eventStartDate}&numOfRows=${numOfRows}&pageNo=${pageNo}`,
+      `http://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=AND&MobileApp=Photoisk&_type=json&listYN=${listYN}&arrange=${arrange}&eventStartDate=${eventStartDate}&numOfRows=${numOfRows}&pageNo=${pageNo}`,
       {
         method: "GET",
         headers: {
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
 
   if (TYPE === "place") {
     const place = await fetch(
-      `http://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=ETC&MobileApp=Photoisk&_type=json&listYN=${listYN}&arrange=${arrange}&eventStartDate=${eventStartDate}&numOfRows=${numOfRows}&pageNo=${pageNo}&contentTypeId=${contentTypeId}&mapX=${mapX}&mapY=${mapY}&radius=${radius}`,
+      `http://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=AND&MobileApp=Photoisk&_type=json&listYN=${listYN}&arrange=${arrange}&eventStartDate=${eventStartDate}&numOfRows=${numOfRows}&pageNo=${pageNo}&contentTypeId=${contentTypeId}&mapX=${mapX}&mapY=${mapY}&radius=${radius}`,
       {
         method: "GET",
         headers: {
@@ -83,7 +83,7 @@ export async function POST(req: Request) {
     // const pageNo = Math.floor(Math.random() * 10) + 1;
 
     const response = await fetch(
-      `http://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=ETC&MobileApp=Photoisk&_type=json&listYN=Y&arrange=S&numOfRows=10&pageNo=${pageNo}&contentTypeId=${contentTypeId}&mapX=${mapX}&mapY=${mapY}&radius=${radius}`,
+      `http://apis.data.go.kr/B551011/KorService1/locationBasedList1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=AND&MobileApp=Photoisk&_type=json&listYN=Y&arrange=S&numOfRows=10&pageNo=${pageNo}&contentTypeId=${contentTypeId}&mapX=${mapX}&mapY=${mapY}&radius=${radius}`,
       {
         method: "GET",
         headers: {
@@ -145,7 +145,7 @@ export async function POST(req: Request) {
 
     const handler = async (item: any) => {
       const responseForOverview = await fetch(
-        `http://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=ETC&MobileApp=Photoisk&_type=json&numOfRows=10&pageNo=${pageNo}&contentId=${item.contentId}&overviewYN=Y`,
+        `http://apis.data.go.kr/B551011/KorService1/detailCommon1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=AND&MobileApp=Photoisk&_type=json&numOfRows=10&pageNo=${pageNo}&contentId=${item.contentId}&overviewYN=Y`,
         {
           method: "GET",
           headers: {
@@ -256,7 +256,7 @@ export async function POST(req: Request) {
     const ret = promptForGPT[idx] || promptForGPT[0];
 
     const responseForImg = await fetch(
-      `http://apis.data.go.kr/B551011/KorService1/detailImage1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=ETC&MobileApp=Photoisk&_type=json&numOfRows=10&pageNo=1&contentId=${ret.contentId}&imageYN=Y&subImageYN=Y`,
+      `http://apis.data.go.kr/B551011/KorService1/detailImage1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=AND&MobileApp=Photoisk&_type=json&numOfRows=10&pageNo=1&contentId=${ret.contentId}&imageYN=Y&subImageYN=Y`,
       {
         method: "GET",
         headers: {
