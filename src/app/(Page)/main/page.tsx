@@ -200,7 +200,7 @@ function MainPage({}: Props) {
             height: "100vh",
           }}
           level={3}
-        ></Map>
+        />
       )}
       {/* MOCK DATA */}
       {drawer ? (
