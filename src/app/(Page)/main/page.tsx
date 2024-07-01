@@ -29,6 +29,10 @@ function MainPage({}: Props) {
   } | null>(null); // TourResponse[]
   const [drawer, setDrawer] = useState(true);
   const [diaryPage, setDiaryPage] = useState(false);
+  const [position, setPosition] = useState({
+    lat: 0,
+    lng: 0,
+  });
 
   const [fetching, setFetching] = useState(false);
 
@@ -61,8 +65,8 @@ function MainPage({}: Props) {
           TYPE: "recommend",
           contentTypeId: 14,
           raidus: 200,
-          mapX: location?.longitude,
-          mapY: location?.latitude,
+          mapX: location?.longitude || position.lng,
+          mapY: location?.latitude || position.lat,
         }),
       });
 
@@ -202,8 +206,15 @@ function MainPage({}: Props) {
         <Map
           className="z-10"
           center={{
-            lng: location?.longitude as number,
-            lat: location?.latitude as number,
+            lng: (location?.longitude as number) || position.lng || 0,
+            lat: (location?.latitude as number) || position.lat || 0,
+          }}
+          onCenterChanged={(center) => {
+            const pos = center.getCenter();
+            setPosition({
+              lat: pos.getLat(),
+              lng: pos.getLng(),
+            });
           }}
           style={{
             width: "500px",
