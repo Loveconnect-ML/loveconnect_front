@@ -22,7 +22,7 @@ export const useGeo = (options = {}) => {
     setError(err.message);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const { geolocation } = navigator;
 
     if (!geolocation) {

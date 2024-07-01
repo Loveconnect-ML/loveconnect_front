@@ -38,11 +38,11 @@ function MainPage({}: Props) {
     setFetching(true);
 
     async function init() {
-      if (fetching) {
+      if (fetching || !location || error) {
         return;
       }
 
-      const response = await fetch("/api/v2/tour ", {
+      const response = await fetch("/api/v2/tour", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,24 +83,14 @@ function MainPage({}: Props) {
   };
 
   const toggleDrawer = () => {
-    if (!drawer) {
-      toast("장소 추천 기능은 준비중입니다", {
-        icon: "🔒",
-      });
-    }
-
     setDrawer(!drawer);
   };
 
   const toggleDiary = async () => {
-    toast("일기 작성 기능은 준비중입니다", {
+    toast("일기 작성 기능은 릴리즈 버전에서 사용 가능합니다", {
       icon: "🔒",
     });
     setDiaryPage((prev) => !prev);
-  };
-
-  const onClickToGenerateDiary = async (e: any) => {
-    const file = e.target.files[0];
   };
 
   return (
@@ -190,9 +180,6 @@ function MainPage({}: Props) {
             height: "100vh",
           }}
           level={3}
-          onCenterChanged={(e) => {
-            const latlng = e.getCenter();
-          }}
         >
           <MapMarker
             position={{
@@ -243,7 +230,7 @@ function MainPage({}: Props) {
                       {places?.description}
                     </div>
                   </div>
-                  <div className="font-PretendardRegular text-xs sm:text-sm w-full h-36 overflow-y-scroll scrollbar-hide">
+                  <div className="font-PretendardRegular text-xs sm:text-sm w-full h-32 overflow-y-scroll scrollbar-hide">
                     {places?.overview}
                   </div>
                 </div>
