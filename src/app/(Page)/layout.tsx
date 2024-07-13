@@ -13,17 +13,17 @@ type Props = {
 
 const data = [
   {
-    icon: <ScanFaceIcon size={32} />,
+    icon: <ScanFaceIcon size={24} />,
     label: "얼굴 스티커",
     pathname: "/sticker",
   },
   {
-    icon: <MapPin size={32} />,
+    icon: <MapPin size={24} />,
     label: "나의 활동",
     pathname: "/main",
   },
   {
-    icon: <EyeIcon size={32} />,
+    icon: <EyeIcon size={24} />,
     label: "포즈 가이드",
     pathname: "/feedback",
   },
@@ -42,8 +42,8 @@ function Layout({ children }: Props) {
               <IconButton
                 className={
                   path.pathname === pathname
-                    ? "text-indigo-500 px-2 rounded-lg py-1"
-                    : "px-2 rounded-lg py-1"
+                    ? "text-indigo-500 px-2 rounded-lg py-1 text-sm"
+                    : "px-2 rounded-lg py-1 text-sm"
                 }
                 size="md"
                 direction="column"

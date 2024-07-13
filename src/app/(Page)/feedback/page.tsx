@@ -1,27 +1,32 @@
-"use client"
-import KakaoAdFit from '@/components/KakaoAdFit'
-import { Loading } from '@/components/Loading'
-import Photos from '@/components/Photos'
-import { Button } from '@/components/ui/button'
-import CircleLoading from '@/components/v2/loadings/CircleLoading'
-import WaveBackground from '@/components/WaveBackground'
-import WebcamComponent from '@/components/v2/cams/WebcamComponent'
-import WebcamProvider, { useWebcamContext } from '@/components/WebcamProvider'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
-import { toast } from 'react-hot-toast'
-import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import Link from 'next/link'
+"use client";
+import KakaoAdFit from "@/components/KakaoAdFit";
+import { Loading } from "@/components/Loading";
+import Photos from "@/components/Photos";
+import { Button } from "@/components/ui/button";
+import CircleLoading from "@/components/v2/loadings/CircleLoading";
+import WaveBackground from "@/components/WaveBackground";
+import WebcamComponent from "@/components/v2/cams/WebcamComponent";
+import WebcamProvider, { useWebcamContext } from "@/components/WebcamProvider";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { toast } from "react-hot-toast";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import Link from "next/link";
 
-type Props = {}
+type Props = {};
 
-function Feedback({ }: Props) {
-
+function Feedback({}: Props) {
   const { imageUrls, setPoseUrl, isUserMode } = useWebcamContext();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [popup, setPopup] = useState<boolean>(false);
-
 
   const [, setImageUrl] = useState<string>("");
   const [poseDescription, setPoseDescription] = useState<string>("");
@@ -35,9 +40,7 @@ function Feedback({ }: Props) {
       return;
     }
 
-
     try {
-
       const res = await fetch("/api/v2/payLimit", {
         method: "GET",
       });
@@ -52,7 +55,6 @@ function Feedback({ }: Props) {
         return;
       }
 
-
       setLoading(true);
       const image = await fetch("/api/v2/ai/img", {
         method: "POST",
@@ -60,9 +62,9 @@ function Feedback({ }: Props) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          prompt: poseDescription
+          prompt: poseDescription,
         }),
-      })
+      });
 
       const data = await image.json();
       const url = data.url;
@@ -75,18 +77,17 @@ function Feedback({ }: Props) {
       setLoading(false);
       setPoseUrl("");
     }
-
-  }
+  };
 
   return (
     <>
-      <WebcamComponent mode='pose' />
+      <WebcamComponent mode="pose" />
       <WaveBackground />
       <div className="relative w-full h-full sm:w-[500px] bg-indigo-200 pb-16">
         <div className="w-full flex justify-center my-4">
           <KakaoAdFit />
         </div>
-        <div className='flex flex-col gap-8 justify-center items-center'>
+        <div className="flex flex-col gap-8 justify-center items-center">
           <div className="pb-20 rounded-t-3xl shadow-[0px_-0.5px_gray] flex flex-col justify-center w-full h-full bg-white">
             <div className="text-start ml-[5%] text-md sm:text-xl font-PretendardBold pt-8 text-indigo-600">
               AI 포즈 생성
@@ -97,8 +98,8 @@ function Feedback({ }: Props) {
             <textarea
               value={poseDescription}
               onChange={(e) => setPoseDescription(e.target.value)}
-              placeholder="포즈를 묘사해주세요"
-              className="mx-auto w-[90%] h-32 p-4 border-2 font-PretendardRegular border-gray-300 rounded-md resize-none"
+              placeholder={`포즈를 묘사해주세요\n\n에시: 인스타에 들어갈만한, 눈은 왼쪽 끝을 바라보고 앉아있는 모습을 그려줘. 정면 사진이고 힙한 느낌으로 팔 자연스럽게 허벅지에 둔 상태의 모습이야.`}
+              className="text-sm mx-auto w-[90%] h-32 break-keep p-4 border-2 font-PretendardRegular border-gray-300 rounded-md resize-none"
             ></textarea>
             <Photos
               isUserMode={isUserMode}
@@ -113,7 +114,7 @@ function Feedback({ }: Props) {
                 <p>최대 3분이 걸릴 수 있습니다...</p>
               </div>
             )}
-            <div className='relative flex justify-center items-center bg-white w-full pb-16'>
+            <div className="relative flex justify-center items-center bg-white w-full pb-16">
               <Button
                 className="absolute left-1/2 -translate-x-1/2 bottom-4 w-[90%] sm:w-[432px]"
                 disabled={loading}
@@ -149,7 +150,7 @@ function Feedback({ }: Props) {
         )}
       </div>
     </>
-  )
+  );
 }
 
-export default Feedback
+export default Feedback;

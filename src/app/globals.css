@@ -44,6 +44,18 @@
   font-style: normal;
 }
 
+label {
+  cursor: pointer;
+  /* Style as you please, it will become the visible UI component. */
+}
+
+#upload-photo {
+  left: 50%;
+  top: 50%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
