@@ -48,7 +48,7 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
         ctx?.translate(img.width, 0);
         ctx?.scale(-1, 1);
       }
-      
+
       ctx?.drawImage(img, 0, 0);
       const flippedDataUrl = canvas.toDataURL('image/png');
       const a = document.createElement('a');

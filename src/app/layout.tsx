@@ -102,12 +102,12 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <Script
-        type="text/javascript"
-        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JS_KEY}&libraries=services,clusterer&autoload=false`}
-      ></Script>
       <ClerkProvider localization={koKR}>
         <html lang="en">
+          <Script
+            type="text/javascript"
+            src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JS_KEY}&libraries=services&autoload=false`}
+          ></Script>
           {/*<Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9708481151156136"
         crossOrigin="anonymous"></Script>*/}
           <body

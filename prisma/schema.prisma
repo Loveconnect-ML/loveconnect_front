@@ -78,3 +78,12 @@ model Diary {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// model Comment {
+//   id        Int      @id @default(autoincrement())
+//   content   String
+//   userId    Int
+//   diaryId   Int
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
