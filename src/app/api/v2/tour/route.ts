@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/utils/prisma";
 import OpenAI from "openai";
+import { currentUser } from "@clerk/nextjs/dist/types/server";
 
 const openai = new OpenAI();
 
@@ -14,6 +15,13 @@ const openai = new OpenAI();
 
 export async function POST(req: Request) {
   const body = await req.json();
+
+  const user = await currentUser();
+
+  const userExists = await prisma?.user.findUnique({
+    where: { email: user?.emailAddresses[0]?.emailAddress! },
+  });
+  // Perform your Route Handler's logic with the returned user object
 
   const {
     TYPE,
@@ -67,18 +75,18 @@ export async function POST(req: Request) {
   }
 
   if (TYPE === "recommend") {
-    const recommends = await prisma?.placeForRec.findMany({
-      // where: {
-      //   x: {
-      //     gte: mapX - radius,
-      //     lte: mapX + radius,
-      //   },
-      //   y: {
-      //     gte: mapY - radius,
-      //     lte: mapY + radius,
-      //   },
-      // },
-    });
+    const recommends: any[] = []; // await prisma?.placeForRec.findMany({
+    // where: {
+    //   x: {
+    //     gte: mapX - radius,
+    //     lte: mapX + radius,
+    //   },
+    //   y: {
+    //     gte: mapY - radius,
+    //     lte: mapY + radius,
+    //   },
+    // },
+    // });
 
     // const pageNo = Math.floor(Math.random() * 10) + 1;
     let data = null;
@@ -287,6 +295,20 @@ export async function POST(req: Request) {
 
     console.log("url", url);
 
+    await prisma.placeForRec.create({
+      data: {
+        x: parseFloat(ret.x),
+        y: parseFloat(ret.y),
+        isHotplace: ret.isHotplace,
+        isAdvertisement: ret.isAdvertisement,
+        title: ret.title,
+        description: ret.description,
+        contentTypeId: ret.contentTypeId,
+        contentId: ret.contentId,
+        userId: userExists?.id as number,
+      },
+    });
+
     return NextResponse.json({
       message: {
         ...ret,
@@ -297,5 +319,23 @@ export async function POST(req: Request) {
 
   return NextResponse.json({
     message: "Bad Request",
+  });
+}
+
+export async function GET() {
+  const user = await currentUser();
+
+  const userExists = await prisma?.user.findUnique({
+    where: { email: user?.emailAddresses[0]?.emailAddress! },
+  });
+
+  const recommends = await prisma?.placeForRec.findMany({
+    where: {
+      userId: userExists?.id as number,
+    },
+  });
+
+  return NextResponse.json({
+    message: recommends,
   });
 }

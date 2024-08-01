@@ -14,8 +14,19 @@ const KakaoMap = ({ position, setPosition }: { position: { lat: number; lng: num
   const handleMapClick = (_: any, mouseEvent: kakao.maps.event.MouseEvent) => {
     const latlng = mouseEvent.latLng;
     setPosition({ lat: latlng.getLat(), lng: latlng.getLng() });
-    toast(`클릭한 위치의 위도는 ${latlng.getLat()} 이고, 경도는 ${latlng.getLng()} 입니다`);
+    // toast(`클릭한 위치의 위도는 ${latlng.getLat()} 이고, 경도는 ${latlng.getLng()} 입니다`);
   };
+
+  const [pins, setPins] = useState<any | null>(null);
+
+  useEffect(() => {
+    async function loadPins() {
+      const response = await fetch("/api/v2/tour");
+      const res = await response.json();
+      setPins(res.message);
+    }
+    loadPins();
+  }, []);
 
   // useEffect(() => {
   //   setPosition({ lat: location.latitude, lng: location.longitude });
@@ -64,6 +75,9 @@ const KakaoMap = ({ position, setPosition }: { position: { lat: number; lng: num
       {position && (
         <MapMarker position={position} />
       )}
+      {pins?.map((pin: any, index: number) => (
+        <MapMarker key={index} position={{ lat: pin.y, lng: pin.x }} />
+      ))}
     </Map>
   );
 };
