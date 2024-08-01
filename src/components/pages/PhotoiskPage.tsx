@@ -24,12 +24,12 @@ import CircleLoading from "../v2/loadings/CircleLoading";
 
 type Props = {};
 // 밝은 조명에서 하면 더 잘 나옴, 정면 얼굴이 가장 잘 나옴
-function PhotoiskPage({}: Props) {
+function PhotoiskPage({ }: Props) {
   const { Canvas } = useQRCode();
 
   const router = useRouter();
 
-  const { imageUrls } = useWebcamContext();
+  const { imageUrls, filter } = useWebcamContext();
   const [response, setResponse] = useState<any | null>([]);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -110,12 +110,12 @@ function PhotoiskPage({}: Props) {
         body:
           additionalDecoPrompt === ""
             ? JSON.stringify({
-                image: image,
-              })
+              image: image,
+            })
             : JSON.stringify({
-                image: image,
-                prompt: additionalDecoPrompt,
-              }),
+              image: image,
+              prompt: additionalDecoPrompt,
+            }),
       });
 
       try {
@@ -165,6 +165,7 @@ function PhotoiskPage({}: Props) {
             selections={selectedImages}
             setSelections={setSelectedImages}
             imageUrls={imageUrls}
+            filter={filter}
           />
 
           {selectedImages?.length > 0 && response?.length == 0 && (
@@ -187,6 +188,7 @@ function PhotoiskPage({}: Props) {
                 return `https://${process.env.NEXT_PUBLIC_STORAGE_DOMAIN}/${res}`;
               }) || null
             }
+            filter={filter}
             setResponseIdx={setResponseIdx}
           />
           {loading && (

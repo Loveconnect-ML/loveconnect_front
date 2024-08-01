@@ -45,6 +45,7 @@ function MainPage({ }: Props) {
     result: string;
     location: string;
     placeForRecId: number;
+    createdAt: string;
   }[]
   >([]);
 
@@ -391,7 +392,7 @@ function MainPage({ }: Props) {
           >
             <X fill="black" />
           </button>
-          <div>
+          <div className="pt-8 pb-16">
             <div className="text-center w-full text-2xl">
               마이페이지
             </div>
@@ -401,7 +402,7 @@ function MainPage({ }: Props) {
             <div>
               {diaries?.map((diary, index) => (
                 <div key={index} className="flex flex-col gap-2 w-full p-4 border-b-2 border-gray-300">
-                  <div className="font-PretendardBold text-lg">{diary.title}</div>
+                  <div className="font-PretendardBold text-lg">{diary.title} / {diary.createdAt.split("T")[0]} 작성</div>
                   <div className="font-PretendardRegular text-sm">{diary.content}</div>
                   <div className="font-PretendardRegular text-xs">{diary.location}</div>
                   <div className="font-PretendardRegular text-xs">{diary.result}</div>
@@ -425,7 +426,7 @@ function MainPage({ }: Props) {
       </div>
       <KakaoMap setPosition={setPosition} position={position} />
       {drawer ? (
-        <div className="absolute bottom-0 z-20 border-t-2 border-x-2 border-gray-700 w-full h-80 rounded-t-3xl bg-white">
+        <div className="absolute bottom-0 z-20 border-t-2 border-x-2 border-gray-700 w-full h-96 rounded-t-3xl bg-white">
           <div className="relative flex flex-col justify-center w-full bg-white">
             <div className="text-start absolute top-6 left-6 text-md sm:text-xl font-PretendardBold text-indigo-600">
               오늘의 추천 장소에요
@@ -436,35 +437,33 @@ function MainPage({ }: Props) {
                 : "현재 위치 기반으로 추천 장소를 찾아드릴게요"}
             </div>
             {places ? (
-              <div className="absolute flex gap-6 top-24 h-full left-6 text-sm sm:text-md font-PretendardRegular">
-                <div>
+              <div className="absolute flex flex-col items-center w-full gap-2 top-24 text-sm sm:text-md font-PretendardRegular">
+                <div className="flex justify-start gap-4 ">
                   {places?.url ? (
-                    <div>
+                    <div className="h-fit">
                       <Image src={places?.url} alt="" width={128} height={128} />
-                      <Button
-                        onClick={toggleDiary}
-                        className="px-6 h-10"
-                      >
-                        해당 장소로 일기 작성하기
-                      </Button>
                     </div>
                   ) : (
                     <div className="w-32 h-32 bg-gray-300 rounded-lg"></div>
                   )}
-                </div>
-                <div className="flex flex-col gap-3 w-72 h-32">
                   <div className="">
                     <div className="font-PretendardBold text-md sm:text-lg">
                       {places?.title}
                     </div>
-                    <div className="font-PretendardMedium text-sm sm:text-md">
+                    <div className="font-PretendardMedium text-sm sm:text-md break-keep">
                       {places?.description}
                     </div>
-                  </div>
-                  <div className="font-PretendardRegular text-xs sm:text-sm w-[70%] h-32 overflow-y-scroll scrollbar-hide">
-                    {places?.overview}
+                    <div className="font-PretendardRegular text-xs sm:text-sm w-32 h-24 overflow-y-scroll scrollbar-hide">
+                      {places?.overview}
+                    </div>
                   </div>
                 </div>
+                <Button
+                  onClick={toggleDiary}
+                  className="w-3/4 h-10 mt-auto"
+                >
+                  해당 장소로 일기 작성하기
+                </Button>
               </div>
             ) : fetching ? (
               <div className="absolute left-1/2 -translate-x-1/2 top-28">
