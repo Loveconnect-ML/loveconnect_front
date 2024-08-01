@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import prisma from "@/utils/prisma";
 import OpenAI from "openai";
-import { currentUser } from "@clerk/nextjs/dist/types/server";
+import { currentUser, auth } from "@clerk/nextjs/server";
 
 const openai = new OpenAI();
 
