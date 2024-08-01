@@ -51,3 +51,21 @@ export async function POST(req: Request) {
     message: "success",
   });
 }
+
+export async function GET() {
+  const user = await currentUser();
+
+  const userExists = await prisma?.user.findUnique({
+    where: { email: user?.emailAddresses[0]?.emailAddress! },
+  });
+
+  const diaries = await prisma?.diary.findMany({
+    where: {
+      userId: userExists?.id as number,
+    },
+  });
+
+  return NextResponse.json({
+    message: diaries,
+  });
+}

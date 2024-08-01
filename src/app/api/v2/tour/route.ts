@@ -34,11 +34,25 @@ export async function POST(req: Request) {
     mapX,
     mapY,
     radius = 5000,
+    index,
   } = body as TourEventRequest &
     TourPlaceBasedRequest & {
       TYPE: string;
+      index: number;
     };
 
+  if (TYPE === "INDEX") {
+    const recommends = await prisma?.placeForRec.count({
+      where: {
+        // userId: userExists?.id as number,
+        id: index,
+      },
+    });
+
+    return NextResponse.json({
+      message: recommends,
+    });
+  }
   if (TYPE === "event") {
     const event = await fetch(
       `http://apis.data.go.kr/B551011/KorService1/searchFestival1?serviceKey=${process.env.TOUR_API_KEY}&MobileOS=AND&MobileApp=Photoisk&_type=json&listYN=${listYN}&arrange=${arrange}&eventStartDate=${eventStartDate}&numOfRows=${numOfRows}&pageNo=${pageNo}`,

@@ -9,12 +9,14 @@ const KakaoMap = ({ position, setPosition }: { position: { lat: number; lng: num
   const { location, error } = useGeo();
 
   const [first, setFirst] = useState(true);
+  const [pinRecCount, setPinRecCount] = useState(0);
   // const [position, setPosition] = useState<{ lat: number; lng: number } | null>(null);
-
+  const [isOpen, setIsOpen] = useState<boolean[] | null>(null);
   const handleMapClick = (_: any, mouseEvent: kakao.maps.event.MouseEvent) => {
     const latlng = mouseEvent.latLng;
     setPosition({ lat: latlng.getLat(), lng: latlng.getLng() });
     // toast(`클릭한 위치의 위도는 ${latlng.getLat()} 이고, 경도는 ${latlng.getLng()} 입니다`);
+    setIsOpen(null)
   };
 
   const [pins, setPins] = useState<any | null>(null);
@@ -24,6 +26,7 @@ const KakaoMap = ({ position, setPosition }: { position: { lat: number; lng: num
       const response = await fetch("/api/v2/tour");
       const res = await response.json();
       setPins(res.message);
+      setIsOpen(new Array(res.message.length).fill(false));
     }
     loadPins();
   }, []);
@@ -39,6 +42,24 @@ const KakaoMap = ({ position, setPosition }: { position: { lat: number; lng: num
     }
   }, [location]);
 
+  const handleMarkerClick = async (index: number) => {
+    const res = await fetch("/api/v2/tour", {
+      method: "POST",
+      body: JSON.stringify({
+        index: index,
+        TYPE: "INDEX",
+      }),
+    });
+    const data = await res.json();
+    setPinRecCount(data.message);
+    setIsOpen((prev) => {
+      if (!prev) {
+        return new Array(pins.length).fill(false);
+      }
+      return prev.map((_, i) => i === index);
+    });
+  }
+
   if (error) {
     return <div>{error}</div>;
   }
@@ -49,25 +70,10 @@ const KakaoMap = ({ position, setPosition }: { position: { lat: number; lng: num
 
   return (
     <Map
-
       center={{
         lng: location.longitude,
         lat: location.latitude,
       }}
-      // onCenterChanged={(center) => {
-      //   const pos = center.getCenter();
-      //   setPosition({
-      //     lat: pos.getLat(),
-      //     lng: pos.getLng(),
-      //   });
-      // }}
-      // onLoad={() => {
-      //   setPosition({ lat: location.latitude, lng: location.longitude });
-      // }}
-      // onCenterChanged={(map) => {
-      //   const center = map.getCenter();
-      //   setPosition({ lat: center.getLat(), lng: center.getLng() });
-      // }}
       style={{ width: "100%", height: "100%" }}
       level={3}
       onClick={handleMapClick}
@@ -76,7 +82,15 @@ const KakaoMap = ({ position, setPosition }: { position: { lat: number; lng: num
         <MapMarker position={position} />
       )}
       {pins?.map((pin: any, index: number) => (
-        <MapMarker key={index} position={{ lat: pin.y, lng: pin.x }} />
+        <>
+          <MapMarker clickable={true} onClick={() => handleMarkerClick(pin.id)} title={pin.title} key={index} position={{ lat: pin.y, lng: pin.x }}>
+            {isOpen && <div style={{ backgroundColor: "white", padding: "8px", borderRadius: "10px" }}>
+              <h3>장소 이름: {pin.title}</h3>
+              <p>장소 설명: {pin.description}</p>
+              <p>추천수: {pinRecCount}</p>
+            </div>}
+          </MapMarker>
+        </>
       ))}
     </Map>
   );

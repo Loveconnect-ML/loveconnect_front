@@ -37,6 +37,17 @@ function MainPage({ }: Props) {
     lng: location?.longitude
   });
 
+  const [diaries, setDiaries] = useState<{
+    id: number;
+    title: string;
+    content: string;
+    imageSrc: string;
+    result: string;
+    location: string;
+    placeForRecId: number;
+  }[]
+  >([]);
+
   const [diary, setDiary] = useState<{
     title: string;
     content: string;
@@ -53,6 +64,10 @@ function MainPage({ }: Props) {
   const [loadingGPT, setLoadingGPT] = useState(false);
 
   const [myPage, setMyPage] = useState(false);
+
+  useEffect(() => {
+    fetchMyPage();
+  }, []);
 
   const fetchPlaces = async () => {
     setFetching(true);
@@ -147,6 +162,8 @@ function MainPage({ }: Props) {
       return;
     }
 
+    setLoadingGPT(true);
+
     const response = await fetch("/api/v2/ai/diary", {
       method: "POST",
       headers: {
@@ -176,6 +193,8 @@ function MainPage({ }: Props) {
     toast("일기가 생성되었습니다", {
       icon: "🔒",
     });
+
+    setLoadingGPT(false);
   };
 
   const uploadDiary = async () => {
@@ -214,6 +233,19 @@ function MainPage({ }: Props) {
     }
     setDiaryPage(false);
   };
+
+  const fetchMyPage = async () => {
+    const response = await fetch("/api/v2/diary", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const { message } = await response.json();
+
+    setDiaries(message);
+  }
 
 
   const toggleMyPage = () => {
@@ -359,6 +391,27 @@ function MainPage({ }: Props) {
           >
             <X fill="black" />
           </button>
+          <div>
+            <div className="text-center w-full text-2xl">
+              마이페이지
+            </div>
+            <div className="font-PretendardRegular text-center w-full text-xs">
+              내 정보와 일기를 확인해보세요
+            </div>
+            <div>
+              {diaries?.map((diary, index) => (
+                <div key={index} className="flex flex-col gap-2 w-full p-4 border-b-2 border-gray-300">
+                  <div className="font-PretendardBold text-lg">{diary.title}</div>
+                  <div className="font-PretendardRegular text-sm">{diary.content}</div>
+                  <div className="font-PretendardRegular text-xs">{diary.location}</div>
+                  <div className="font-PretendardRegular text-xs">{diary.result}</div>
+                  <div>
+                    <Image src={diary.imageSrc} alt="" width={128} height={128} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       ) : <button
         onClick={toggleMyPage}
