@@ -15,6 +15,7 @@ type Props = {};
 
 function MainPage({ }: Props) {
   //   useKakaoLoader()
+  const { error, location } = useGeo();
 
   const [places, setPlaces] = useState<{
     isHotplace: boolean | null;
@@ -31,8 +32,8 @@ function MainPage({ }: Props) {
   const [drawer, setDrawer] = useState(true);
   const [diaryPage, setDiaryPage] = useState(false);
   const [position, setPosition] = useState({
-    lat: 0,
-    lng: 0,
+    lat: location?.latitude,
+    lng: location?.longitude
   });
 
   const [diary, setDiary] = useState<{
@@ -50,8 +51,6 @@ function MainPage({ }: Props) {
   const [fetching, setFetching] = useState(false);
   const [loadingGPT, setLoadingGPT] = useState(false);
 
-  const { error, location } = useGeo();
-
   const fetchPlaces = async () => {
     setFetching(true);
 
@@ -63,10 +62,19 @@ function MainPage({ }: Props) {
         return;
       }
 
-      if (!location || error) {
-        toast("위치 정보를 가져올 수 없습니다", {
+      if (!position.lat || !position.lng) {
+        toast("위치 정보를 가져올 수 없습니다. 지도 핀을 찍었는지 확인해주세요.", {
           icon: "🔒",
         });
+        setFetching(false);
+        return;
+      }
+
+      if (!location || error) {
+        toast("위치 정보를 가져올 수 없습니다. 지도 핀을 찍었는지 확인해주세요.", {
+          icon: "🔒",
+        });
+        setFetching(false);
         return;
       }
 
@@ -79,8 +87,8 @@ function MainPage({ }: Props) {
           TYPE: "recommend",
           contentTypeId: 14,
           raidus: 200,
-          mapX: location?.longitude || position.lng,
-          mapY: location?.latitude || position.lat,
+          mapX: position.lng,
+          mapY: position.lat,
         }),
       });
 
