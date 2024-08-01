@@ -1,4 +1,5 @@
 "use client";
+import KakaoMap from "@/components/KakaoMap";
 import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import CircleLoading from "@/components/v2/loadings/CircleLoading";
@@ -12,7 +13,7 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 type Props = {};
 
-function MainPage({}: Props) {
+function MainPage({ }: Props) {
   //   useKakaoLoader()
 
   const [places, setPlaces] = useState<{
@@ -159,7 +160,9 @@ function MainPage({}: Props) {
     });
   };
 
-  const uploadDiary = async () => {};
+  const uploadDiary = async () => {
+
+  };
 
   return (
     <div className="relative w-full h-full">
@@ -312,48 +315,7 @@ function MainPage({}: Props) {
       <div className="z-20 absolute top-3 left-3">
         <Logo />
       </div>
-      {places ? (
-        <Map
-          className="z-10"
-          center={{
-            lng: places?.x,
-            lat: places?.y,
-          }}
-          style={{
-            width: "500px",
-            height: "100vh",
-          }}
-          level={3}
-        >
-          <MapMarker
-            position={{
-              lng: places?.x,
-              lat: places?.y,
-            }}
-          />
-        </Map>
-      ) : (
-        <Map
-          className="z-10"
-          center={{
-            lng: (location?.longitude as number) || position.lng || 0,
-            lat: (location?.latitude as number) || position.lat || 0,
-          }}
-          onCenterChanged={(center) => {
-            const pos = center.getCenter();
-            setPosition({
-              lat: pos.getLat(),
-              lng: pos.getLng(),
-            });
-          }}
-          style={{
-            width: "500px",
-            height: "100vh",
-          }}
-          level={3}
-        />
-      )}
-      {/* MOCK DATA */}
+      <KakaoMap setPosition={setPosition} position={position} />
       {drawer ? (
         <div className="absolute bottom-0 z-20 border-t-2 border-x-2 border-gray-700 w-full h-80 rounded-t-3xl bg-white">
           <div className="relative flex flex-col justify-center w-full bg-white">
