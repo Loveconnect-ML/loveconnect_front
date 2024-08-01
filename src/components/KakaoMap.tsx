@@ -4,18 +4,16 @@ import { toast } from "react-hot-toast";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 const KakaoMap = ({ position, setPosition }: { position: { lat: number; lng: number } | null; setPosition: (position: { lat: number; lng: number }) => void }) => {
-  // const KakaoMap = () => {
-  // const [markerPosition, setMarkerPosition] = useState<{ lat: number; lng: number } | null>(null);
-  const { location, error } = useGeo();
 
+
+  const { location, error } = useGeo();
   const [first, setFirst] = useState(true);
   const [pinRecCount, setPinRecCount] = useState(0);
-  // const [position, setPosition] = useState<{ lat: number; lng: number } | null>(null);
+
   const [isOpen, setIsOpen] = useState<boolean[] | null>(null);
   const handleMapClick = (_: any, mouseEvent: kakao.maps.event.MouseEvent) => {
     const latlng = mouseEvent.latLng;
     setPosition({ lat: latlng.getLat(), lng: latlng.getLng() });
-    // toast(`클릭한 위치의 위도는 ${latlng.getLat()} 이고, 경도는 ${latlng.getLng()} 입니다`);
     setIsOpen(null)
   };
 
@@ -30,10 +28,6 @@ const KakaoMap = ({ position, setPosition }: { position: { lat: number; lng: num
     }
     loadPins();
   }, []);
-
-  // useEffect(() => {
-  //   setPosition({ lat: location.latitude, lng: location.longitude });
-  // }, []);
 
   useEffect(() => {
     if (location.latitude && location.longitude && first) {
@@ -84,11 +78,13 @@ const KakaoMap = ({ position, setPosition }: { position: { lat: number; lng: num
       {pins?.map((pin: any, index: number) => (
         <>
           <MapMarker clickable={true} onClick={() => handleMarkerClick(pin.id)} title={pin.title} key={index} position={{ lat: pin.y, lng: pin.x }}>
-            {isOpen && <div style={{ backgroundColor: "white", padding: "8px", borderRadius: "10px" }}>
-              <h3>장소 이름: {pin.title}</h3>
-              <p>장소 설명: {pin.description}</p>
-              <p>추천수: {pinRecCount}</p>
-            </div>}
+            {isOpen && isOpen[index] && (
+              <div style={{ backgroundColor: "white", padding: "8px", borderRadius: "10px" }}>
+                <h3>장소 이름: {pin.title}</h3>
+                <p>장소 설명: {pin.description}</p>
+                <p>추천수: {pinRecCount}</p>
+              </div>
+            )}
           </MapMarker>
         </>
       ))}
