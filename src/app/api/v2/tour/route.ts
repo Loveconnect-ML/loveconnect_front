@@ -42,10 +42,16 @@ export async function POST(req: Request) {
     };
 
   if (TYPE === "INDEX") {
+    const r = await prisma?.placeForRec.findFirst({
+      where: {
+        id: index,
+      },
+    });
+
     const recommends = await prisma?.placeForRec.count({
       where: {
         // userId: userExists?.id as number,
-        id: index,
+        title: r?.title,
       },
     });
 
