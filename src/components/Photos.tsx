@@ -45,17 +45,32 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
       canvas.height = img.height;
       const ctx = canvas.getContext('2d');
 
+      if (filter) {
+        ctx?.drawImage(img, 0, 0);
+        const imageData = ctx?.getImageData(0, 0, img.width, img.height);
+        const grayscaleData = grayscaleFilter(imageData as any);
+        ctx?.putImageData(grayscaleData, 0, 0);
+        const flippedDataUrl = canvas.toDataURL('image/png');
+        const a = document.createElement('a');
+        a.href = flippedDataUrl;
+        a.download = flippedDataUrl.split("/").pop() || "download";
+        a.target = '_blank';
+        a.click();
+        return
+      }
+
       if (isUserMode) {
         ctx?.translate(img.width, 0);
         ctx?.scale(-1, 1);
       }
+
+      ctx?.drawImage(img, 0, 0);
       const flippedDataUrl = canvas.toDataURL('image/png');
       const a = document.createElement('a');
       a.href = flippedDataUrl;
       a.download = flippedDataUrl.split("/").pop() || "download";
       a.target = '_blank';
       a.click();
-
     };
   };
 
@@ -85,16 +100,14 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
           onClick={download ? () => {
             toggleResponseIdx(index)
             flipAndDownload(url)
-          } : () => {
-            onClickToToggleSelect(url)
-            flipAndDownload(url)
-          }}
+          } : () => onClickToToggleSelect(url)}
         >
           <ImageComponent
             className={`rounded-xl shadow-md ${isUserMode ? "scale-x-[-1]" : ""}`}
             src={`${url}`}
             width={500}
             height={500}
+            style={{ filter: filter ? "grayscale(100%)" : "", WebkitFilter: filter ? "grayscale(100%)" : "" }}
             alt={`webcam-${index}`}
           />
         </button>
