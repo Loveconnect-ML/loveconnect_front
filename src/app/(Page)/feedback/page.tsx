@@ -23,8 +23,8 @@ import Link from "next/link";
 
 type Props = {};
 
-function Feedback({}: Props) {
-  const { imageUrls, setPoseUrl, isUserMode } = useWebcamContext();
+function Feedback({ }: Props) {
+  const { imageUrls, setPoseUrl, isUserMode, filter } = useWebcamContext();
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [popup, setPopup] = useState<boolean>(false);
 
@@ -102,6 +102,7 @@ function Feedback({}: Props) {
               className="text-sm mx-auto w-[90%] h-32 break-keep p-4 border-2 font-PretendardRegular border-gray-300 rounded-md resize-none"
             ></textarea>
             <Photos
+              filter={filter}
               isUserMode={isUserMode}
               selections={selectedImages}
               setSelections={setSelectedImages}
