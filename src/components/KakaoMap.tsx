@@ -36,11 +36,11 @@ const KakaoMap = ({ position, setPosition }: { position: { lat: number; lng: num
     }
   }, [location]);
 
-  const handleMarkerClick = async (index: number) => {
+  const handleMarkerClick = async (id: number, index: number) => {
     const res = await fetch("/api/v2/tour", {
       method: "POST",
       body: JSON.stringify({
-        index: index,
+        index: id,
         TYPE: "INDEX",
       }),
     });
@@ -77,7 +77,7 @@ const KakaoMap = ({ position, setPosition }: { position: { lat: number; lng: num
       )}
       {pins?.map((pin: any, index: number) => (
         <>
-          <MapMarker clickable={true} onClick={() => handleMarkerClick(pin.id)} title={pin.title} key={index} position={{ lat: pin.y, lng: pin.x }}>
+          <MapMarker clickable={true} onClick={() => handleMarkerClick(pin.id, index)} title={pin.title} key={index} position={{ lat: pin.y, lng: pin.x }}>
             {isOpen && isOpen[index] && (
               <div style={{ backgroundColor: "white", padding: "8px", borderRadius: "10px" }}>
                 <h3>장소 이름: {pin.title}</h3>
