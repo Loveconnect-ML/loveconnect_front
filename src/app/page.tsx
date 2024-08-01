@@ -9,13 +9,13 @@ import TopNavbar from "@/components/v2/nav/TopNavbar";
 import { useUser } from "@clerk/nextjs";
 
 export default function Home() {
-  
+
   const router = useRouter();
 
   useLayoutEffect(() => {
     router.prefetch("/main");
   }, []);
-  
+
   return (
     <div className="w-full h-full py-6 px-10">
       <WaveBackground />

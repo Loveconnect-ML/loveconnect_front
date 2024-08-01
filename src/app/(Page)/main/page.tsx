@@ -130,6 +130,12 @@ function MainPage({ }: Props) {
     // toast("일기 작성 기능은 릴리즈 버전에서 사용 가능합니다", {
     //   icon: "🔒",
     // });
+    if (loadingGPT) {
+      toast("일기 생성 중입니다", {
+        icon: "🔒",
+      });
+      return;
+    }
     setDiaryPage((prev) => !prev);
   };
 
@@ -206,6 +212,7 @@ function MainPage({ }: Props) {
         icon: "🔒",
       });
     }
+    setDiaryPage(false);
   };
 
 
@@ -322,19 +329,18 @@ function MainPage({ }: Props) {
                   )}
                 </div>
               </div>
-              <div className="px-8 pt-4">
+              {loadingGPT ? (
+                <div className="z-[80] absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center">
+                  <CircleLoading />
+                </div>
+              ) : <div className="px-8 pt-4">
                 <Button
                   onClick={generateDiary}
                   className=" z-50 justify-center gap-2 flex-col w-full text-lg self-center flex items-center"
                 >
                   일기 생성하기
                 </Button>
-              </div>
-              {loadingGPT && (
-                <div className="z-[80] absolute bottom-4 flex flex-col justify-center items-center">
-                  <CircleLoading />
-                </div>
-              )}
+              </div>}
             </div>
           )}
           <button
@@ -344,7 +350,7 @@ function MainPage({ }: Props) {
             <X fill="black" />
           </button>
         </div>
-      ) : null}
+      ) : <></>}
       {myPage ? (
         <div className="absolute flex flex-col items-center left-0 top-0 bg-white w-full h-full z-50">
           <button
@@ -382,12 +388,12 @@ function MainPage({ }: Props) {
                   {places?.url ? (
                     <div>
                       <Image src={places?.url} alt="" width={128} height={128} />
-                      <button
+                      <Button
                         onClick={toggleDiary}
-                        className="absolute top-16 left-3 flex items-center justify-center z-20 rounded-full bg-white w-10 h-10 shadow-lg"
+                        className="px-6 h-10"
                       >
-                        <FilePlus fill="white" color="black" />
-                      </button>
+                        해당 장소로 일기 작성하기
+                      </Button>
                     </div>
                   ) : (
                     <div className="w-32 h-32 bg-gray-300 rounded-lg"></div>
