@@ -303,8 +303,8 @@ export async function POST(req: Request) {
         isAdvertisement: ret.isAdvertisement,
         title: ret.title,
         description: ret.description,
-        contentTypeId: ret.contentTypeId,
-        contentId: ret.contentId,
+        contentTypeId: parseInt(ret.contentTypeId),
+        contentId: parseInt(ret.contentId),
         userId: userExists?.id as number,
       },
     });
