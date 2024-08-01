@@ -85,7 +85,10 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
           onClick={download ? () => {
             toggleResponseIdx(index)
             flipAndDownload(url)
-          } : () => onClickToToggleSelect(url)}
+          } : () => {
+            onClickToToggleSelect(url)
+            flipAndDownload(url)
+          }}
         >
           <ImageComponent
             className={`rounded-xl shadow-md ${isUserMode ? "scale-x-[-1]" : ""}`}
