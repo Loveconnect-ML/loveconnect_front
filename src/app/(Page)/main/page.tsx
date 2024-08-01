@@ -15,6 +15,7 @@ type Props = {};
 
 function MainPage({ }: Props) {
   //   useKakaoLoader()
+  const { error, location } = useGeo();
 
   const [places, setPlaces] = useState<{
     isHotplace: boolean | null;
@@ -31,8 +32,8 @@ function MainPage({ }: Props) {
   const [drawer, setDrawer] = useState(true);
   const [diaryPage, setDiaryPage] = useState(false);
   const [position, setPosition] = useState({
-    lat: 0,
-    lng: 0,
+    lat: location?.latitude,
+    lng: location?.longitude
   });
 
   const [diary, setDiary] = useState<{
@@ -50,7 +51,7 @@ function MainPage({ }: Props) {
   const [fetching, setFetching] = useState(false);
   const [loadingGPT, setLoadingGPT] = useState(false);
 
-  const { error, location } = useGeo();
+  const [myPage, setMyPage] = useState(false);
 
   const fetchPlaces = async () => {
     setFetching(true);
@@ -63,10 +64,19 @@ function MainPage({ }: Props) {
         return;
       }
 
-      if (!location || error) {
-        toast("위치 정보를 가져올 수 없습니다", {
+      if (!position.lat || !position.lng) {
+        toast("위치 정보를 가져올 수 없습니다. 지도 핀을 찍었는지 확인해주세요.", {
           icon: "🔒",
         });
+        setFetching(false);
+        return;
+      }
+
+      if (!location || error) {
+        toast("위치 정보를 가져올 수 없습니다. 지도 핀을 찍었는지 확인해주세요.", {
+          icon: "🔒",
+        });
+        setFetching(false);
         return;
       }
 
@@ -79,8 +89,8 @@ function MainPage({ }: Props) {
           TYPE: "recommend",
           contentTypeId: 14,
           raidus: 200,
-          mapX: location?.longitude || position.lng,
-          mapY: location?.latitude || position.lat,
+          mapX: position.lng,
+          mapY: position.lat,
         }),
       });
 
@@ -164,9 +174,14 @@ function MainPage({ }: Props) {
 
   };
 
+
+  const toggleMyPage = () => {
+    setMyPage((prev) => !prev);
+  }
+
   return (
     <div className="relative w-full h-full">
-      {diaryPage && (
+      {diaryPage ? (
         <div className="absolute flex flex-col items-center left-0 top-0 bg-white w-full h-full z-50">
           {diary.result ? (
             <div className="z-[70] h-full absolute top-0 justify-center gap-6 flex-col w-full text-lg flex items-center px-8 pt-10 pb-28">
@@ -295,23 +310,31 @@ function MainPage({ }: Props) {
             <X fill="black" />
           </button>
         </div>
+      ) : (
+
+        <button
+          onClick={toggleDiary}
+          className="absolute top-16 right-3 flex items-center justify-center z-20 rounded-full bg-white w-10 h-10 shadow-lg"
+        >
+          <FilePlus fill="white" color="black" />
+        </button>
       )}
-      <button
-        onClick={toggleDiary}
-        className="absolute top-16 right-3 flex items-center justify-center z-20 rounded-full bg-white w-10 h-10 shadow-lg"
-      >
-        <FilePlus fill="white" color="black" />
-      </button>
-      <button
-        onClick={() =>
-          toast("마이페이지 기능은 준비중입니다", {
-            icon: "🔒",
-          })
-        }
+      {myPage ? (
+        <div className="absolute flex flex-col items-center left-0 top-0 bg-white w-full h-full z-50">
+          <button
+            onClick={toggleMyPage}
+            className="z-[90] absolute top-3 right-3 flex items-center justify-center rounded-full bg-white w-10 h-10"
+          >
+            <X fill="black" />
+          </button>
+        </div>
+      ) : <button
+        onClick={toggleMyPage}
         className="top-3 right-3 flex items-center justify-center absolute z-20 rounded-full bg-white w-10 h-10 shadow-lg"
       >
         <User fill="black" />
       </button>
+      }
       <div className="z-20 absolute top-3 left-3">
         <Logo />
       </div>
