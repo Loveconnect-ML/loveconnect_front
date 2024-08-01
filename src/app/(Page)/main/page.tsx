@@ -18,6 +18,7 @@ function MainPage({ }: Props) {
   const { error, location } = useGeo();
 
   const [places, setPlaces] = useState<{
+    id: number;
     isHotplace: boolean | null;
     isAdvertisement: boolean | null;
     title: string;
@@ -100,6 +101,7 @@ function MainPage({ }: Props) {
 
       if (message?.length === 0) {
         setPlaces({
+          id: 0,
           contentId: 0,
           contentTypeId: 0,
           description: "",
@@ -171,7 +173,39 @@ function MainPage({ }: Props) {
   };
 
   const uploadDiary = async () => {
+    if (!diary.title || !diary.content || !diary.image || !diary.result) {
+      toast("모든 항목을 입력해주세요", {
+        icon: "🔒",
+      });
+      return;
+    }
 
+    const response = await fetch("/api/v2/diary", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: diary.title,
+        content: diary.result,
+        image: diary.image,
+        result: diary.result,
+        location: places?.title,
+        placeForRecId: places?.id,
+      }),
+    });
+
+    const { message } = await response.json();
+
+    if (message === "success") {
+      toast("일기가 업로드되었습니다", {
+        icon: "🔒",
+      });
+    } else {
+      toast("일기 업로드에 실패했습니다", {
+        icon: "🔒",
+      });
+    }
   };
 
 
@@ -310,15 +344,7 @@ function MainPage({ }: Props) {
             <X fill="black" />
           </button>
         </div>
-      ) : (
-
-        <button
-          onClick={toggleDiary}
-          className="absolute top-16 right-3 flex items-center justify-center z-20 rounded-full bg-white w-10 h-10 shadow-lg"
-        >
-          <FilePlus fill="white" color="black" />
-        </button>
-      )}
+      ) : null}
       {myPage ? (
         <div className="absolute flex flex-col items-center left-0 top-0 bg-white w-full h-full z-50">
           <button
@@ -354,7 +380,15 @@ function MainPage({ }: Props) {
               <div className="absolute flex gap-6 top-24 h-full left-6 text-sm sm:text-md font-PretendardRegular">
                 <div>
                   {places?.url ? (
-                    <Image src={places?.url} alt="" width={128} height={128} />
+                    <div>
+                      <Image src={places?.url} alt="" width={128} height={128} />
+                      <button
+                        onClick={toggleDiary}
+                        className="absolute top-16 left-3 flex items-center justify-center z-20 rounded-full bg-white w-10 h-10 shadow-lg"
+                      >
+                        <FilePlus fill="white" color="black" />
+                      </button>
+                    </div>
                   ) : (
                     <div className="w-32 h-32 bg-gray-300 rounded-lg"></div>
                   )}

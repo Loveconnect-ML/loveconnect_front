@@ -17,11 +17,11 @@ export async function POST(request: NextRequest) {
   const body = await request.json();
   const { image, prompt } = body;
 
-  const { userId } = auth();
+  // const { userId } = auth();
 
-  if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  // if (!userId) {
+  //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // }
 
   const user = await currentUser();
 

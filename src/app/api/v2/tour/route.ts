@@ -295,7 +295,7 @@ export async function POST(req: Request) {
 
     console.log("url", url);
 
-    await prisma.placeForRec.create({
+    const pfr = await prisma.placeForRec.create({
       data: {
         x: parseFloat(ret.x),
         y: parseFloat(ret.y),
@@ -311,7 +311,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       message: {
-        ...ret,
+        ...pfr,
         url: url,
       },
     });
