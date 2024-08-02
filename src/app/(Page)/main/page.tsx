@@ -426,7 +426,7 @@ function MainPage({ }: Props) {
       </div>
       <KakaoMap setPosition={setPosition} position={position} />
       {drawer ? (
-        <div className="absolute bottom-0 z-20 border-t-2 border-x-2 border-gray-700 w-full h-96 rounded-t-3xl bg-white">
+        <div className="absolute bottom-0 z-20 w-full h-96 rounded-t-3xl bg-white">
           <div className="relative flex flex-col justify-center w-full bg-white">
             <div className="text-start absolute top-6 left-6 text-md sm:text-xl font-PretendardBold text-indigo-600">
               오늘의 추천 장소에요
@@ -438,7 +438,7 @@ function MainPage({ }: Props) {
             </div>
             {places ? (
               <div className="absolute flex flex-col items-center w-full gap-2 top-24 text-sm sm:text-md font-PretendardRegular">
-                <div className="flex justify-start gap-4 ">
+                <div className="flex flex-col gap-4 h-full items-center pb-20 bg-white">
                   {places?.url ? (
                     <div className="h-fit">
                       <Image src={places?.url} alt="" width={128} height={128} />
@@ -446,24 +446,22 @@ function MainPage({ }: Props) {
                   ) : (
                     <div className="w-32 h-32 bg-gray-300 rounded-lg"></div>
                   )}
-                  <div className="">
-                    <div className="font-PretendardBold text-md sm:text-lg">
-                      {places?.title}
-                    </div>
-                    <div className="font-PretendardMedium text-sm sm:text-md break-keep">
-                      {places?.description}
-                    </div>
-                    <div className="font-PretendardRegular text-xs sm:text-sm w-32 h-24 overflow-y-scroll scrollbar-hide">
-                      {places?.overview}
-                    </div>
+                  <div className="font-PretendardBold text-md sm:text-lg">
+                    {places?.title}
                   </div>
+                  <div className="font-PretendardMedium text-sm sm:text-md break-keep">
+                    {places?.description}
+                  </div>
+                  <div className="p-2 bg-gray-200 font-PretendardRegular text-xs sm:text-sm h-24 overflow-y-scroll scrollbar-hide">
+                    {places?.overview}
+                  </div>
+                  <Button
+                    onClick={toggleDiary}
+                    className="w-3/4 h-10 mt-auto"
+                  >
+                    해당 장소로 일기 작성하기
+                  </Button>
                 </div>
-                <Button
-                  onClick={toggleDiary}
-                  className="w-3/4 h-10 mt-auto"
-                >
-                  해당 장소로 일기 작성하기
-                </Button>
               </div>
             ) : fetching ? (
               <div className="absolute left-1/2 -translate-x-1/2 top-28">
