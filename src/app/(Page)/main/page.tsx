@@ -415,7 +415,10 @@ function MainPage({ }: Props) {
           </div>
         </div>
       ) : <button
-        onClick={toggleMyPage}
+        onClick={() => {
+          toggleMyPage();
+          setDrawer(false);
+        }}
         className="top-3 right-3 flex items-center justify-center absolute z-20 rounded-full bg-white w-10 h-10 shadow-lg"
       >
         <User fill="black" />
@@ -456,7 +459,10 @@ function MainPage({ }: Props) {
                     {places?.overview}
                   </div>
                   <Button
-                    onClick={toggleDiary}
+                    onClick={() => {
+                      toggleDiary();
+                      setDrawer(false);
+                    }}
                     className="w-3/4 h-10 mt-auto"
                   >
                     해당 장소로 일기 작성하기
