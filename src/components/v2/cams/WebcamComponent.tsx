@@ -20,7 +20,7 @@ const defaultErrorMessages = {
 }
 
 function WebcamComponent({ mode }: Props) {
-  const { imageUrls, setImageUrls, poseUrl, setIsUserMode, filter, setFilter } = useWebcamContext();
+  const { imageUrls, setImageUrls, poseUrl, setIsUserMode, } = useWebcamContext();
 
   const [scope, animate] = useAnimate();
 
@@ -87,11 +87,6 @@ function WebcamComponent({ mode }: Props) {
         onClick={capture}
       >
         <CameraIcon size={32} />
-      </button>
-      <button className="absolute w-fit border-white border-4 z-30 bottom-8 right-8 p-2 bg-gray-800 rounded-full"
-        onClick={() => setFilter((prev: boolean) => !prev)}
-      >
-        {filter ? <FilterIcon size={16} color="red" /> : <FilterIcon size={16} color="white" />}
       </button>
     </div>
   );

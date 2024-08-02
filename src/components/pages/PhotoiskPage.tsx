@@ -17,7 +17,7 @@ import {
 } from "../ui/dialog";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowBigDown, LinkIcon } from "lucide-react";
+import { ArrowBigDown, FilterIcon, LinkIcon } from "lucide-react";
 import { toast } from "react-hot-toast";
 import KakaoAdFit from "../KakaoAdFit";
 import CircleLoading from "../v2/loadings/CircleLoading";
@@ -29,7 +29,7 @@ function PhotoiskPage({ }: Props) {
 
   const router = useRouter();
 
-  const { imageUrls, filter } = useWebcamContext();
+  const { imageUrls, filter, setFilter, isUserMode } = useWebcamContext();
   const [response, setResponse] = useState<any | null>([]);
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -162,12 +162,18 @@ function PhotoiskPage({ }: Props) {
             className="mx-auto w-[90%] h-32 p-4 border-2 font-PretendardRegular border-gray-300 rounded-md resize-none"
           ></textarea>
           <Photos
+            isUserMode={isUserMode}
             download={false}
             selections={selectedImages}
             setSelections={setSelectedImages}
             imageUrls={imageUrls}
             filter={filter}
           />
+          <button className="absolute w-fit border-white border-4 z-30 top-80 right-8 p-2 bg-gray-800 rounded-full"
+            onClick={() => setFilter((prev: boolean) => !prev)}
+          >
+            {filter ? <FilterIcon size={16} color="red" /> : <FilterIcon size={16} color="white" />}
+          </button>
 
           {selectedImages?.length > 0 && response?.length == 0 && (
             <div className="text-center text-md sm:text-xl font-PretendardMedium pt-8 flex flex-col items-center justify-center">

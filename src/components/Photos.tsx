@@ -45,6 +45,10 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
       canvas.height = img.height;
       const ctx = canvas.getContext('2d');
 
+      if (isUserMode) {
+        ctx?.translate(img.width, 0);
+        ctx?.scale(-1, 1);
+      }
       if (filter) {
         ctx?.drawImage(img, 0, 0);
         const imageData = ctx?.getImageData(0, 0, img.width, img.height);
@@ -59,10 +63,6 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
         return
       }
 
-      if (isUserMode) {
-        ctx?.translate(img.width, 0);
-        ctx?.scale(-1, 1);
-      }
 
       ctx?.drawImage(img, 0, 0);
       const flippedDataUrl = canvas.toDataURL('image/png');
@@ -102,6 +102,7 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
             flipAndDownload(url)
           } : () => onClickToToggleSelect(url)}
         >
+          {/* className={`rounded-xl shadow-md`} ${isUserMode ? "scale-x-[-1]" : ""} */}
           <ImageComponent
             className={`rounded-xl shadow-md ${isUserMode ? "scale-x-[-1]" : ""}`}
             src={`${url}`}
