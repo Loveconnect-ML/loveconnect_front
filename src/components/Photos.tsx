@@ -10,9 +10,10 @@ type Props = {
   setResponseIdx?: (responseIdx: number) => void;
   isUserMode?: boolean;
   filter: boolean;
+  type?: string;
 };
 
-function Photos({ setResponseIdx, imageUrls, setSelections, selections, download, isUserMode, filter }: Props) {
+function Photos({ setResponseIdx, imageUrls, setSelections, selections, download, isUserMode, filter, type }: Props) {
   if (!imageUrls) {
     return null;
   }
@@ -62,7 +63,14 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
         a.click();
         return
       }
-
+      if (type == "sticker") {
+        const a = document.createElement('a');
+        a.href = image;
+        a.download = image.split("/").pop() || "download";
+        a.target = '_blank';
+        a.click();
+        return
+      }
 
       ctx?.drawImage(img, 0, 0);
       const flippedDataUrl = canvas.toDataURL('image/png');
@@ -71,6 +79,7 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
       a.download = flippedDataUrl.split("/").pop() || "download";
       a.target = '_blank';
       a.click();
+
     };
   };
 
@@ -100,7 +109,7 @@ function Photos({ setResponseIdx, imageUrls, setSelections, selections, download
           onClick={download ? () => {
             toggleResponseIdx(index)
             flipAndDownload(url)
-          } : () => { onClickToToggleSelect(url); flipAndDownload(url) }}
+          } : () => { onClickToToggleSelect(url); }}
         >
           {/* className={`rounded-xl shadow-md`} ${isUserMode ? "scale-x-[-1]" : ""} */}
           <ImageComponent

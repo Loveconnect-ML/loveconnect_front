@@ -197,6 +197,7 @@ function PhotoiskPage({ }: Props) {
             }
             filter={filter}
             setResponseIdx={setResponseIdx}
+            type="sticker"
           />
           {loading && (
             <div className="w-full gap-8 flex flex-col items-center justify-center">
