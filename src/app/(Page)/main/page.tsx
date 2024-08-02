@@ -403,7 +403,7 @@ function MainPage({ }: Props) {
               {diaries?.map((diary, index) => (
                 <div key={index} className="flex flex-col gap-2 w-full p-4 border-b-2 border-gray-300">
                   <div className="font-PretendardBold text-lg">{diary.title} / {diary.createdAt.split("T")[0]} 작성</div>
-                  <div className="font-PretendardRegular text-sm">{diary.content}</div>
+                  {/* <div className="font-PretendardRegular text-sm">{diary.content}</div> */}
                   <div className="font-PretendardRegular text-xs">{diary.location}</div>
                   <div className="font-PretendardRegular text-xs">{diary.result}</div>
                   <div>
