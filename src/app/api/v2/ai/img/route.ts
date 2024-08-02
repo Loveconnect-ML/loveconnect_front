@@ -1,21 +1,22 @@
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
+import prisma from "@/utils/prisma";
 
 const openai = new OpenAI();
 
 export async function POST(req: Request) {
-  const { userId } = auth();
+  // const { userId } = auth();
 
-  if (!userId) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  // if (!userId) {
+  //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // }
 
   const user = await currentUser();
 
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  // if (!user) {
+  //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  // }
 
   const limit = await prisma?.user.findFirst({
     where: { email: user?.emailAddresses[0]?.emailAddress! },

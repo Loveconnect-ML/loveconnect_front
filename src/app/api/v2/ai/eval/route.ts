@@ -5,21 +5,20 @@ import OpenAI from "openai";
 const openai = new OpenAI();
 
 export async function POST(req: Request) {
+  const img = await req.blob();
 
-    const img = await req.blob();
+  const filename = `toEval_${Date.now()}.png`;
 
-    const filename = `toEval_${Date.now()}.png`;
+  const { url } = await put(filename, img, {
+    access: "public",
+  });
 
-    const { url } = await put(filename, img, {
-        access: "public",
-    });
-
-    const evalResponse = await openai.chat.completions.create({
-        model: "gpt-4o",
-        messages: [
-            {
-                role: "system",
-                content: `
+  const evalResponse = await openai.chat.completions.create({
+    model: "gpt-4o",
+    messages: [
+      {
+        role: "system",
+        content: `
                 <context>
                     You are given an image to evaluate.
                     To improve user's photo taking experience, please provide feedback on the image.
@@ -51,24 +50,24 @@ export async function POST(req: Request) {
                         - The background should be blurred...(skip)
                 </instruction>
                 `,
+      },
+      {
+        role: "user",
+        content: [
+          {
+            type: "image_url",
+            image_url: {
+              url: url,
             },
-            {
-                role: "user",
-                content: [
-                    {
-                        type: "image_url",
-                        image_url: {
-                            url: url
-                        }
-                    },
-                ],
-            },
+          },
         ],
-    });
+      },
+    ],
+  });
 
-    const outputContent = evalResponse.choices[0].message.content as string;
+  const outputContent = evalResponse.choices[0].message.content as string;
 
-    return NextResponse.json({
-        message: outputContent
-    })
+  return NextResponse.json({
+    message: outputContent,
+  });
 }
