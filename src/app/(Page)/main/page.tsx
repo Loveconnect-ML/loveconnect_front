@@ -1,9 +1,7 @@
 "use client";
-import KakaoMap from "@/components/KakaoMap";
 import Logo from "@/components/Logo";
-import MyPage from "@/components/v3/pages/main/MyPage";
-import RecommendDrawer from "@/components/v3/pages/main/RecommendDrawer";
-import { useGeo } from "@/hooks/useGeo";
+import CircleLoading from "@/components/v2/loadings/CircleLoading";
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -11,234 +9,90 @@ type Props = {};
 
 function MainPage({ }: Props) {
 
-  const { error, location } = useGeo();
+  const [story, setStory] = useState<string>("");
+  const [webtoonUrls, setWebtoonUrls] = useState<string[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const [places, setPlaces] = useState<{
-    id: number;
-    isHotplace: boolean | null;
-    isAdvertisement: boolean | null;
-    title: string;
-    description: string;
-    contentTypeId: number;
-    contentId: number;
-    x: number;
-    y: number;
-    url: string;
-    overview: string;
-  } | null>(null); // TourResponse[]
-  const [diaryPage, setDiaryPage] = useState(false);
+  const onChange = (e: any) => {
+    setStory(e.target.value);
+  }
 
-  const [position, setPosition] = useState({
-    lat: location?.latitude,
-    lng: location?.longitude
-  });
+  const onClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
 
-  const [diaries, setDiaries] = useState<{
-    id: number;
-    title: string;
-    content: string;
-    imageSrc: string;
-    result: string;
-    location: string;
-    placeForRecId: number;
-    createdAt: string;
-  }[]
-  >([]);
+    if (story.length === 0) {
+      toast.error("스토리를 입력해주세요.");
+      return;
+    }
 
-  const [diary, setDiary] = useState<{
-    title: string;
-    content: string;
-    image: string;
-    result?: string;
-  }>({
-    title: "",
-    content: "",
-    image: "",
-    result: "",
-  });
+    await generateWebtoon();
+  }
 
-  const [fetching, setFetching] = useState(false);
-  const [loadingGPT, setLoadingGPT] = useState(false);
+  const generateWebtoon = async () => {
 
-  useEffect(() => {
-    fetchMyPage();
-  }, []);
+    // API로 웹툰 생성
+    setLoading(true);
 
-  const fetchPlaces = async () => {
-    setFetching(true);
-
-    async function init() {
-      if (fetching) {
-        toast("이미 요청 중입니다", {
-          icon: "🔒",
-        });
-        return;
-      }
-
-      if (!position.lat || !position.lng) {
-        toast("위치 정보를 가져올 수 없습니다. 지도 핀을 찍었는지 확인해주세요.", {
-          icon: "🔒",
-        });
-        setFetching(false);
-        return;
-      }
-
-      if (!location || error) {
-        toast("위치 정보를 가져올 수 없습니다. 지도 핀을 찍었는지 확인해주세요.", {
-          icon: "🔒",
-        });
-        setFetching(false);
-        return;
-      }
-
-      const response = await fetch("/api/v2/tour", {
+    try {
+      const res = await fetch("/api/v2/ai/webtoon", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          TYPE: "recommend",
-          contentTypeId: 14,
-          raidus: 200,
-          mapX: position.lng,
-          mapY: position.lat,
+          prompt: story,
         }),
       });
 
-      const { message } = await response.json();
-
-      console.log(message);
-
-      if (message?.length === 0) {
-        setPlaces({
-          id: 0,
-          contentId: 0,
-          contentTypeId: 0,
-          description: "",
-          isAdvertisement: false,
-          isHotplace: true,
-          overview: "오류가 발생하였습니다. 새로고침 후 다시 시도해주세요.",
-          title: "오류",
-          url: "",
-          x: location?.longitude as number,
-          y: location?.latitude as number,
-        });
-      } else {
-        setPlaces(message);
-      }
-      setFetching(false);
+      const data = await res.json();
+      setWebtoonUrls(data.urls);
+      setLoading(false);
+    } catch (error) {
+      toast.error("웹툰 생성 중 오류가 발생했습니다. 다시 시도해주세요.");
+      setLoading(false);
     }
-
-    init();
-  };
-
-  const toggleDiary = async () => {
-    // toast("일기 작성 기능은 릴리즈 버전에서 사용 가능합니다", {
-    //   icon: "🔒",
-    // });
-    if (loadingGPT) {
-      toast("일기 생성 중입니다", {
-        icon: "🔒",
-      });
-      return;
-    }
-    setDiaryPage((prev) => !prev);
-  };
-
-  const generateDiary = async () => {
-    if (!diary.title || !diary.content || !diary.image) {
-      toast("모든 항목을 입력해주세요", {
-        icon: "🔒",
-      });
-      return;
-    }
-
-    setLoadingGPT(true);
-
-    const response = await fetch("/api/v2/ai/diary", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        prompt: diary.content,
-        imgUrl: diary.image,
-      }),
-    });
-
-    const { message } = await response.json();
-
-    setDiary((prev) => ({
-      ...prev,
-      result: message,
-    }));
-
-    toast("일기가 생성되었습니다", {
-      icon: "🔒",
-    });
-
-    setLoadingGPT(false);
-  };
-
-  const uploadDiary = async () => {
-    if (!diary.title || !diary.content || !diary.image || !diary.result) {
-      toast("모든 항목을 입력해주세요", {
-        icon: "🔒",
-      });
-      return;
-    }
-
-    const response = await fetch("/api/v2/diary", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: diary.title,
-        content: diary.result,
-        image: diary.image,
-        result: diary.result,
-        location: places?.title,
-        placeForRecId: places?.id,
-      }),
-    });
-
-    const { message } = await response.json();
-
-    if (message === "success") {
-      toast("일기가 업로드되었습니다", {
-        icon: "🔒",
-      });
-    } else {
-      toast("일기 업로드에 실패했습니다", {
-        icon: "🔒",
-      });
-    }
-    setDiaryPage(false);
-  };
-
-  const fetchMyPage = async () => {
-    const response = await fetch("/api/v2/diary", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const { message } = await response.json();
-
-    setDiaries(message);
   }
 
 
+
   return (
-    <main className="relative w-full h-full">
-      <MyPage />
+    <main className="relative w-full h-full flex flex-col items-center  bg-white">
+      {/* Absolute Logo */}
       <div className="z-20 absolute top-3 left-3">
         <Logo />
       </div>
-      <KakaoMap setPosition={setPosition} position={position} />
-      <RecommendDrawer />
+      <div className="flex flex-col flex-wrap items-center w-full justify-center gap-4 mt-4 py-16 bg-white">
+
+        {/* Main Contents */}
+        <textarea
+          value={story}
+          onChange={onChange}
+          placeholder={`스토리라인을 자세히 입력해주세요.\n\n예시: 이세계에 살았던 내가 현대 한국으로 오게 되었다...`}
+          className="mt-auto text-sm mx-auto w-[90%] h-64 break-keep p-4 border-2 font-PretendardRegular border-gray-300 rounded-md resize-none"
+        ></textarea>
+
+        {/* Submit Button */}
+        <button
+          disabled={loading}
+          onClick={onClick}
+          className="font-PretendardBold w-1/2 my-auto disabled:opacity-30 text-white hover:bg-gray-900 border-white border-4 z-30 top-80 p-2 bg-gray-800 rounded-full"
+        >
+          웹툰 생성하기
+        </button>
+        {/* Webtoon Images */}
+
+        {webtoonUrls && !loading && webtoonUrls.map((url, idx) => (
+          <Image key={idx} src={url} alt="Webtoon" width={324} height={648} />
+        ))}
+
+        {/* Loading */}
+
+        {loading &&
+          <div className="mt-4 flex flex-col justify-center items-center gap-3 font-PretendardRegular">
+            <CircleLoading />
+            <p>웹툰 생성 중...</p>
+          </div>}
+      </div>
     </main>
   );
 }
