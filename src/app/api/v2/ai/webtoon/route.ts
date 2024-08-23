@@ -17,7 +17,7 @@ export async function POST(req: Request) {
                     FORMAT: JSON [
                         {
                             "cut": 1,
-                            "description": "A first-person-view scene that a woman watching me with cutely angry face"    
+                            "zdescription": "A first-person-view scene that a woman watching me with cutely angry face"
                         },
                         {
                             ...
@@ -55,6 +55,8 @@ export async function POST(req: Request) {
 
   const cutsArray = JSON.parse(json);
 
+  const descriptions = cutsArray.map((cut: any) => cut.description);
+
   const urls = [];
 
   for (const cut of cutsArray) {
@@ -64,14 +66,12 @@ export async function POST(req: Request) {
         <${cut.description}> in a Korean webtoon-style community art (커뮤체), with thin, delicate lines, slightly smaller eyes in a simplified and mini
 
         IMPORTANT:
-
         - "WEBTOON STYLE" LIKE "연애혁명"
         - AVOID THICK LINES.
         - AVOID TOO GLOSSY EYES
         - REFER TO THE IMAGE STYLES FROM THE USER HAS GIVEN IF EXISTS
 
         CONTEXT:
-
         - You are a good image painter, should generate a Masterpiece image.
         - POSITIVE PROMPT encourages you to do make it.
         - NEGATIVE PROMPT discourages you to make it, so avoid generating like that.
@@ -91,7 +91,7 @@ export async function POST(req: Request) {
   }
 
   return NextResponse.json({
-    cutsDescription: cutsArray,
+    descriptions: descriptions,
     urls: urls,
   });
 }
