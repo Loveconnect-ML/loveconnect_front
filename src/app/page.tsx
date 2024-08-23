@@ -4,6 +4,7 @@ import WaveBackground from "@/components/WaveBackground";
 import TopNavbar from "@/components/v2/nav/TopNavbar";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+// import MainCard from "@/components/MainCard";
 import MainCard from "@/components/v3/pages/home/MainCard";
 
 

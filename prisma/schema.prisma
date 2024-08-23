@@ -90,3 +90,14 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model Episode {
+  id        Int      @id @default(autoincrement())
+  title     String?
+  content   String?
+  userId    Int
+  urls      String[]
+  contents  String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

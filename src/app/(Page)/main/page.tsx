@@ -3,6 +3,7 @@ import CircleLoading from "@/components/v2/loadings/CircleLoading";
 import Logo from "@/components/v3/pages/main/Logo";
 import { Menu, User } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -54,6 +55,22 @@ function MainPage({ }: Props) {
       const data = await res.json();
       setWebtoonUrls(data.urls);
       setCutsDescriptions(data.descriptions);
+
+      fetch("/api/v3/episode", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          urls: data.urls,
+          descriptions: data.descriptions,
+        }),
+      }).then((res) => {
+        toast.success("웹툰이 저장되었습니다!");
+      }).catch((error) => {
+        toast.error("웹툰 저장에 실패했습니다");
+      });
+
       setLoading(false);
     } catch (error) {
       toast.error("웹툰 생성 중 오류가 발생했습니다. 다시 시도해주세요!");
@@ -62,26 +79,30 @@ function MainPage({ }: Props) {
   }
 
   const onMyPage = () => {
-    toast("마이페이지 기능은 준비 중입니다.", {
-      icon: "🚧",
-    });
+    // toast("마이페이지 기능은 준비 중입니다", {
+    //   icon: "🚧",
+    // });
+    window.location.pathname = "/my";
+
   }
 
   const onMenu = () => {
-    toast("메뉴 기능은 준비 중입니다.", {
+    toast("메뉴 기능은 준비 중입니다", {
       icon: "🚧",
     });
   }
 
   return (
-    <div className="z-10 flex flex-col justify-start items-center w-full h-full bg-white">
+    <div className="z-10 flex flex-col flex-1 justify-start items-center w-full bg-white">
 
       {/* Top Navbar */}
       <div className="flex w-full p-4 shadow-md">
         <button onClick={onMenu} className="mr-auto">
           <Menu size={32} />
         </button>
-        <Logo />
+        <Link href="/">
+          <Logo />
+        </Link>
         <button onClick={onMyPage} className="ml-auto">
           <User size={32} />
         </button>

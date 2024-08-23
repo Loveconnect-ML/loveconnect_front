@@ -34,8 +34,8 @@ function Layout({ children }: Props) {
   const pathname = usePathname();
 
   return (
-    <main className="select-none flex flex-col justify-start items-center w-full h-full sm:w-[500px] overflow-y-scroll scrollbar-hide font-IBMPlexSansKRSemiBold overflow-x-clip">
-      <WaveBackground />
+    <main className="select-none flex flex-col justify-start items-center w-full h-full sm:w-[500px] overflow-y-scroll scrollbar-hide font-IBMPlexSansKRSemiBold overflow-x-clip pb-16">
+      {/* <WaveBackground /> */}
       {children}
       <BottomNavbar>
         {paths.map((path, index) => (
