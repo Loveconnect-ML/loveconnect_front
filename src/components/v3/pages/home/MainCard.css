@@ -1,0 +1,77 @@
+/* Button */
+.button {
+    font-size: 1.125rem;
+    /* equivalent to text-lg */
+    margin-top: auto;
+    margin-bottom: 3rem;
+    /* equivalent to mb-12 */
+    width: fit-content;
+    align-self: center;
+    padding: 1.5rem;
+    /* equivalent to p-6 */
+    border-radius: 9999px;
+    /* equivalent to rounded-full */
+    gap: 0.5rem;
+}
+
+.button.sm {
+    font-size: 1.875rem;
+    /* equivalent to sm:text-3xl */
+    padding: 2rem;
+    /* equivalent to sm:p-8 */
+}
+
+.button.default-variant {
+    /* Add the styles related to the "variant" prop here if any */
+}
+
+/* Camera Icon */
+.camera-icon {
+    width: 32px;
+    height: 32px;
+}
+
+/* Dialog Content */
+.dialog-content {
+    font-family: 'PretendardRegular';
+    max-width: 28rem;
+    /* equivalent to sm:max-w-md */
+}
+
+/* Dialog Link */
+.dialog-link {
+    display: block;
+    text-align: start;
+    width: fit-content;
+    font-family: 'PretendardBold';
+    font-size: 1rem;
+    /* equivalent to text-md */
+    word-break: keep-all;
+    /* equivalent to break-keep */
+    line-height: 1.75rem;
+    /* equivalent to leading-7 */
+    border-bottom-width: 2px;
+    /* equivalent to border-b-2 */
+    border-color: #9ca3af;
+    /* equivalent to border-gray-400 */
+    color: #9ca3af;
+    /* equivalent to text-gray-400 */
+}
+
+/* Dialog Footer Button */
+.dialog-footer-button {
+    background-color: var(black);
+    color: var(white);
+    transition: background-color 0.2s ease-in-out;
+    height: 2.5rem;
+    /* equivalent to h-10 */
+    padding: 0.5rem 1rem;
+    /* equivalent to px-4 py-2 */
+    border-radius: 0.375rem;
+    /* equivalent to rounded-md */
+}
+
+.dialog-footer-button:hover {
+    background-color: rgba(black, 0.9);
+    /* equivalent to hover:bg-primary/90 */
+}

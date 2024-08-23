@@ -114,4 +114,4 @@ function Home({ }: Props) {
   );
 }
 
-export default Home;``
+export default Home;
