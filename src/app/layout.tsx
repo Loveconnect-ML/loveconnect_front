@@ -131,7 +131,7 @@ export default function RootLayout({
           <UserButton />
           </SignedIn> */}
             <Suspense>
-              <div className="flex flex-col justify-start items-center w-screen h-screen bg-gray-100 font-IBMPlexSansKRSemiBold select-none">
+              <div className="flex flex-col justify-start items-center w-screen h-screen bg-white font-IBMPlexSansKRSemiBold select-none">
                 {children}
               </div>
             </Suspense>
