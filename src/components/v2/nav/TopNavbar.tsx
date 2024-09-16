@@ -21,7 +21,7 @@ function TopNavbar({ }: Props) {
             className="z-20 flex items-center text-xl sm:text-3xl w-full"
         >
             <Logo />
-            <Button className="ml-auto" variant="ghost">
+            {/* <Button className="ml-auto" variant="ghost">
                 <Link
                     href={"https://www.instagram.com/sscc_ssu"}
                     target="_blank"
@@ -31,8 +31,8 @@ function TopNavbar({ }: Props) {
             </Button>
             <Button onClick={copyUrl} variant="ghost">
                 <LinkIcon size={24} />
-            </Button>
-            <SignedOut>
+            </Button> */}
+            <SignedOut >
                 <SignInButton>
                     {/* <Button className='flex items-center text-[1rem]'>
                         로그인
@@ -43,7 +43,7 @@ function TopNavbar({ }: Props) {
                 </SignInButton>
             </SignedOut>
             <SignedIn>
-                <div className='flex items-center mx-3 text-[1.25rem]'>
+                <div className='flex items-center ml-auto mr-3 text-[1.25rem]'>
                     <UserButton />
                 </div>
             </SignedIn>

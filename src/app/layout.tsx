@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { clsx } from "clsx";
 import { koKR } from "@clerk/localizations";
 import Script from "next/script";
+import BottomNavbar from "@/components/v2/nav/BottomNavbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -95,6 +96,7 @@ const ibmPlexSansKRBold = localFont({
   variable: "--font-IBMPlexSansKRBold",
 });
 
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -131,8 +133,11 @@ export default function RootLayout({
           <UserButton />
           </SignedIn> */}
             <Suspense>
-              <div className="flex flex-col justify-start items-center w-screen h-screen bg-gray-50 font-IBMPlexSansKRSemiBold select-none">
-                {children}
+              <div className="flex flex-col justify-start items-center w-screen h-screen bg-gray-50 select-none">
+                <div className='h-full'>
+                  {children}
+                </div>
+                <BottomNavbar />
               </div>
             </Suspense>
             {/* </div> */}

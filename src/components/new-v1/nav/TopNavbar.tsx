@@ -7,11 +7,10 @@ type Props = {
 function TopNavbar({ }: Props) {
 
 
-
     return (
-        <nav className='w-full h-12'>
-            <h1>
-                TopNavbar
+        <nav className='w-full'>
+            <h1 className='font-TTHakgyoansimUndongjangL text-xl'>
+                Photoisk
             </h1>
         </nav>
     )

@@ -111,3 +111,11 @@ model Snap {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+// model Circle {
+//   id        Int      @id @default(autoincrement())
+//   name      String
+//   intro     String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
