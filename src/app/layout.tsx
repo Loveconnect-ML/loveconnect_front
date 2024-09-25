@@ -9,6 +9,7 @@ import { clsx } from "clsx";
 import { koKR } from "@clerk/localizations";
 import Script from "next/script";
 import BottomNavbar from "@/components/v2/nav/BottomNavbar";
+import WaveBackground from "@/components/WaveBackground";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -110,8 +111,6 @@ export default function RootLayout({
             type="text/javascript"
             src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_JS_KEY}&libraries=services&autoload=false`}
           ></Script>
-          {/*<Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9708481151156136"
-        crossOrigin="anonymous"></Script>*/}
           <body
             className={clsx(
               pretendardBold.variable,
@@ -124,24 +123,13 @@ export default function RootLayout({
             )}
           >
             <Toaster />
-            {/* <main className="flex justify-center items-center w-full bg-gray-50 overflow-clip"> */}
-            {/* <div className="flex flex-col justify-start items-center w-full sm:w-[500px] overflow-y-scroll scrollbar-hide bg-white font-PretendardBold"> */}
-            {/* <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-          <UserButton />
-          </SignedIn> */}
             <Suspense>
-              <div className="flex flex-col justify-start items-center w-screen h-screen bg-gray-50 select-none">
+              <div className="flex flex-col justify-start bg-white items-center w-screen h-screen select-none">
                 <div className='h-full'>
                   {children}
                 </div>
-                <BottomNavbar />
               </div>
             </Suspense>
-            {/* </div> */}
-            {/* </main> */}
           </body>
         </html>
       </ClerkProvider>

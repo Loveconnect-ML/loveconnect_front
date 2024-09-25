@@ -100,7 +100,7 @@ function MainCard({ }: Props) {
             <SignInButton
             >
               <Button
-                className="text-lg sm:text-3xl mt-auto mb-12 w-fit self-center p-6 sm:p-8 space-x-2 rounded-full shadow-xl"
+                className="text-md sm:text-2xl mt-auto mb-12 w-fit self-center p-6 sm:p-8 space-x-2 rounded-full shadow-xl font-PretendardMedium"
                 variant="default"
               >먼저 로그인 후 이용해주세요!</Button>
             </SignInButton>

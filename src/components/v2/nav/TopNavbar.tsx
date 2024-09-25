@@ -20,7 +20,9 @@ function TopNavbar({ }: Props) {
         <RowContainer
             className="z-20 flex items-center text-xl sm:text-3xl w-full"
         >
-            <Logo />
+            <div className='mr-auto'>
+                <Logo />
+            </div>
             {/* <Button className="ml-auto" variant="ghost">
                 <Link
                     href={"https://www.instagram.com/sscc_ssu"}
