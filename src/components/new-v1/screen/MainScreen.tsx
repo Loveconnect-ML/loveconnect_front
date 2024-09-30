@@ -54,14 +54,13 @@ function MainScreen({ }: Props) {
 
     return <main className='relative'>
         <div className='z-10 sm:w-[500px] w-full pb-16 h-full scrollbar-hide overflow-y-scroll'>
+            <TopNavbar />
             {isFirstRegister ? (
                 <>
-                    <TopNavbar />
                     <InitialProfileChat />
                 </>
             ) : (
                 <>
-                    <TopNavbar />
                     <Snapshots />
                     <div className='p-5'>
                         {snaps.map((snap) => (
