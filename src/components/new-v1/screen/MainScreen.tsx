@@ -7,6 +7,16 @@ import TopNavbar from '../nav/TopNavbar'
 import "./Screen.css"
 import InitialProfileChat from '../chat/InitialProfileChat'
 import WaveBackground from '@/components/WaveBackground'
+import { Camera } from 'react-camera-pro'
+
+
+const defaultErrorMessages = {
+    noCameraAccessible: 'No camera device accessible. Please connect your camera or try a different browser.',
+    permissionDenied: 'Permission denied. Please refresh and give camera permission.',
+    switchCamera:
+        'It is not possible to switch camera to different one because there is only one video device accessible.',
+    canvas: 'Canvas is not supported.'
+}
 
 type Props = {}
 
@@ -57,17 +67,12 @@ function MainScreen({ }: Props) {
             <TopNavbar />
             {isFirstRegister ? (
                 <>
-                    <InitialProfileChat />
+                    <InitialProfileChat onRegistered={() => setIsFirstRegister(false)} />
                 </>
             ) : (
-                <>
-                    <Snapshots />
-                    <div className='p-5'>
-                        {snaps.map((snap) => (
-                            <Snap key={snap.id} {...snap} />
-                        ))}
-                    </div>
-                </>
+                <Camera
+                    errorMessages={defaultErrorMessages}
+                />
             )}
             <BottomNavbar />
         </div>

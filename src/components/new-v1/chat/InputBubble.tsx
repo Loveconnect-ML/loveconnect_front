@@ -13,27 +13,26 @@ type InputBubbleBaseProps = {
 type TextInputBubbleProps = InputBubbleBaseProps
 type InputBubbleProps = TextInputBubbleProps
 
-function InputBubble(props: InputBubbleProps) {
-    const { handleChange, value, handleNext, disabled } = props
-
+const InputBubble = ({ handleChange, value, handleNext, disabled }: InputBubbleProps) => {
     return (
         <motion.div
-            className='flex p-2 rounded-lg bg-gray-100 self-end'
+            className="flex p-2 rounded-lg bg-gray-100 self-end"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
         >
-            <div className='flex'>
+            <div className="flex">
                 <input
                     onChange={handleChange}
                     value={value}
-                    className='border-b-2 border-gray-300 w-full text-center bg-transparent outline-none'
+                    className="border-b-2 border-gray-300 w-full text-center bg-transparent outline-none"
+                    disabled={disabled}
                 />
                 <button onClick={handleNext} disabled={disabled}>
-                    <Send className='rounded-full text-sm p-1 text-white bg-black cursor-pointer' />
+                    <Send className="rounded-full text-sm p-1 text-white bg-black cursor-pointer" />
                 </button>
             </div>
         </motion.div>
-    )
-}
+    );
+};
 
 export default InputBubble

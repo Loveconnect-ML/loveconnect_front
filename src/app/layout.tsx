@@ -124,10 +124,8 @@ export default function RootLayout({
           >
             <Toaster />
             <Suspense>
-              <div className="flex flex-col justify-start bg-white items-center w-screen h-screen select-none">
-                <div className='h-full'>
-                  {children}
-                </div>
+              <div className="flex flex-col bg-white items-center w-screen h-screen select-none">
+                {children}
               </div>
             </Suspense>
           </body>
