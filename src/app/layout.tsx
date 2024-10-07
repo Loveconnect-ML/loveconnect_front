@@ -8,14 +8,12 @@ import { Toaster } from "react-hot-toast";
 import { clsx } from "clsx";
 import { koKR } from "@clerk/localizations";
 import Script from "next/script";
-import BottomNavbar from "@/components/v2/nav/BottomNavbar";
-import WaveBackground from "@/components/WaveBackground";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   applicationName: "Photoisk",
-  title: "Photoisk: AI로 남기는 여러분의 소중한 인생샷",
+  title: "Photoisk, AI와 함께하는 사진 이상형 매칭",
   formatDetection: {
     telephone: false,
   },
@@ -34,7 +32,7 @@ export const metadata: Metadata = {
   openGraph: {
     siteName: "Photoisk",
     locale: "ko_KR",
-    title: "Photoisk, AI로 남기는 여러분의 소중한 인생샷",
+    title: "Photoisk, AI와 함께하는 사진 이상형 매칭",
     description: "AI로 다양한 사진을 찍고 공유해보세요!",
     type: "website",
     url: "https://photoisk.com",

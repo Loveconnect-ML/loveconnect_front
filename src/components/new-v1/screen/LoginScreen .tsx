@@ -20,7 +20,7 @@ function LoginScreen({ }: Props) {
                             PHOTOisk
                         </h1>
                         <p className="text:sm sm:text-xl text-black font-PretendardBold">
-                            AI로 남기는 여러분의 소중한 인생샷
+                            AI와 함께하는 사진 이상형 매칭
                         </p>
                         <MainCard />
                     </div>
