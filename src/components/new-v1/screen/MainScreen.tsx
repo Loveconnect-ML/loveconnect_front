@@ -8,15 +8,7 @@ import "./Screen.css"
 import InitialProfileChat from '../chat/InitialProfileChat'
 import WaveBackground from '@/components/WaveBackground'
 import { Camera } from 'react-camera-pro'
-
-
-const defaultErrorMessages = {
-    noCameraAccessible: 'No camera device accessible. Please connect your camera or try a different browser.',
-    permissionDenied: 'Permission denied. Please refresh and give camera permission.',
-    switchCamera:
-        'It is not possible to switch camera to different one because there is only one video device accessible.',
-    canvas: 'Canvas is not supported.'
-}
+import WebcamComponent from '@/components/WebcamComponent'
 
 type Props = {}
 
@@ -64,15 +56,13 @@ function MainScreen({ }: Props) {
 
     return <main className='relative'>
         <div className='z-10 sm:w-[500px] w-full pb-16 h-full scrollbar-hide overflow-y-scroll'>
-            <TopNavbar />
             {isFirstRegister ? (
                 <>
+                    <TopNavbar />
                     <InitialProfileChat onRegistered={() => setIsFirstRegister(false)} />
                 </>
             ) : (
-                <Camera
-                    errorMessages={defaultErrorMessages}
-                />
+                <WebcamComponent mode='general' />
             )}
             <BottomNavbar />
         </div>
