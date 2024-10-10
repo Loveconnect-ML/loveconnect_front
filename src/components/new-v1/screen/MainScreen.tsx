@@ -1,73 +1,44 @@
 "use client"
-import React, { useLayoutEffect, useState } from 'react'
-import Snap from '../content/Snap'
-import Snapshots from '../content/Snapshots'
-import BottomNavbar from '@/components/v2/nav/BottomNavbar'
-import TopNavbar from '../nav/TopNavbar'
-import "./Screen.css"
-import InitialProfileChat from '../chat/InitialProfileChat'
-import WaveBackground from '@/components/WaveBackground'
-import { Camera } from 'react-camera-pro'
-import WebcamComponent from '@/components/WebcamComponent'
+import React, { useState, useEffect } from 'react';
+import BottomNavbar from '@/components/v2/nav/BottomNavbar';
+import TopNavbar from '../nav/TopNavbar';
+import "./Screen.css";
+import InitialProfileChat from '../chat/InitialProfileChat';
+import WaveBackground from '@/components/WaveBackground';
+import WebcamComponent from '@/components/WebcamComponent';
 
-type Props = {}
+const MainScreen = () => {
+    const [isFirstRegister, setIsFirstRegister] = useState(true);
 
-function MainScreen({ }: Props) {
-
-    const [isFirstRegister, setIsFirstRegister] = useState(true)
-    // const [chatBubbles, setChatBubbles] = useState<any>([])
+    useEffect(() => {
+        // Uncomment the line below to fetch first register status from the server
+        // fetchIsFirstRegister();
+    }, []);
 
     const fetchIsFirstRegister = async () => {
-        const res = await fetch('/api/user/{}/isFirstRegister')
-        const data = await res.json()
-        setIsFirstRegister(data.isFirstRegister)
-    }
+        try {
+            const res = await fetch('/api/user/{}/isFirstRegister');
+            const data = await res.json();
+            setIsFirstRegister(data.isFirstRegister);
+        } catch (error) {
+            console.error('Failed to fetch registration status', error);
+        }
+    };
 
-    const fetchChatBubbles = async () => {
-        const res = await fetch('/api/user/{}/chatBubbles')
-        const data = await res.json()
-        // setChatBubbles(data.chatBubbles)
-    }
+    return (
+        <main className='relative'>
+            <TopNavbar />
+            <div className='z-10 sm:w-[500px] w-full py-16 h-full scrollbar-hide overflow-y-scroll'>
+                {isFirstRegister ? (
+                    <>
+                        <InitialProfileChat onRegistered={() => setIsFirstRegister(false)} />
+                    </>
+                ) : <WebcamComponent mode='general' />}
+                <BottomNavbar />
+            </div>
+            <WaveBackground />
+        </main>
+    );
+};
 
-    const fetchCompleteRegister = async () => {
-        const res = await fetch('/api/user/{}/completeRegister')
-        const data = await res.json()
-        setIsFirstRegister(data.isFirstRegister)
-    }
-
-    useLayoutEffect(() => {
-        // fetchIsFirstRegister()
-        // setIsFirstRegister(false)
-    }, [])
-
-    useLayoutEffect(() => {
-        // fetchChatBubbles()
-    }, [])
-
-    const snaps = [
-        {
-            id: 1,
-            title: 'Snap 1',
-            content: 'This is the first snap',
-            createdAt: new Date().toISOString().split('T')[0],
-        },
-    ]
-
-
-    return <main className='relative'>
-        <div className='z-10 sm:w-[500px] w-full pb-16 h-full scrollbar-hide overflow-y-scroll'>
-            {isFirstRegister ? (
-                <>
-                    <TopNavbar />
-                    <InitialProfileChat onRegistered={() => setIsFirstRegister(false)} />
-                </>
-            ) : (
-                <WebcamComponent mode='general' />
-            )}
-            <BottomNavbar />
-        </div>
-        <WaveBackground />
-    </main>
-}
-
-export default MainScreen
+export default MainScreen;

@@ -8,7 +8,7 @@ function TopNavbar({ }: Props) {
 
 
     return (
-        <nav className='w-full p-5'>
+        <nav className='absolute w-full p-5'>
             <h1 className='font-TTHakgyoansimUndongjangL text-xl'>
                 Photoisk
             </h1>
