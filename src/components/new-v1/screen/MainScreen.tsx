@@ -7,15 +7,26 @@ import InitialProfileChat from '../chat/InitialProfileChat';
 import WaveBackground from '@/components/WaveBackground';
 import WebcamComponent from '@/components/WebcamComponent';
 import HomeScreen from './HomeScreen';
+import PhotoEnrollmentScreen from './PhotoEnrollmentScreen';
+import { useWebcamContext } from '@/components/WebcamProvider';
 
 const MainScreen = () => {
-    const [isFirstRegister, setIsFirstRegister] = useState(false);
-    const [isProfileEnrolled, setIsProfileEnrolled] = useState(true);
+    const [isFirstRegister, setIsFirstRegister] = useState(true);
+    const [isProfileEnrolled, setIsProfileEnrolled] = useState(false);
+    const [isPhotoTaken, setIsPhotoTaken] = useState(false);
+
+    const { imageUrls, setImageUrls } = useWebcamContext();
 
     useLayoutEffect(() => {
         // Uncomment the line below to fetch first register status from the server
         // fetchIsFirstRegister();
     }, []);
+
+    useEffect(() => {
+        if (imageUrls.length > 0) {
+            setIsPhotoTaken(true);
+        }
+    }, [imageUrls]);
 
     const fetchIsFirstRegister = async () => {
         try {
@@ -30,15 +41,17 @@ const MainScreen = () => {
     return (
         <main className='relative sm:w-[500px] w-full'>
             <TopNavbar />
-            <div className='z-10 sm:w-[500px] w-full py-16 h-full scrollbar-hide overflow-y-scroll'>
+            <div className={`z-10 sm:w-[500px] w-full h-full scrollbar-hide overflow-y-scroll ${isProfileEnrolled ? "py-16" : "pt-16"}`}>
                 {isFirstRegister ? (
                     <InitialProfileChat onRegistered={() => setIsFirstRegister(false)} />
                 ) : isProfileEnrolled ? (
                     <HomeScreen />
+                ) : isPhotoTaken ? (
+                    <PhotoEnrollmentScreen />
                 ) : (
                     <WebcamComponent mode='general' />
                 )}
-                <BottomNavbar />
+                {isProfileEnrolled && <BottomNavbar />}
             </div>
             <WaveBackground />
         </main>

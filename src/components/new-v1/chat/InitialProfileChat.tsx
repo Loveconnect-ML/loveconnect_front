@@ -7,7 +7,7 @@ import InputBubble from "./InputBubble";
 import SelectionBubble from "./SelectionBubble";
 
 const bubbles: any = [
-    { id: 1, content: "안녕하세요! 저는 포토이스크의 관리자 이스크에요 :)", isMine: false, step: 0 },
+    { id: 1, content: "안녕하세요! AI 사진으로 이상형을 찾는 포토이스크입니다! :)", isMine: false, step: 0 },
     { id: 2, content: "처음 시작하기 전에 간단한 질문 몇 가지만 드리려고 해요", isMine: false, step: 0 },
     { id: 3, content: "먼저, 이름이 뭐에요?", isMine: false, step: 0 },
     { id: 11, content: "", isMine: true, step: 0 },
@@ -15,7 +15,7 @@ const bubbles: any = [
     { id: 12, content: { value: [{ label: "남성", value: "M" }, { label: "여성", value: "F" }] }, isMine: true, step: 1 },
     { id: 5, content: "마지막으로, 생년월일을 알려주세요! (ex.030214)", isMine: false, step: 2 },
     { id: 13, content: "", isMine: true, step: 2 },
-    { id: 6, content: "감사합니다! 그럼, 이제 시작해볼까요?", isMine: false, step: 3 }
+    { id: 6, content: "감사합니다! 그럼, 이제 이상형 매칭을 위해 사진을 등록할거예요, 다음으로 넘어가면 사진을 찍을 수 있어요!", isMine: false, step: 3 },
 ];
 
 const fieldMap: any = {

@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { clsx } from "clsx";
 import { koKR } from "@clerk/localizations";
 import Script from "next/script";
+import WebcamProvider from "@/components/WebcamProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -122,9 +123,11 @@ export default function RootLayout({
           >
             <Toaster />
             <Suspense>
-              <div className="flex flex-col bg-white items-center w-screen h-screen select-none">
-                {children}
-              </div>
+              <WebcamProvider>
+                <div className="flex flex-col bg-white items-center w-screen h-screen select-none">
+                  {children}
+                </div>
+              </WebcamProvider>
             </Suspense>
           </body>
         </html>
