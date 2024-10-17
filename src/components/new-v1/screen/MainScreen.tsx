@@ -1,16 +1,18 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useLayoutEffect } from 'react';
 import BottomNavbar from '@/components/v2/nav/BottomNavbar';
 import TopNavbar from '../nav/TopNavbar';
 import "./Screen.css";
 import InitialProfileChat from '../chat/InitialProfileChat';
 import WaveBackground from '@/components/WaveBackground';
 import WebcamComponent from '@/components/WebcamComponent';
+import HomeScreen from './HomeScreen';
 
 const MainScreen = () => {
-    const [isFirstRegister, setIsFirstRegister] = useState(true);
+    const [isFirstRegister, setIsFirstRegister] = useState(false);
+    const [isProfileEnrolled, setIsProfileEnrolled] = useState(true);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         // Uncomment the line below to fetch first register status from the server
         // fetchIsFirstRegister();
     }, []);
@@ -26,14 +28,16 @@ const MainScreen = () => {
     };
 
     return (
-        <main className='relative'>
+        <main className='relative sm:w-[500px] w-full'>
             <TopNavbar />
             <div className='z-10 sm:w-[500px] w-full py-16 h-full scrollbar-hide overflow-y-scroll'>
                 {isFirstRegister ? (
-                    <>
-                        <InitialProfileChat onRegistered={() => setIsFirstRegister(false)} />
-                    </>
-                ) : <WebcamComponent mode='general' />}
+                    <InitialProfileChat onRegistered={() => setIsFirstRegister(false)} />
+                ) : isProfileEnrolled ? (
+                    <HomeScreen />
+                ) : (
+                    <WebcamComponent mode='general' />
+                )}
                 <BottomNavbar />
             </div>
             <WaveBackground />
