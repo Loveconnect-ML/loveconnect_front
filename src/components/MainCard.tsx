@@ -76,7 +76,7 @@ function MainCard({ }: Props) {
         className={`flex flex-col justify-center w-full sm:w-3/4 h-3/4 gap-4 text-center rounded-lg drop-shadow-2xl bg-no-repeat`}
       >
         <h1 className="text-3xl sm:text-6xl mt-auto font-TTHakgyoansimUndongjangL bg-gradient-to-r from-red-600 to-indigo-400 inline-block text-transparent bg-clip-text">
-          PHOTOisk
+          LoveConnect
         </h1>
         {/* <p className="text:md sm:text-2xl bg-gradient-to-r from-red-600 to-indigo-400 inline-block text-transparent bg-clip-text">
           AI로 남기는 여러분의 소중한 인생샷

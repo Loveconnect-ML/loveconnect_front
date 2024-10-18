@@ -10,7 +10,7 @@ function TopNavbar({ }: Props) {
     return (
         <nav className='absolute w-full p-5'>
             <h1 className='font-TTHakgyoansimUndongjangL text-xl'>
-                Photoisk
+                LoveConnect
             </h1>
         </nav>
     )

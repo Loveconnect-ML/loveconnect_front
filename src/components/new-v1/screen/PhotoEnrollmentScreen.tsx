@@ -27,7 +27,7 @@ function PhotoEnrollmentScreen({ }: Props) {
             });
             const data = await res.json();
             const url = data.url;
-            setImageUrls([...imageUrls, url]);
+            setImageUrls([url, ...imageUrls]);
             setIsLoaded(true);
             setIsTransformed(true);
         } catch (error) {

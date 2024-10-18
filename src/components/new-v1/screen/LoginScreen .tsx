@@ -17,7 +17,7 @@ function LoginScreen({ }: Props) {
                         className={`flex flex-col justify-center w-full h-3/4 gap-4 text-center rounded-lg drop-shadow-2xl bg-no-repeat`}
                     >
                         <h1 className="text-3xl sm:text-6xl mt-auto font-TTHakgyoansimUndongjangL bg-gradient-to-r from-red-600 to-indigo-400 inline-block text-transparent bg-clip-text">
-                            PHOTOisk
+                            LoveConnect
                         </h1>
                         <p className="text:sm sm:text-xl text-black font-PretendardBold">
                             AI와 함께하는 사진 이상형 매칭

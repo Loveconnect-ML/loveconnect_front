@@ -9,6 +9,7 @@ import WebcamComponent from '@/components/WebcamComponent';
 import HomeScreen from './HomeScreen';
 import PhotoEnrollmentScreen from './PhotoEnrollmentScreen';
 import { useWebcamContext } from '@/components/WebcamProvider';
+import toast from 'react-hot-toast';
 
 const MainScreen = () => {
     const [isFirstRegister, setIsFirstRegister] = useState(true);
@@ -28,7 +29,10 @@ const MainScreen = () => {
         }
 
         if (imageUrls.length > 1) {
-            setIsProfileEnrolled(true);
+            toast("변환이 완료되었습니다!")
+            setTimeout(() => {
+                setIsProfileEnrolled(true);
+            }, 3000)
         }
     }, [imageUrls]);
 

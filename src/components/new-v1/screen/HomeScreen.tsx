@@ -86,27 +86,35 @@ function HomeScreen({ }: Props) {
     return <div className='w-full h-full flex flex-col'>
         <SearchBar onChangeSearchText={onChangeSearchText} />
         <Button onClick={searchIdealType} className='font-PretendardBold bg-gradient-to-r from-red-400 to-indigo-300 border-[3px] border-white rounded-full drop-shadow-xl text-xl w-1/2 h-12 p-4 mx-auto mt-16 mb-auto'>생성!</Button>
-        <Image
-            className='rounded-xl'
-            src={resultImage}
-            alt='Photo'
-            width={500}
-            height={500}
-        />
-        <h1>
-            이상형이 맞나요?
-        </h1>
-        <Button onClick={recommend} className='font-PretendardBold bg-gradient-to-r from-red-400 to-indigo-300 border-[3px] border-white rounded-full drop-shadow-xl text-xl w-1/2 h-12 p-4 mx-auto mt-16 mb-auto'>네!</Button>
 
-        {list?.map((str) => (
-            <Image
-                className='rounded-xl'
-                src={str}
-                alt='Photo'
-                width={500}
-                height={500}
-            />
-        ))}
+        {
+            resultImage && (
+                <>
+                    <Image
+                        className='rounded-xl'
+                        src={resultImage}
+                        alt='Photo'
+                        width={500}
+                        height={500}
+                    />
+                    <h1>
+                        이상형이 맞나요?
+                    </h1>
+                    <Button onClick={recommend} className='font-PretendardBold bg-gradient-to-r from-red-400 to-indigo-300 border-[3px] border-white rounded-full drop-shadow-xl text-xl w-1/2 h-12 p-4 mx-auto mt-16 mb-auto'>네!</Button>
+                </>
+            )
+        }
+        <div className="w-full flex flex-wrap">
+            {list?.map((str) => (
+                <Image
+                    className='rounded-xl'
+                    src={str}
+                    alt='Photo'
+                    width={500}
+                    height={500}
+                />
+            ))}
+        </div>
     </div>
 }
 

@@ -13,8 +13,8 @@ import WebcamProvider from "@/components/WebcamProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  applicationName: "Photoisk",
-  title: "Photoisk, AI와 함께하는 사진 이상형 매칭",
+  applicationName: "LoveConnect",
+  title: "LoveConnect, AI와 함께하는 사진 이상형 매칭",
   formatDetection: {
     telephone: false,
   },
