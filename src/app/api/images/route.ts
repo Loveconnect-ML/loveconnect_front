@@ -28,13 +28,25 @@ function b64toBlob(b64Data: string, contentType = "") {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { image, prompt, type } = body;
+  const { image, prompt, type, id } = body;
 
   // const { userId } = auth();
 
   // if (!userId) {
   //   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   // }
+
+  if (type === "FIND") { 
+    const generatedImageBlob = await fetch(
+      `${process.env.ML_SERVER_URL}/api/image/${id}`
+    );
+
+    const b = await generatedImageBlob.blob();
+
+    const imgFile = new Blob([b], { type: "image/png" });
+
+    return new Response(imgFile);
+  }
 
   if (type === "MATCH") {
     const generatedImage = await fetch(
@@ -46,13 +58,11 @@ export async function POST(request: NextRequest) {
 
     const generatedImageId = await generatedImage.json();
 
-    const generatedImageBlob = await fetch(
-      `${process.env.ML_SERVER_URL}/api/image/${generatedImageId}`
-    );
+    // const b = await generatedImageBlob.blob();
 
-    const b = await generatedImageBlob.blob();
+    // const imgFile = new Blob([b], { type: "image/png" });
 
-    return NextResponse.json({ id: generatedImageId, image: b });
+    return NextResponse.json({id: generatedImageId});
   }
 
   const user = await currentUser();
