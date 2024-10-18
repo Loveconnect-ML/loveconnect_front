@@ -26,6 +26,10 @@ const MainScreen = () => {
         if (imageUrls.length > 0) {
             setIsPhotoTaken(true);
         }
+
+        if (imageUrls.length > 1) {
+            setIsProfileEnrolled(true);
+        }
     }, [imageUrls]);
 
     const fetchIsFirstRegister = async () => {
@@ -51,7 +55,7 @@ const MainScreen = () => {
                 ) : (
                     <WebcamComponent mode='general' />
                 )}
-                {isProfileEnrolled && <BottomNavbar />}
+                {/* {isProfileEnrolled && <BottomNavbar />} */}
             </div>
             <WaveBackground />
         </main>

@@ -3,7 +3,8 @@ import { Loading } from '@/components/Loading';
 import { Button } from '@/components/ui/button';
 import { useWebcamContext } from '@/components/WebcamProvider';
 import Image from 'next/image';
-import React, { useState } from 'react'
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
 
 type Props = {}
 
@@ -12,6 +13,45 @@ function PhotoEnrollmentScreen({ }: Props) {
     const { imageUrls, setImageUrls } = useWebcamContext();
     const [isTransformed, setIsTransformed] = useState(false);
     const [isLoaded, setIsLoaded] = useState(true);
+    const router = useRouter();
+
+    const transformImage = async () => {
+        setIsLoaded(false);
+        try {
+            const res = await fetch('/api/images', {
+                method: 'POST',
+                body: JSON.stringify({ image: imageUrls[0] }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await res.json();
+            const url = data.url;
+            setImageUrls([...imageUrls, url]);
+            setIsLoaded(true);
+            setIsTransformed(true);
+        } catch (error) {
+            console.error('Failed to transform image', error);
+        }
+    }
+
+    // const enrollImage = async () => {
+    //     try {
+    //         const res = await fetch('/api/images', {
+    //             method: 'POST',
+    //             body: JSON.stringify({ image: imageUrls[0], type: "ENROLL" }),
+    //             headers: {
+    //                 'Content-Type': 'application/json'
+    //             }
+    //         });
+    //         const data = await res.json();
+    //         const url = data.url;
+    //         setImageUrls([url]);
+    //         setIsTransformed(true);
+    //     } catch (error) {
+    //         console.error('Failed to enroll image', error);
+    //     }
+    // }
 
     return (
         <div className='flex flex-col w-full justify-center'>
@@ -20,31 +60,31 @@ function PhotoEnrollmentScreen({ }: Props) {
                 <Image className='rounded-xl' src={imageUrls[0]} alt='Photo' width={500} height={500} />
             </div>
             {isTransformed ? isLoaded ? (
-                <Button
-                    onClick={() => setIsTransformed(false)}
-                    className='rounded-full w-2/3 mx-auto'
-                >
-                    등록하기
-                </Button>
+                // <Button
+                //     onClick={enrollImage}
+                //     className='rounded-full w-2/3 mx-auto'
+                // >
+                //     등록하기
+                // </Button>
+                <></>
             ) : (
-                <div className='w-full flex justify-center'>
-                    <Loading />
-                </div>
+                <></>
             ) : (
                 <Button
-                    onClick={() => setIsTransformed(true)}
+                    disabled={!isLoaded}
+                    onClick={transformImage}
                     className='rounded-full w-2/3 mx-auto'
                 >
                     변환하기
                 </Button>
 
             )}
-            {isTransformed && (
-                // <div className='px-8 py-4'>
-                //     <Image className='rounded-xl' src={""} alt='Photo' width={500} height={500} />
-                // </div>
-                <div className='px-8 py-4'>
-                    <div className='rounded-xl mx-auto my-auto w-full h-[200px] bg-gray-100' />
+
+            {isLoaded ? (
+                <></>
+            ) : (
+                <div className='w-full flex justify-center'>
+                    <Loading />
                 </div>
             )}
         </div>
