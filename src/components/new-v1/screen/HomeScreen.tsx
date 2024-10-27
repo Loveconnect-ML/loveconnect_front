@@ -85,7 +85,12 @@ function HomeScreen({ }: Props) {
 
     return <div className='w-full h-full flex flex-col'>
         <SearchBar onChangeSearchText={onChangeSearchText} />
-        <Button onClick={searchIdealType} className='font-PretendardBold bg-gradient-to-r from-red-400 to-indigo-300 border-[3px] border-white rounded-full drop-shadow-xl text-xl w-1/2 h-12 p-4 mx-auto mt-16 mb-auto'>생성!</Button>
+        <Button
+            onClick={searchIdealType}
+            className='font-PretendardBold bg-black text-white rounded-full drop-shadow-xl text-xl w-1/2 h-12 p-4 mx-auto mt-auto mb-16'
+        >
+            이상형 생성!
+        </Button>
 
         {
             resultImage && (
@@ -105,8 +110,9 @@ function HomeScreen({ }: Props) {
             )
         }
         <div className="w-full flex flex-wrap">
-            {list?.map((str) => (
+            {list?.map((str: string, i: number) => (
                 <Image
+                    key={`image-${i}`}
                     className='rounded-xl'
                     src={str}
                     alt='Photo'

@@ -9,7 +9,7 @@ import SelectionBubble from "./SelectionBubble";
 const bubbles: any = [
     { id: 1, content: "안녕하세요! AI 사진으로 이상형을 찾는 포토이스크입니다! :)", isMine: false, step: 0 },
     { id: 2, content: "처음 시작하기 전에 간단한 질문 몇 가지만 드리려고 해요", isMine: false, step: 0 },
-    { id: 3, content: "먼저, 이름이 뭐에요?", isMine: false, step: 0 },
+    { id: 3, content: "먼저, 성함이 어떻게 되세요?", isMine: false, step: 0 },
     { id: 11, content: "", isMine: true, step: 0 },
     { id: 4, content: "그리고, 성별은요?", isMine: false, step: 1 },
     { id: 12, content: { value: [{ label: "남성", value: "M" }, { label: "여성", value: "F" }] }, isMine: true, step: 1 },

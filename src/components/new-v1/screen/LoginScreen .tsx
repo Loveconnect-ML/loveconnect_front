@@ -2,6 +2,7 @@ import React from 'react'
 import WaveBackground from "@/components/WaveBackground";
 import TopNavbar from "@/components/v2/nav/TopNavbar";
 import MainCard from "@/components/v3/pages/home/MainCard";
+import Link from 'next/link';
 
 type Props = {}
 
@@ -17,12 +18,17 @@ function LoginScreen({ }: Props) {
                         className={`flex flex-col justify-center w-full h-3/4 gap-4 text-center rounded-lg drop-shadow-2xl bg-no-repeat`}
                     >
                         <h1 className="text-3xl sm:text-6xl mt-auto font-TTHakgyoansimUndongjangL bg-gradient-to-r from-red-600 to-indigo-400 inline-block text-transparent bg-clip-text">
-                            LoveConnect
+                            Photoisk
                         </h1>
                         <p className="text:sm sm:text-xl text-black font-PretendardBold">
                             AI와 함께하는 사진 이상형 매칭
                         </p>
                         <MainCard />
+                        <button className="w-full">
+                            <Link href="/terms" className="border-b-2 border-black text-black">
+                                약관보기: Terms of Service, Privacy Notice, Refund Policy
+                            </Link>
+                        </button>
                     </div>
                 </div>
             </div>
